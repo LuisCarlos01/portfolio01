@@ -168,95 +168,98 @@ export const AboutSection: React.FC = memo(() => {
   };
 
   // Usar hook customizado para ScrollTrigger
+  // Criar callback estável para evitar retrigger das animações
+  const handleScrollEnter = useCallback(() => {
+    // Guard para SSR
+    if (typeof window === 'undefined') return;
+
+    // Graceful fallback ou prefers-reduced-motion
+    if (!gsap || prefersReducedMotion) {
+      // Apenas mostrar elementos sem animação
+      if (titleRef.current) {
+        titleRef.current.style.opacity = '1';
+        titleRef.current.style.transform = 'none';
+      }
+      if (imageRef.current) {
+        imageRef.current.style.opacity = '1';
+        imageRef.current.style.transform = 'none';
+      }
+      if (contentRef.current) {
+        const elements = contentRef.current.querySelectorAll('p, h3, a');
+        elements.forEach((el) => {
+          (el as HTMLElement).style.opacity = '1';
+          (el as HTMLElement).style.transform = 'none';
+        });
+      }
+      animateStats();
+      animateServiceCards();
+      return;
+    }
+
+    // Animar título (usando transform e opacity - GPU-friendly)
+    gsap.fromTo(
+      titleRef.current,
+      {
+        opacity: 0,
+        y: 30,
+      },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.7,
+        ease: 'power3.out',
+      }
+    );
+
+    // Animar imagem com efeito de revelação (usando transform - GPU-friendly)
+    gsap.fromTo(
+      imageRef.current,
+      {
+        opacity: 0,
+        scale: 0.9,
+        rotate: -5,
+      },
+      {
+        opacity: 1,
+        scale: 1,
+        rotate: 0,
+        duration: 0.8,
+        ease: 'back.out(1.7)',
+      }
+    );
+
+    // Animar conteúdo com efeito de deslizamento (usando transform - GPU-friendly)
+    if (contentRef.current) {
+      const elements = contentRef.current.querySelectorAll('p, h3, a');
+      if (elements.length > 0) {
+        gsap.fromTo(
+          elements,
+          {
+            opacity: 0,
+            x: -30,
+          },
+          {
+            opacity: 1,
+            x: 0,
+            stagger: 0.15,
+            duration: 0.6,
+            ease: 'power2.out',
+          }
+        );
+      }
+    }
+
+    // Animar estatísticas
+    animateStats();
+
+    // Animar cards de serviços
+    animateServiceCards();
+  }, [prefersReducedMotion, animateStats, animateServiceCards]);
+
   useGsapScrollTrigger(sectionRef, {
     start: 'top 70%',
     once: true,
-    onEnter: () => {
-      // Guard para SSR
-      if (typeof window === 'undefined') return;
-
-      // Graceful fallback ou prefers-reduced-motion
-      if (!gsap || prefersReducedMotion) {
-        // Apenas mostrar elementos sem animação
-        if (titleRef.current) {
-          titleRef.current.style.opacity = '1';
-          titleRef.current.style.transform = 'none';
-        }
-        if (imageRef.current) {
-          imageRef.current.style.opacity = '1';
-          imageRef.current.style.transform = 'none';
-        }
-        if (contentRef.current) {
-          const elements = contentRef.current.querySelectorAll('p, h3, a');
-          elements.forEach((el) => {
-            (el as HTMLElement).style.opacity = '1';
-            (el as HTMLElement).style.transform = 'none';
-          });
-        }
-        animateStats();
-        animateServiceCards();
-        return;
-      }
-
-      // Animar título (usando transform e opacity - GPU-friendly)
-      gsap.fromTo(
-        titleRef.current,
-        {
-          opacity: 0,
-          y: 30,
-        },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.7,
-          ease: 'power3.out',
-        }
-      );
-
-      // Animar imagem com efeito de revelação (usando transform - GPU-friendly)
-      gsap.fromTo(
-        imageRef.current,
-        {
-          opacity: 0,
-          scale: 0.9,
-          rotate: -5,
-        },
-        {
-          opacity: 1,
-          scale: 1,
-          rotate: 0,
-          duration: 0.8,
-          ease: 'back.out(1.7)',
-        }
-      );
-
-      // Animar conteúdo com efeito de deslizamento (usando transform - GPU-friendly)
-      if (contentRef.current) {
-        const elements = contentRef.current.querySelectorAll('p, h3, a');
-        if (elements.length > 0) {
-          gsap.fromTo(
-            elements,
-            {
-              opacity: 0,
-              x: -30,
-            },
-            {
-              opacity: 1,
-              x: 0,
-              stagger: 0.15,
-              duration: 0.6,
-              ease: 'power2.out',
-            }
-          );
-        }
-      }
-
-      // Animar estatísticas
-      animateStats();
-
-      // Animar cards de serviços
-      animateServiceCards();
-    },
+    onEnter: handleScrollEnter,
   });
 
   return (
