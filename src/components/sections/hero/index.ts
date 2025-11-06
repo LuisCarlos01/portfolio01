@@ -1,2 +1,0 @@
-export { HeroSection } from './index';
-
