@@ -10,7 +10,12 @@ class ContactRepositoryImpl implements ContactRepository {
   private apiUrl: string;
 
   constructor(apiUrl?: string) {
-    this.apiUrl = apiUrl || '/api/contact';
+    // Em desenvolvimento, usar URL local; em produção, usar URL da Vercel
+    this.apiUrl =
+      apiUrl ||
+      (import.meta.env.DEV
+        ? 'http://localhost:3000/api/contact'
+        : '/api/contact');
   }
 
   async submit(
@@ -26,7 +31,10 @@ class ContactRepositoryImpl implements ContactRepository {
       });
 
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(
+          errorData.error || `HTTP error! status: ${response.status}`
+        );
       }
 
       return await response.json();

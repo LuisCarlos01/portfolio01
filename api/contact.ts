@@ -70,8 +70,8 @@ export default async function handler(
 
     const { name, email, subject, message } = validationResult.data;
 
-    // TODO: Integrar com serviço de email (Resend/SendGrid)
-    // Por enquanto, apenas loga os dados
+    // Log para debugging (permitido em serverless functions)
+    // eslint-disable-next-line no-console
     console.log('Contact form submission:', {
       name,
       email,
@@ -108,6 +108,7 @@ export default async function handler(
       message: 'Mensagem enviada com sucesso!',
     });
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error('Error processing contact form:', error);
     return res.status(500).json({
       error: 'Internal server error',
@@ -143,12 +144,14 @@ async function sendEmail({
 
       return true;
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.error('Resend error:', error);
       return false;
     }
   }
 
   // Fallback: apenas loga (para desenvolvimento)
+  // eslint-disable-next-line no-console
   console.log('Email would be sent:', { to, from, subject });
   return true;
 }
