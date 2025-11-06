@@ -25,10 +25,11 @@ export const useContactForm = () => {
   const onSubmit = async (data: ContactFormData) => {
     try {
       // TODO: Implementar chamada de API
+      // eslint-disable-next-line no-console
       console.log('Form data:', data);
       reset();
       return { success: true, message: 'Mensagem enviada com sucesso!' };
-    } catch (error) {
+    } catch {
       return {
         success: false,
         message: 'Erro ao enviar mensagem. Tente novamente.',
@@ -44,4 +45,3 @@ export const useContactForm = () => {
     reset,
   };
 };
-

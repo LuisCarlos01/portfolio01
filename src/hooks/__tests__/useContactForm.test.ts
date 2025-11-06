@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from 'vitest';
-import { renderHook, waitFor } from '@testing-library/react';
-import { useContactForm } from './useContactForm';
+import { renderHook } from '@testing-library/react';
+import { useContactForm } from '../useContactForm';
 
 // Mock react-hook-form
 vi.mock('react-hook-form', async () => {
@@ -27,4 +27,3 @@ describe('useContactForm', () => {
     expect(result.current).toHaveProperty('reset');
   });
 });
-

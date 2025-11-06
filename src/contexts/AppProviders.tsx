@@ -24,6 +24,7 @@ class ErrorBoundary extends Component<
   }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+    // eslint-disable-next-line no-console
     console.error('Error caught by boundary:', error, errorInfo);
   }
 
@@ -62,4 +63,3 @@ export const AppProviders: React.FC<AppProvidersProps> = ({ children }) => {
 
   return <ErrorBoundary>{children}</ErrorBoundary>;
 };
-

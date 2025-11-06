@@ -19,7 +19,10 @@ export const useThemeStore = create<ThemeState>()(
       toggleTheme: () => {
         set((state) => {
           const newTheme = state.theme === 'dark' ? 'light' : 'dark';
-          document.documentElement.classList.toggle('dark', newTheme === 'dark');
+          document.documentElement.classList.toggle(
+            'dark',
+            newTheme === 'dark'
+          );
           return { theme: newTheme };
         });
       },
@@ -33,4 +36,3 @@ export const useThemeStore = create<ThemeState>()(
     }
   )
 );
-
