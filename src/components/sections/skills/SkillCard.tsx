@@ -65,7 +65,7 @@ export const SkillCard: React.FC<SkillCardProps> = memo(({
         </div>
       </div>
 
-      <div className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden mt-3">
+      <div className="w-full h-2 bg-muted rounded-full overflow-hidden mt-3">
         <div
           ref={progressRef}
           className="h-full rounded-full progress-inner"

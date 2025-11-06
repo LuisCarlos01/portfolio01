@@ -116,7 +116,7 @@ export const ServiceModal: React.FC<ServiceModalProps> = memo(({
         <div className="mb-8">
           <p
             id="service-modal-description"
-            className="text-gray-700 dark:text-gray-300 leading-relaxed"
+            className="text-body-base text-foreground-secondary leading-relaxed"
           >
             {service.description}
           </p>
