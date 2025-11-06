@@ -1,6 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import { ContactService } from '@/services/contactService';
 
 const contactFormSchema = z.object({
   name: z.string().min(3, 'Nome deve ter pelo menos 3 caracteres'),
@@ -14,7 +15,7 @@ export type ContactFormData = z.infer<typeof contactFormSchema>;
 export const useContactForm = () => {
   const {
     register,
-    handleSubmit,
+    handleSubmit: rhfHandleSubmit,
     formState: { errors, isSubmitting },
     reset,
   } = useForm<ContactFormData>({
@@ -22,24 +23,19 @@ export const useContactForm = () => {
     mode: 'onBlur',
   });
 
-  const onSubmit = async (data: ContactFormData) => {
-    try {
-      // TODO: Implementar chamada de API
-      // eslint-disable-next-line no-console
-      console.log('Form data:', data);
+  const onSubmit = async (data: ContactFormData): Promise<void> => {
+    const result = await ContactService.submitForm(data);
+    if (result.success) {
       reset();
-      return { success: true, message: 'Mensagem enviada com sucesso!' };
-    } catch {
-      return {
-        success: false,
-        message: 'Erro ao enviar mensagem. Tente novamente.',
-      };
+    } else {
+      throw new Error(result.message);
     }
   };
 
   return {
     register,
-    handleSubmit: handleSubmit(onSubmit),
+    handleSubmit: rhfHandleSubmit,
+    onSubmit,
     errors,
     isSubmitting,
     reset,
