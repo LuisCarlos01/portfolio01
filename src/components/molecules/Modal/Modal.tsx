@@ -20,7 +20,7 @@ export const Modal: React.FC<ModalProps> = ({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+      className="fixed inset-0 z-modal flex items-center justify-center bg-black/50 backdrop-blur-sm"
       onClick={onClose}
       role="dialog"
       aria-modal="true"
@@ -28,15 +28,15 @@ export const Modal: React.FC<ModalProps> = ({
       aria-describedby="modal-description"
     >
       <div
-        className="bg-bg-light dark:bg-card-bg rounded-lg shadow-xl max-w-md w-full mx-4 max-h-[90vh] overflow-y-auto"
+        className="bg-card text-card-foreground rounded-lg shadow-xl max-w-md w-full mx-4 max-h-[90vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
         role="document"
       >
         {title && (
-          <div className="flex items-center justify-between p-6 border-b border-border-color">
+            <div className="flex items-center justify-between p-6 border-b border-border">
             <h2
               id="modal-title"
-              className="text-xl font-bold text-text-dark dark:text-text-light"
+              className="text-heading-xl font-bold text-card-foreground"
             >
               {title}
             </h2>
@@ -54,7 +54,7 @@ export const Modal: React.FC<ModalProps> = ({
           {children}
         </div>
         {footer && (
-          <div className="p-6 border-t border-border-color">{footer}</div>
+          <div className="p-6 border-t border-border">{footer}</div>
         )}
       </div>
     </div>

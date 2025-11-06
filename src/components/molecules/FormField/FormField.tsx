@@ -21,7 +21,7 @@ export const FormField: React.FC<FormFieldProps> = ({
           <Icon
             icon={icon}
             size={20}
-            className="text-text-dark dark:text-text-light opacity-60"
+            className="text-foreground-muted"
           />
         </div>
       )}
@@ -38,7 +38,7 @@ export const FormField: React.FC<FormFieldProps> = ({
           <Icon
             icon={icon}
             size={20}
-            className="text-text-dark dark:text-text-light opacity-60"
+            className="text-foreground-muted"
           />
         </div>
       )}

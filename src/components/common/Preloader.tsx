@@ -158,7 +158,7 @@ export const Preloader: React.FC<PreloaderProps> = memo(({ onComplete }) => {
   return (
     <div
       ref={preloaderRef}
-      className="fixed inset-0 flex flex-col items-center justify-center bg-bg-dark z-[9999]"
+      className="fixed inset-0 flex flex-col items-center justify-center bg-background z-[9999]"
       role="status"
       aria-label="Carregando portfólio"
     >
@@ -173,13 +173,13 @@ export const Preloader: React.FC<PreloaderProps> = memo(({ onComplete }) => {
         {/* Texto rotativo */}
         <div
           ref={textRef}
-          className="text-5xl md:text-7xl font-bold text-text-light mb-2"
+          className="text-display-xl md:text-display-2xl font-bold text-foreground mb-2"
         >
           {greetings[currentIndex].text}
         </div>
         <div
           ref={languageRef}
-          className="text-sm text-text-light opacity-60"
+          className="text-label-base text-foreground-muted"
         >
           {greetings[currentIndex].language}
         </div>
