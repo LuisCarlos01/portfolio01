@@ -30,8 +30,8 @@ export const SkillCard: React.FC<SkillCardProps> = memo(({
   return (
     <div
       ref={cardRef}
-      className={`relative bg-card-bg dark:bg-card-bg p-4 rounded-lg shadow-md 
-                transition-all duration-300 transform hover:scale-105 
+      className={`relative bg-card text-card-foreground p-4 rounded-lg shadow-md 
+                transition-all duration-base ease-in-out transform hover:scale-105 
                 hover:shadow-lg cursor-pointer skill-card ${
                   isActive ? 'scale-110 z-20' : ''
                 }`}
@@ -52,10 +52,10 @@ export const SkillCard: React.FC<SkillCardProps> = memo(({
           {skill.icon}
         </div>
         <div>
-          <h3 className="text-lg font-bold text-text-dark dark:text-text-light">
+          <h3 className="text-heading-lg font-bold text-card-foreground">
             {skill.name}
           </h3>
-          <p className="text-sm text-gray-700 dark:text-gray-300">
+          <p className="text-body-sm text-foreground-secondary">
             {skill.category === 'frontend'
               ? 'Frontend'
               : skill.category === 'backend'
@@ -76,7 +76,7 @@ export const SkillCard: React.FC<SkillCardProps> = memo(({
         ></div>
       </div>
 
-      <p className="text-right text-sm mt-1 text-gray-700 dark:text-gray-300">
+      <p className="text-right text-body-sm mt-1 text-foreground-secondary">
         {skill.level}%
       </p>
     </div>

@@ -70,7 +70,7 @@ export const ServiceModal: React.FC<ServiceModalProps> = memo(({
 
   return (
     <div
-      className="fixed inset-0 bg-bg-dark/80 dark:bg-bg-dark/80 flex items-center justify-center z-50 p-4 backdrop-blur-sm modal-overlay"
+      className="fixed inset-0 bg-black/50 flex items-center justify-center z-modal p-4 backdrop-blur-sm modal-overlay"
       onClick={onClose}
       role="dialog"
       aria-modal="true"
@@ -79,13 +79,13 @@ export const ServiceModal: React.FC<ServiceModalProps> = memo(({
     >
       <div
         id="service-detail-modal"
-        className="bg-card-bg dark:bg-card-bg p-8 rounded-xl shadow-2xl max-w-lg w-full transform transition-all duration-300 relative"
+        className="bg-card text-card-foreground p-8 rounded-xl shadow-2xl max-w-lg w-full transform transition-all duration-base ease-in-out relative"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Botão de fechar */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 w-8 h-8 rounded-full bg-black/40 flex items-center justify-center text-white hover:bg-primary transition-colors duration-300 z-10"
+          className="absolute top-4 right-4 w-8 h-8 rounded-full bg-black/40 flex items-center justify-center text-white hover:bg-primary transition-colors duration-base ease-in-out z-10"
           aria-label="Fechar modal"
         >
           ✕
@@ -94,7 +94,7 @@ export const ServiceModal: React.FC<ServiceModalProps> = memo(({
         <div className="flex items-center mb-8">
           <div
             id="service-icon"
-            className="text-5xl mr-6 transform transition-transform duration-300 hover:scale-110"
+            className="text-5xl mr-6 transform transition-transform duration-base ease-in-out hover:scale-110"
             style={{ color: service.color }}
           >
             {service.icon}
@@ -102,7 +102,7 @@ export const ServiceModal: React.FC<ServiceModalProps> = memo(({
           <div id="service-content">
             <h3
               id="service-modal-title"
-              className="text-3xl font-bold text-text-dark dark:text-text-light mb-2"
+              className="text-heading-3xl font-bold text-card-foreground mb-2"
             >
               {service.title}
             </h3>
@@ -123,7 +123,7 @@ export const ServiceModal: React.FC<ServiceModalProps> = memo(({
         </div>
 
         <div className="mb-8">
-          <h4 className="text-text-dark dark:text-text-light font-medium mb-4 text-lg">
+          <h4 className="text-card-foreground font-medium mb-4 text-heading-lg">
             Como posso ajudar você?
           </h4>
           <ul className="space-y-3">
@@ -134,12 +134,12 @@ export const ServiceModal: React.FC<ServiceModalProps> = memo(({
             ].map((item, index) => (
               <li key={index} className="flex items-start">
                 <span
-                  className="mr-3 text-lg mt-1"
+                  className="mr-3 text-heading-lg mt-1"
                   style={{ color: service.color }}
                 >
                   <FaLightbulb />
                 </span>
-                <p className="text-gray-700 dark:text-gray-300">
+                <p className="text-body-base text-foreground-secondary leading-relaxed">
                   {item}
                 </p>
               </li>
@@ -150,7 +150,7 @@ export const ServiceModal: React.FC<ServiceModalProps> = memo(({
         <div className="flex justify-between items-center gap-4">
           <a
             href="#contact"
-            className="px-6 py-3 rounded-lg font-medium transition-all duration-300 transform hover:scale-105 text-white"
+            className="px-6 py-3 rounded-lg font-medium transition-all duration-base ease-in-out transform hover:scale-105 text-white"
             style={{
               backgroundColor: service.color,
             }}

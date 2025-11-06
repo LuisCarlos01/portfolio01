@@ -124,7 +124,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = memo(({
     <div
       id="project-detail-modal"
       ref={modalRef}
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
+      className="fixed inset-0 z-modal flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm"
       onClick={onClose}
       role="dialog"
       aria-modal="true"
@@ -133,15 +133,15 @@ export const ProjectModal: React.FC<ProjectModalProps> = memo(({
       tabIndex={-1}
     >
       <div
-        className="bg-card-bg dark:bg-card-bg rounded-lg shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto"
+        className="bg-card text-card-foreground rounded-lg shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
         role="document"
       >
         {/* Header */}
-        <div className="sticky top-0 bg-card-bg dark:bg-card-bg border-b border-border-color p-6 flex items-center justify-between z-10">
+        <div className="sticky top-0 bg-card text-card-foreground border-b border-border p-6 flex items-center justify-between z-10">
           <h2
             id="project-modal-title"
-            className="text-2xl font-bold text-text-dark dark:text-text-light"
+            className="text-heading-2xl font-bold text-card-foreground"
           >
             {project.title}
           </h2>
@@ -173,17 +173,17 @@ export const ProjectModal: React.FC<ProjectModalProps> = memo(({
           {/* Descrição */}
           <div id="project-content" className="space-y-4">
             <div>
-              <h3 className="text-lg font-semibold mb-2 text-text-dark dark:text-text-light">
+              <h3 className="text-heading-lg font-semibold mb-2 text-card-foreground">
                 Sobre o Projeto
               </h3>
-              <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
+              <p className="text-body-base text-foreground-secondary leading-relaxed">
                 {project.description}
               </p>
             </div>
 
             {/* Tags */}
             <div>
-              <h3 className="text-lg font-semibold mb-2 text-text-dark dark:text-text-light">
+              <h3 className="text-heading-lg font-semibold mb-2 text-card-foreground">
                 Tecnologias
               </h3>
               <div className="flex flex-wrap gap-2">
@@ -202,7 +202,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = memo(({
                   href={project.github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors"
+                  className="flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary-hover transition-colors duration-base ease-in-out"
                   aria-label={`Ver código no GitHub: ${project.title}`}
                 >
                   <FaGithub size={18} />

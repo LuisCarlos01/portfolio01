@@ -11,7 +11,7 @@ export const ServiceCard: React.FC<ServiceCardProps> = memo(({
 }) => {
   return (
     <div
-      className={`service-card bg-card-bg dark:bg-card-bg rounded-lg p-6 shadow-lg transition-all duration-300 cursor-pointer hover:shadow-xl transform ${
+      className={`service-card bg-card text-card-foreground rounded-lg p-6 shadow-md transition-all duration-base ease-in-out cursor-pointer hover:shadow-lg transform ${
         isHovered ? 'scale-105' : ''
       }`}
       style={{
@@ -33,21 +33,21 @@ export const ServiceCard: React.FC<ServiceCardProps> = memo(({
       <div className="icon mb-4 text-4xl" style={{ color: service.color }}>
         {service.icon}
       </div>
-      <h4 className="text-xl font-bold mb-3 text-text-dark dark:text-text-light">
+      <h4 className="text-heading-xl font-bold mb-3 text-card-foreground">
         {service.title}
       </h4>
-      <p className="text-gray-700 dark:text-gray-300">
+      <p className="text-body-base text-foreground-secondary leading-relaxed">
         {service.description.substring(0, 100)}
         {service.description.length > 100 ? '...' : ''}
       </p>
       <div className="mt-4 flex justify-end">
         <button
-          className="text-sm font-medium flex items-center transition-all duration-300"
+          className="text-body-sm font-medium flex items-center transition-all duration-base ease-in-out"
           style={{ color: service.color }}
           aria-label={`Saber mais sobre ${service.title}`}
         >
           Saber mais{' '}
-          <FaArrowRight className="ml-1 transform transition-transform duration-300 group-hover:translate-x-1" />
+          <FaArrowRight className="ml-1 transform transition-transform duration-base ease-in-out group-hover:translate-x-1" />
         </button>
       </div>
     </div>

@@ -266,7 +266,7 @@ export const AboutSection: React.FC = memo(() => {
     <section
       ref={sectionRef}
       id="about"
-      className="py-20 bg-bg-light dark:bg-bg-dark section-container overflow-hidden"
+      className="py-20 bg-background section-container overflow-hidden"
     >
       <div className="container mx-auto px-4">
         <AboutHeader titleRef={titleRef} />

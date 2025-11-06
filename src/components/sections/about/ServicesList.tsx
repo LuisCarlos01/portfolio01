@@ -11,8 +11,8 @@ export const ServicesList: React.FC<ServicesListProps> = memo(({
 }) => {
   return (
     <div>
-      <h3 className="text-2xl font-bold text-center mb-8 text-primary">
-        Meus <span className="text-text-dark dark:text-text-light">Serviços</span>
+      <h3 className="text-heading-2xl font-bold text-center mb-8 text-primary">
+        Meus <span className="text-foreground">Serviços</span>
       </h3>
 
       <div

@@ -15,7 +15,7 @@ export const ProjectsList: React.FC<ProjectsListProps> = memo(({
   if (projects.length === 0) {
     return (
       <div className="text-center py-12">
-        <p className="text-gray-700 dark:text-gray-300">
+        <p className="text-body-base text-foreground-secondary">
           Nenhum projeto encontrado nesta categoria.
         </p>
       </div>

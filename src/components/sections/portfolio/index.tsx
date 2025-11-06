@@ -211,7 +211,7 @@ export const PortfolioSection: React.FC = memo(() => {
     <section
       ref={sectionRef}
       id="portfolio"
-      className="section-container bg-bg-light dark:bg-bg-dark relative overflow-hidden py-20"
+      className="section-container bg-background relative overflow-hidden py-20"
     >
       <div className="container mx-auto px-4 relative z-10">
         {/* Cabeçalho da seção */}

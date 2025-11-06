@@ -132,7 +132,7 @@ export const SkillDetailModal: React.FC<SkillDetailModalProps> = memo(({
     >
       <div
         id="skill-detail-modal"
-        className="bg-card-bg dark:bg-card-bg rounded-2xl p-8 max-w-4xl w-full opacity-0 transform shadow-xl border border-primary/10 my-10 relative"
+        className="bg-card text-card-foreground rounded-2xl p-8 max-w-4xl w-full opacity-0 transform shadow-xl border border-primary/10 my-10 relative"
         style={{
           maxHeight: '80vh',
           overflowY: 'auto',
@@ -145,7 +145,7 @@ export const SkillDetailModal: React.FC<SkillDetailModalProps> = memo(({
         {/* Botão flutuante para fechar o modal */}
         <button
           onClick={onClose}
-          className="fixed top-4 right-4 z-50 w-10 h-10 rounded-full bg-black/40 flex items-center justify-center text-white hover:bg-primary transition-colors duration-300"
+          className="fixed top-4 right-4 z-modal w-10 h-10 rounded-full bg-black/40 flex items-center justify-center text-white hover:bg-primary transition-colors duration-base ease-in-out"
           aria-label="Fechar modal"
         >
           ✕
@@ -175,7 +175,7 @@ export const SkillDetailModal: React.FC<SkillDetailModalProps> = memo(({
           <div className="flex-1">
             <h3
               id="skill-modal-title"
-              className="text-2xl font-bold mb-3 flex items-center text-text-dark dark:text-text-light"
+              className="text-heading-2xl font-bold mb-3 flex items-center text-card-foreground"
             >
               {skill.name}
               <span
@@ -195,7 +195,7 @@ export const SkillDetailModal: React.FC<SkillDetailModalProps> = memo(({
             {/* Barra de progresso */}
             <div className="mb-8">
               <div className="flex justify-between items-center mb-3">
-                <span className="text-text-dark dark:text-text-light font-medium">
+                <span className="text-card-foreground font-medium">
                   Nível de Proficiência
                 </span>
                 <div className="flex items-center">
@@ -227,11 +227,11 @@ export const SkillDetailModal: React.FC<SkillDetailModalProps> = memo(({
 
         {/* Descrição da habilidade */}
         <div className="mb-10">
-          <h4 className="text-lg font-semibold mb-3 flex items-center text-text-dark dark:text-text-light">
+          <h4 className="text-heading-lg font-semibold mb-3 flex items-center text-card-foreground">
             Descrição
           </h4>
-          <div className="p-5 rounded-xl bg-gray-100 dark:bg-gray-800 bg-opacity-30 border border-gray-300 dark:border-gray-700">
-            <p className="text-text-dark dark:text-text-light leading-relaxed">
+          <div className="p-5 rounded-xl bg-muted border border-border">
+            <p className="text-card-foreground leading-relaxed">
               {skill.description}
             </p>
           </div>
@@ -239,22 +239,22 @@ export const SkillDetailModal: React.FC<SkillDetailModalProps> = memo(({
 
         {/* Áreas de aplicação */}
         <div className="mb-10">
-          <h4 className="text-lg font-semibold mb-4 flex items-center text-text-dark dark:text-text-light">
+          <h4 className="text-heading-lg font-semibold mb-4 flex items-center text-card-foreground">
             Áreas de Aplicação
           </h4>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {getApplicationAreas(skill).map((area, index) => (
               <div
                 key={index}
-                className="p-4 rounded-xl border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-800 bg-opacity-30 hover:border-primary/30 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-lg group"
+                className="p-4 rounded-xl border border-border bg-muted hover:border-primary/30 transition-all duration-base ease-in-out transform hover:-translate-y-1 hover:shadow-lg group"
                 style={{
                   borderLeft: `3px solid ${skill.color}`,
                 }}
               >
-                <div className="text-lg font-medium mb-1 group-hover:text-primary transition-colors text-text-dark dark:text-text-light">
+                <div className="text-heading-lg font-medium mb-1 group-hover:text-primary transition-colors duration-base ease-in-out text-card-foreground">
                   {area.title}
                 </div>
-                <p className="text-gray-700 dark:text-gray-300 text-sm">
+                <p className="text-body-sm text-foreground-secondary">
                   {area.description}
                 </p>
               </div>
@@ -265,14 +265,14 @@ export const SkillDetailModal: React.FC<SkillDetailModalProps> = memo(({
         {/* Projetos Relacionados */}
         {skill.relatedProjects && skill.relatedProjects.length > 0 && (
           <div id="related-projects">
-            <h4 className="text-lg font-semibold mb-4 flex items-center text-text-dark dark:text-text-light">
+            <h4 className="text-heading-lg font-semibold mb-4 flex items-center text-card-foreground">
               Projetos Relacionados
             </h4>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {skill.relatedProjects.map((project) => (
                 <div
                   key={project.id}
-                  className="group relative overflow-hidden rounded-xl border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-800 bg-opacity-20 transition-all duration-300 hover:border-primary/30 hover:shadow-xl cursor-pointer transform hover:-translate-y-1 project-item"
+                  className="group relative overflow-hidden rounded-xl border border-border bg-muted/20 transition-all duration-base ease-in-out hover:border-primary/30 hover:shadow-xl cursor-pointer transform hover:-translate-y-1 project-item"
                   onClick={() => navigateToProject(project.id)}
                   onKeyDown={(e) => {
                     if (e.key === 'Enter' || e.key === ' ') {

@@ -59,9 +59,9 @@ export const ProjectCard: React.FC<ProjectCardProps> = memo(({
   return (
     <div
       ref={cardRef}
-      className={`project-card bg-card-bg dark:bg-card-bg rounded-lg overflow-hidden 
-        shadow-lg transition-all duration-300 cursor-pointer 
-        transform hover:scale-105 hover:shadow-xl
+      className={`project-card bg-card text-card-foreground rounded-lg overflow-hidden 
+        shadow-md transition-all duration-base ease-in-out cursor-pointer 
+        transform hover:scale-105 hover:shadow-lg
         ${isActive ? 'ring-2 ring-primary scale-105' : ''}`}
       onClick={() => onClick(project)}
       onKeyDown={(e) => {
@@ -80,12 +80,12 @@ export const ProjectCard: React.FC<ProjectCardProps> = memo(({
           src={project.image}
           fallbackSrc="/placeholder.svg"
           alt={project.title}
-          className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
+          className="w-full h-full object-cover transition-transform duration-base ease-in-out hover:scale-110"
           loading="lazy"
           quality="high"
         />
         {/* Overlay com tags */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-base ease-in-out flex items-end p-4">
           <div className="flex flex-wrap gap-2">
             {project.tags.slice(0, 3).map((tag) => (
               <Badge key={tag} variant="secondary" className="text-xs">
@@ -98,10 +98,10 @@ export const ProjectCard: React.FC<ProjectCardProps> = memo(({
 
       {/* Conteúdo do card */}
       <div className="p-6">
-        <h3 className="text-xl font-bold mb-2 text-text-dark dark:text-text-light">
+        <h3 className="text-heading-xl font-bold mb-2 text-card-foreground">
           {project.title}
         </h3>
-        <p className="text-sm text-gray-700 dark:text-gray-300 mb-4 line-clamp-2 leading-relaxed">
+        <p className="text-body-sm text-foreground-secondary mb-4 line-clamp-2 leading-relaxed">
           {project.description}
         </p>
 
@@ -112,7 +112,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = memo(({
               href={project.github}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 text-primary hover:text-primary-dark transition-colors"
+              className="flex items-center gap-2 text-primary hover:text-primary-hover transition-colors duration-base ease-in-out"
               onClick={(e) => e.stopPropagation()}
               aria-label={`Ver código no GitHub: ${project.title}`}
             >
@@ -125,7 +125,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = memo(({
               href={project.demo}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 text-primary hover:text-primary-dark transition-colors"
+              className="flex items-center gap-2 text-primary hover:text-primary-hover transition-colors duration-base ease-in-out"
               onClick={(e) => e.stopPropagation()}
               aria-label={`Ver demo: ${project.title}`}
             >
