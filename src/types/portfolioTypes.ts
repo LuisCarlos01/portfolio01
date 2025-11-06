@@ -15,4 +15,3 @@ export interface ProjectsRepository {
   getByCategory(category: Project['category']): Project[];
   getByTag(tag: string): Project[];
 }
-

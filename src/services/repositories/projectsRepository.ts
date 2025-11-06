@@ -58,7 +58,5 @@ class ProjectsRepositoryImpl implements ProjectsRepository {
 }
 
 // Exportar instância singleton
-export const projectsRepository: ProjectsRepository = new ProjectsRepositoryImpl(
-  projectsData
-);
-
+export const projectsRepository: ProjectsRepository =
+  new ProjectsRepositoryImpl(projectsData);

@@ -7,9 +7,7 @@ export const Home = memo(() => {
         <h1 className="text-4xl font-bold text-text-dark dark:text-text-light mb-4">
           Bem-vindo ao Portfólio
         </h1>
-        <p className="text-text-dark dark:text-text-light">
-          Em construção...
-        </p>
+        <p className="text-text-dark dark:text-text-light">Em construção...</p>
       </main>
     </div>
   );

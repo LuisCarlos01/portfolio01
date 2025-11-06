@@ -43,4 +43,3 @@ describe('ProjectsService', () => {
     expect(projectsRepository.getById).toHaveBeenCalledWith(1);
   });
 });
-

@@ -18,4 +18,3 @@ export class ProjectsService {
     return projectsRepository.getByTag(tag);
   }
 }
-

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, memo, useRef } from 'react';
+import React, { useState, useEffect, memo, useRef, useCallback } from 'react';
 import { cn } from '@/utils/cn';
 import { logger } from '@/utils/logger';
 
@@ -41,33 +41,43 @@ const ImageWithFallback = ({
   const observerRef = useRef<IntersectionObserver | null>(null);
 
   // Gera URL otimizada com WebP quando suportado
-  const getOptimizedSrc = (originalSrc: string): string => {
-    if (!originalSrc || originalSrc === 'undefined' || originalSrc === 'null') {
-      return fallbackSrc;
-    }
+  const getOptimizedSrc = useCallback(
+    (originalSrc: string): string => {
+      if (
+        !originalSrc ||
+        originalSrc === 'undefined' ||
+        originalSrc === 'null'
+      ) {
+        return fallbackSrc;
+      }
 
-    // Se já é uma URL externa ou SVG, não otimizar
-    if (
-      originalSrc.startsWith('http') ||
-      originalSrc.startsWith('//') ||
-      originalSrc.endsWith('.svg')
-    ) {
+      // Se já é uma URL externa ou SVG, não otimizar
+      if (
+        originalSrc.startsWith('http') ||
+        originalSrc.startsWith('//') ||
+        originalSrc.endsWith('.svg')
+      ) {
+        return originalSrc;
+      }
+
+      // Verifica suporte a WebP
+      const supportsWebP =
+        typeof document !== 'undefined' &&
+        document
+          .createElement('canvas')
+          .toDataURL('image/webp')
+          .indexOf('data:image/webp') === 0;
+
+      if (supportsWebP && !originalSrc.includes('.webp')) {
+        // Tenta usar WebP se disponível
+        const webpSrc = originalSrc.replace(/\.(jpg|jpeg|png)$/i, '.webp');
+        return webpSrc;
+      }
+
       return originalSrc;
-    }
-
-    // Verifica suporte a WebP
-    const supportsWebP =
-      typeof document !== 'undefined' &&
-      document.createElement('canvas').toDataURL('image/webp').indexOf('data:image/webp') === 0;
-
-    if (supportsWebP && !originalSrc.includes('.webp')) {
-      // Tenta usar WebP se disponível
-      const webpSrc = originalSrc.replace(/\.(jpg|jpeg|png)$/i, '.webp');
-      return webpSrc;
-    }
-
-    return originalSrc;
-  };
+    },
+    [fallbackSrc]
+  );
 
   // Intersection Observer para lazy loading
   useEffect(() => {
@@ -157,7 +167,7 @@ const ImageWithFallback = ({
       img.onload = null;
       img.onerror = null;
     };
-  }, [src, fallbackSrc, isInView, quality]);
+  }, [src, fallbackSrc, isInView, quality, getOptimizedSrc]);
 
   const blurStyle: React.CSSProperties = {
     filter: !isLoaded && !error ? 'blur(8px)' : 'none',
@@ -187,7 +197,11 @@ const ImageWithFallback = ({
 
       <img
         ref={imgRef}
-        src={isInView ? imgSrc : 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg"%3E%3C/svg%3E'}
+        src={
+          isInView
+            ? imgSrc
+            : 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg"%3E%3C/svg%3E'
+        }
         alt={alt}
         className={cn(
           'w-full h-full transition-all',
@@ -227,4 +241,3 @@ const ImageWithFallback = ({
 };
 
 export default memo(ImageWithFallback);
-

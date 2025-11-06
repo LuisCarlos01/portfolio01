@@ -1,7 +1,9 @@
 import type { ContactFormData } from '@/hooks/useContactForm';
 
 export interface ContactRepository {
-  submit(data: ContactFormData): Promise<{ success: boolean; message?: string }>;
+  submit(
+    data: ContactFormData
+  ): Promise<{ success: boolean; message?: string }>;
 }
 
 class ContactRepositoryImpl implements ContactRepository {
@@ -40,4 +42,3 @@ class ContactRepositoryImpl implements ContactRepository {
 export const contactRepository: ContactRepository = new ContactRepositoryImpl(
   import.meta.env.VITE_API_URL
 );
-
