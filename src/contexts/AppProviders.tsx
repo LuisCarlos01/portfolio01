@@ -1,65 +1,54 @@
-import React, { ReactNode, Component, ErrorInfo } from 'react';
+import React, { Component, ReactNode } from 'react';
+import { ErrorBoundary } from 'react-error-boundary';
 import { useThemeStore } from '@/stores/useThemeStore';
+
+interface ErrorFallbackProps {
+  error: Error;
+  resetErrorBoundary: () => void;
+}
+
+const ErrorFallback: React.FC<ErrorFallbackProps> = ({
+  error,
+  resetErrorBoundary,
+}) => {
+  return (
+    <div
+      role="alert"
+      className="min-h-screen flex items-center justify-center bg-bg-light dark:bg-bg-dark p-4"
+    >
+      <div className="text-center max-w-md">
+        <h1 className="text-2xl font-bold text-text-dark dark:text-text-light mb-4">
+          Algo deu errado
+        </h1>
+        <p className="text-text-dark dark:text-text-light mb-4">
+          {error.message || 'Ocorreu um erro inesperado'}
+        </p>
+        <button
+          onClick={resetErrorBoundary}
+          className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-primary"
+          aria-label="Tentar novamente"
+        >
+          Tentar novamente
+        </button>
+      </div>
+    </div>
+  );
+};
 
 interface AppProvidersProps {
   children: ReactNode;
 }
 
-interface ErrorBoundaryState {
-  hasError: boolean;
-  error: Error | null;
-}
-
-class ErrorBoundary extends Component<
-  { children: ReactNode },
-  ErrorBoundaryState
-> {
-  constructor(props: { children: ReactNode }) {
-    super(props);
-    this.state = { hasError: false, error: null };
-  }
-
-  static getDerivedStateFromError(error: Error): ErrorBoundaryState {
-    return { hasError: true, error };
-  }
-
-  componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    // eslint-disable-next-line no-console
-    console.error('Error caught by boundary:', error, errorInfo);
-  }
-
-  render() {
-    if (this.state.hasError) {
-      return (
-        <div
-          role="alert"
-          className="flex flex-col items-center justify-center min-h-screen p-4"
-        >
-          <h2 className="text-2xl font-bold mb-4 text-text-dark dark:text-text-light">
-            Algo deu errado
-          </h2>
-          <pre className="text-red-500 mb-4">
-            {this.state.error?.message || 'Erro desconhecido'}
-          </pre>
-          <button
-            onClick={() => this.setState({ hasError: false, error: null })}
-            className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark"
-          >
-            Tentar novamente
-          </button>
-        </div>
-      );
-    }
-
-    return this.props.children;
-  }
-}
-
 export const AppProviders: React.FC<AppProvidersProps> = ({ children }) => {
-  // Inicializar tema
-  React.useEffect(() => {
-    useThemeStore.getState().initialize();
-  }, []);
+  const initializeTheme = useThemeStore((state) => state.initialize);
 
-  return <ErrorBoundary>{children}</ErrorBoundary>;
+  React.useEffect(() => {
+    initializeTheme();
+  }, [initializeTheme]);
+
+  return (
+    <ErrorBoundary FallbackComponent={ErrorFallback}>
+      {children}
+    </ErrorBoundary>
+  );
 };

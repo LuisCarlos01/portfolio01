@@ -1,0 +1,14 @@
+# robots.txt para o portfólio
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://luiscarlos.dev/sitemap.xml
+
+# Bloquear arquivos de build e configuração
+Disallow: /api/
+Disallow: /_next/
+Disallow: /.git/
+Disallow: /node_modules/
+
