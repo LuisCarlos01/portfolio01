@@ -3,7 +3,7 @@ import { gsap } from 'gsap';
 import { ProjectModalProps } from '@/types/portfolioTypes';
 import { Button } from '@/components/atoms/Button/Button';
 import { Badge } from '@/components/atoms/Badge/Badge';
-import { ImageWithFallback } from '@/components/atoms/ImageWithFallback/ImageWithFallback';
+import ImageWithFallback from '@/components/atoms/ImageWithFallback/ImageWithFallback';
 import { FaGithub, FaExternalLinkAlt, FaTimes } from 'react-icons/fa';
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 

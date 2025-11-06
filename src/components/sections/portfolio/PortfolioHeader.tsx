@@ -1,4 +1,4 @@
-import React, { forwardRef, memo } from 'react';
+import { forwardRef, memo } from 'react';
 import { PortfolioHeaderProps } from '@/types/portfolioTypes';
 import { SectionTitle } from '@/components/common/SectionTitle';
 

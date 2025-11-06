@@ -1,7 +1,7 @@
 import React, { memo, useRef, useEffect } from 'react';
 import { gsap } from 'gsap';
 import { ProjectCardProps } from '@/types/portfolioTypes';
-import { ImageWithFallback } from '@/components/atoms/ImageWithFallback/ImageWithFallback';
+import ImageWithFallback from '@/components/atoms/ImageWithFallback/ImageWithFallback';
 import { Badge } from '@/components/atoms/Badge/Badge';
 import { FaGithub, FaExternalLinkAlt } from 'react-icons/fa';
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';

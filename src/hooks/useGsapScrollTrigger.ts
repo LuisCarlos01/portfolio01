@@ -43,7 +43,7 @@ export interface UseGsapScrollTriggerOptions {
  * ```
  */
 export function useGsapScrollTrigger(
-  ref: RefObject<HTMLElement>,
+  ref: RefObject<HTMLElement | null>,
   opts: UseGsapScrollTriggerOptions = {}
 ): void {
   const prefersReducedMotion = usePrefersReducedMotion();
