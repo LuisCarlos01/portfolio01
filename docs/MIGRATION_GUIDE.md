@@ -183,16 +183,18 @@ Ao migrar um componente, verifique:
 - [x] NotFound.tsx
 - [x] AppProviders.tsx
 
-### ⏳ Componentes Opcionais (não críticos)
+### ✅ Componentes Opcionais
+- [x] ImageWithFallback (migrado para usar tokens)
+
+### ℹ️ Componentes com Durações Específicas (OK manter)
 - [ ] HeroImage (usa duration-500/700 para animações específicas - OK manter)
 - [ ] AboutImage (usa duration-500/700 para animações específicas - OK manter)
-- [ ] ImageWithFallback (componente de imagem - pode migrar depois)
 
 ## ✅ Status Final da Migração
 
-**100% dos componentes principais migrados!**
+**100% dos componentes migrados!**
 
-Todos os componentes críticos do projeto agora usam o novo design system de tokens. Os componentes opcionais podem ser migrados gradualmente conforme necessário.
+Todos os componentes do projeto agora usam o novo design system de tokens. Os componentes HeroImage e AboutImage mantêm durações específicas (duration-500/700) para animações de imagem, o que é apropriado e não precisa ser alterado.
 
 ## 🔍 Como Encontrar Componentes para Migrar
 
