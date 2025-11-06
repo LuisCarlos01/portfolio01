@@ -2,22 +2,22 @@ import { RefObject } from 'react';
 import { SocialLink } from '@/data/heroData';
 
 export interface HeroTitleProps {
-  titleRef: RefObject<HTMLHeadingElement>;
+  titleRef: RefObject<HTMLHeadingElement | null>;
 }
 
 export interface HeroSubtitleProps {
-  subtitleRef: RefObject<HTMLDivElement>;
-  typedRef: RefObject<HTMLSpanElement>;
+  subtitleRef: RefObject<HTMLDivElement | null>;
+  typedRef: RefObject<HTMLSpanElement | null>;
   typedStrings: string[];
 }
 
 export interface HeroContentProps {
-  contentRef: RefObject<HTMLParagraphElement>;
+  contentRef: RefObject<HTMLParagraphElement | null>;
   content: string;
 }
 
 export interface SocialLinksProps {
-  socialRef: RefObject<HTMLDivElement>;
+  socialRef: RefObject<HTMLDivElement | null>;
   links: SocialLink[];
 }
 
@@ -28,7 +28,7 @@ export interface HeroImageProps {
 }
 
 export interface ScrollIconProps {
-  scrollIconRef: RefObject<HTMLDivElement>;
+  scrollIconRef: RefObject<HTMLDivElement | null>;
   onClick: () => void;
 }
 
