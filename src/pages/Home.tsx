@@ -4,6 +4,7 @@ import { useStructuredData } from '@/hooks/useStructuredData';
 import { HeroSection } from '@/components/sections/hero';
 import { AboutSection } from '@/components/sections/about';
 import { SkillsSection } from '@/components/sections/skills';
+import { PortfolioSection } from '@/components/sections/portfolio';
 import { ContactForm } from '@/components/organisms/ContactForm';
 import { Card } from '@/components/molecules/Card';
 import { Badge } from '@/components/atoms/Badge';
@@ -64,6 +65,9 @@ export const Home = memo(() => {
 
         {/* Skills Section */}
         <SkillsSection />
+
+        {/* Portfolio Section */}
+        <PortfolioSection />
 
         {/* Features Section */}
         <section className="mb-16">
