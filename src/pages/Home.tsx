@@ -1,6 +1,11 @@
 import { memo } from 'react';
 import { useSEO } from '@/hooks/useSEO';
 import { useStructuredData } from '@/hooks/useStructuredData';
+import { ContactForm } from '@/components/organisms/ContactForm';
+import { Card } from '@/components/molecules/Card';
+import { Button } from '@/components/atoms/Button';
+import { Badge } from '@/components/atoms/Badge';
+import { ThemeToggle } from '@/components/common/ThemeToggle';
 
 export const Home = memo(() => {
   useSEO({
@@ -33,12 +38,150 @@ export const Home = memo(() => {
 
   return (
     <div className="min-h-screen bg-bg-light dark:bg-bg-dark">
+      <header className="border-b border-border-color bg-card-bg">
+        <div className="container mx-auto px-4 py-4">
+          <nav className="flex items-center justify-between">
+            <h1 className="text-2xl font-bold text-text-dark dark:text-text-light">
+              Portfólio
+            </h1>
+            <div className="flex items-center gap-4">
+              <Badge variant="primary">React</Badge>
+              <Badge variant="secondary">TypeScript</Badge>
+              <ThemeToggle />
+            </div>
+          </nav>
+        </div>
+      </header>
+
       <main className="container mx-auto px-4 py-8">
-        <h1 className="text-4xl font-bold text-text-dark dark:text-text-light mb-4">
-          Bem-vindo ao Portfólio
-        </h1>
-        <p className="text-text-dark dark:text-text-light">Em construção...</p>
+        {/* Hero Section */}
+        <section className="mb-16 text-center">
+          <h2 className="text-5xl font-bold text-text-dark dark:text-text-light mb-4">
+            Bem-vindo ao Portfólio Modernizado
+          </h2>
+          <p className="text-xl text-text-dark dark:text-text-light mb-8 max-w-2xl mx-auto">
+            Este projeto foi modernizado seguindo as melhores práticas de
+            desenvolvimento, incluindo Atomic Design, TypeScript, e arquitetura
+            escalável.
+          </p>
+          <div className="flex gap-4 justify-center">
+            <Button variant="primary" size="lg">
+              Ver Projetos
+            </Button>
+            <Button variant="secondary" size="lg">
+              Contato
+            </Button>
+          </div>
+        </section>
+
+        {/* Features Section */}
+        <section className="mb-16">
+          <h3 className="text-3xl font-bold text-text-dark dark:text-text-light mb-8 text-center">
+            Tecnologias e Recursos Implementados
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <Card hover>
+              <h4 className="text-xl font-bold text-text-dark dark:text-text-light mb-2">
+                Atomic Design
+              </h4>
+              <p className="text-text-dark dark:text-text-light">
+                Componentes organizados em atoms, molecules, organisms e
+                templates para máxima reutilização.
+              </p>
+            </Card>
+
+            <Card hover>
+              <h4 className="text-xl font-bold text-text-dark dark:text-text-light mb-2">
+                TypeScript
+              </h4>
+              <p className="text-text-dark dark:text-text-light">
+                Type safety completo em todo o projeto para maior confiabilidade
+                e manutenibilidade.
+              </p>
+            </Card>
+
+            <Card hover>
+              <h4 className="text-xl font-bold text-text-dark dark:text-text-light mb-2">
+                Performance
+              </h4>
+              <p className="text-text-dark dark:text-text-light">
+                Code splitting, lazy loading, PWA e otimizações de bundle para
+                carregamento rápido.
+              </p>
+            </Card>
+
+            <Card hover>
+              <h4 className="text-xl font-bold text-text-dark dark:text-text-light mb-2">
+                Acessibilidade
+              </h4>
+              <p className="text-text-dark dark:text-text-light">
+                WCAG 2.1 AA compliant com ARIA labels, navegação por teclado e
+                contraste adequado.
+              </p>
+            </Card>
+
+            <Card hover>
+              <h4 className="text-xl font-bold text-text-dark dark:text-text-light mb-2">
+                SEO
+              </h4>
+              <p className="text-text-dark dark:text-text-light">
+                Meta tags dinâmicas, structured data (JSON-LD) e sitemap para
+                melhor indexação.
+              </p>
+            </Card>
+
+            <Card hover>
+              <h4 className="text-xl font-bold text-text-dark dark:text-text-light mb-2">
+                API Serverless
+              </h4>
+              <p className="text-text-dark dark:text-text-light">
+                Formulário de contato com validação, rate limiting e integração
+                com Resend.
+              </p>
+            </Card>
+          </div>
+        </section>
+
+        {/* Contact Form Section */}
+        <section className="mb-16">
+          <h3 className="text-3xl font-bold text-text-dark dark:text-text-light mb-8 text-center">
+            Entre em Contato
+          </h3>
+          <div className="max-w-2xl mx-auto">
+            <Card>
+              <ContactForm
+                onSubmit={(result) => {
+                  // eslint-disable-next-line no-console
+                  console.log('Form submitted:', result);
+                }}
+              />
+            </Card>
+          </div>
+        </section>
+
+        {/* Status Section */}
+        <section className="text-center">
+          <h3 className="text-2xl font-bold text-text-dark dark:text-text-light mb-4">
+            Status do Projeto
+          </h3>
+          <div className="flex flex-wrap gap-2 justify-center">
+            <Badge variant="success">Sprint 0: Concluído</Badge>
+            <Badge variant="success">Sprint 1: Concluído</Badge>
+            <Badge variant="success">Sprint 2: Concluído</Badge>
+            <Badge variant="success">Sprint 3: Concluído</Badge>
+            <Badge variant="success">Sprint 4: Concluído</Badge>
+            <Badge variant="primary">Sprint 5: Em andamento</Badge>
+          </div>
+        </section>
       </main>
+
+      <footer className="border-t border-border-color bg-card-bg mt-16">
+        <div className="container mx-auto px-4 py-8 text-center">
+          <p className="text-text-dark dark:text-text-light">
+            © 2024 Luis Carlos - Portfólio Modernizado
+          </p>
+        </div>
+      </footer>
     </div>
   );
 });

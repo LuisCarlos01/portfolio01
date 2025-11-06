@@ -1,6 +1,8 @@
 import { lazy, Suspense } from 'react';
 import { Routes, Route } from 'react-router-dom';
+import { Preloader } from '@/components/common/Preloader';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
+import { usePreloader } from '@/hooks/usePreloader';
 
 // Lazy loading de páginas para code splitting
 const Home = lazy(() =>
@@ -11,13 +13,22 @@ const NotFound = lazy(() =>
 );
 
 function App() {
+  const { showPreloader, handlePreloaderComplete } = usePreloader();
+
   return (
-    <Suspense fallback={<LoadingSpinner />}>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-    </Suspense>
+    <>
+      {showPreloader && <Preloader onComplete={handlePreloaderComplete} />}
+      <div
+        className={`min-h-screen ${!showPreloader ? 'animate-fadeIn' : ''}`}
+      >
+        <Suspense fallback={<LoadingSpinner />}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Suspense>
+      </div>
+    </>
   );
 }
 
