@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, memo } from 'react';
 import { useContactForm } from '@/hooks/useContactForm';
 import { Button } from '@/components/atoms/Button';
 import { Input } from '@/components/atoms/Input';
@@ -9,7 +9,7 @@ export interface ContactFormProps {
   onSubmit?: (data: { success: boolean; message: string }) => void;
 }
 
-export const ContactForm: React.FC<ContactFormProps> = ({ onSubmit }) => {
+export const ContactForm: React.FC<ContactFormProps> = memo(({ onSubmit }) => {
   const {
     register,
     handleSubmit: rhfHandleSubmit,
@@ -99,4 +99,6 @@ export const ContactForm: React.FC<ContactFormProps> = ({ onSubmit }) => {
       </Button>
     </form>
   );
-};
+});
+
+ContactForm.displayName = 'ContactForm';

@@ -13,3 +13,6 @@ export type { IconProps } from './Icon';
 
 export { Badge } from './Badge';
 export type { BadgeProps } from './Badge';
+
+export { ImageWithFallback } from './ImageWithFallback';
+export type { ImageWithFallbackProps } from './ImageWithFallback';
