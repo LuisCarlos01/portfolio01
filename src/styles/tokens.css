@@ -1,0 +1,316 @@
+/**
+ * Design Tokens - Portfolio Design System
+ * 
+ * Sistema completo de tokens seguindo padrões Shadcn/UI e MagicUI
+ * Baseado em HSL para facilitar manipulação e garantir consistência
+ */
+
+:root {
+  /* ============================================
+     CORES BASE - Modo Claro
+     ============================================ */
+  
+  /* Background */
+  --background: 0 0% 100%;
+  --background-secondary: 210 40% 98%;
+  --background-muted: 210 40% 96.1%;
+  --background-accent: 210 40% 94%;
+  
+  /* Foreground (Texto) */
+  --foreground: 222.2 84% 4.9%;
+  --foreground-secondary: 215 16.3% 46.9%;
+  --foreground-muted: 215.4 16.3% 56.9%;
+  --foreground-accent: 215.4 16.3% 46.9%;
+  
+  /* Primary */
+  --primary: 221.2 83.2% 53.3%;
+  --primary-foreground: 210 40% 98%;
+  --primary-hover: 221.2 83.2% 48%;
+  --primary-light: 221.2 83.2% 65%;
+  --primary-dark: 221.2 83.2% 45%;
+  
+  /* Secondary */
+  --secondary: 210 40% 96.1%;
+  --secondary-foreground: 222.2 47.4% 11.2%;
+  --secondary-hover: 210 40% 94%;
+  
+  /* Muted */
+  --muted: 210 40% 96.1%;
+  --muted-foreground: 215.4 16.3% 46.9%;
+  
+  /* Accent */
+  --accent: 210 40% 96.1%;
+  --accent-foreground: 222.2 47.4% 11.2%;
+  
+  /* Destructive (Error) */
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 210 40% 98%;
+  --destructive-hover: 0 72.2% 50.6%;
+  
+  /* Warning */
+  --warning: 38 92% 50%;
+  --warning-foreground: 26 83.3% 14.1%;
+  --warning-hover: 38 92% 45%;
+  
+  /* Success */
+  --success: 142 76% 36%;
+  --success-foreground: 355.7 100% 97.3%;
+  --success-hover: 142 76% 32%;
+  
+  /* Border & Input */
+  --border: 214.3 31.8% 91.4%;
+  --input: 214.3 31.8% 91.4%;
+  --ring: 221.2 83.2% 53.3%;
+  
+  /* Card */
+  --card: 0 0% 100%;
+  --card-foreground: 222.2 84% 4.9%;
+  
+  /* ============================================
+     TIPOGRAFIA
+     ============================================ */
+  
+  /* Font Families */
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  --font-mono: 'Fira Code', 'Consolas', 'Monaco', 'Courier New', monospace;
+  
+  /* Font Weights */
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  
+  /* Font Sizes - Display (Hero) */
+  --font-size-display-2xl: 4.5rem; /* 72px */
+  --font-size-display-xl: 3.75rem; /* 60px */
+  --font-size-display-lg: 3rem; /* 48px */
+  
+  /* Font Sizes - Heading */
+  --font-size-heading-3xl: 2.25rem; /* 36px */
+  --font-size-heading-2xl: 1.875rem; /* 30px */
+  --font-size-heading-xl: 1.5rem; /* 24px */
+  --font-size-heading-lg: 1.25rem; /* 20px */
+  
+  /* Font Sizes - Body */
+  --font-size-body-lg: 1.125rem; /* 18px */
+  --font-size-body-base: 1rem; /* 16px */
+  --font-size-body-sm: 0.875rem; /* 14px */
+  
+  /* Font Sizes - Label */
+  --font-size-label-lg: 0.875rem; /* 14px */
+  --font-size-label-base: 0.75rem; /* 12px */
+  --font-size-label-sm: 0.625rem; /* 10px */
+  
+  /* Line Heights */
+  --line-height-tighter: 1.1;
+  --line-height-tight: 1.25;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.75;
+  --line-height-loose: 2;
+  
+  /* Letter Spacing */
+  --letter-spacing-tighter: -0.05em;
+  --letter-spacing-tight: -0.025em;
+  --letter-spacing-normal: 0;
+  --letter-spacing-wide: 0.025em;
+  --letter-spacing-wider: 0.05em;
+  
+  /* ============================================
+     ESPAÇAMENTO
+     ============================================ */
+  
+  --spacing-0: 0;
+  --spacing-0\.5: 0.125rem; /* 2px */
+  --spacing-1: 0.25rem; /* 4px */
+  --spacing-1\.5: 0.375rem; /* 6px */
+  --spacing-2: 0.5rem; /* 8px */
+  --spacing-2\.5: 0.625rem; /* 10px */
+  --spacing-3: 0.75rem; /* 12px */
+  --spacing-3\.5: 0.875rem; /* 14px */
+  --spacing-4: 1rem; /* 16px */
+  --spacing-5: 1.25rem; /* 20px */
+  --spacing-6: 1.5rem; /* 24px */
+  --spacing-7: 1.75rem; /* 28px */
+  --spacing-8: 2rem; /* 32px */
+  --spacing-9: 2.25rem; /* 36px */
+  --spacing-10: 2.5rem; /* 40px */
+  --spacing-11: 2.75rem; /* 44px */
+  --spacing-12: 3rem; /* 48px */
+  --spacing-14: 3.5rem; /* 56px */
+  --spacing-16: 4rem; /* 64px */
+  --spacing-20: 5rem; /* 80px */
+  --spacing-24: 6rem; /* 96px */
+  --spacing-28: 7rem; /* 112px */
+  --spacing-32: 8rem; /* 128px */
+  
+  /* ============================================
+     BORDAS
+     ============================================ */
+  
+  /* Border Width */
+  --border-width-0: 0;
+  --border-width-1: 1px;
+  --border-width-2: 2px;
+  --border-width-4: 4px;
+  
+  /* Border Radius */
+  --radius-none: 0;
+  --radius-sm: 0.25rem; /* 4px */
+  --radius-md: 0.375rem; /* 6px */
+  --radius-lg: 0.5rem; /* 8px */
+  --radius-xl: 0.75rem; /* 12px */
+  --radius-2xl: 1rem; /* 16px */
+  --radius-3xl: 1.5rem; /* 24px */
+  --radius-full: 9999px;
+  
+  /* ============================================
+     SOMBRAS
+     ============================================ */
+  
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+  --shadow-inner: inset 0 2px 4px 0 rgb(0 0 0 / 0.05);
+  --shadow-none: 0 0 #0000;
+  
+  /* Colored Shadows */
+  --shadow-primary: 0 10px 15px -3px hsl(var(--primary) / 0.3), 0 4px 6px -4px hsl(var(--primary) / 0.2);
+  --shadow-primary-lg: 0 20px 25px -5px hsl(var(--primary) / 0.3), 0 8px 10px -6px hsl(var(--primary) / 0.2);
+  
+  /* ============================================
+     ANIMAÇÕES E TRANSIÇÕES
+     ============================================ */
+  
+  /* Durations */
+  --duration-fast: 150ms;
+  --duration-base: 200ms;
+  --duration-slow: 300ms;
+  --duration-slower: 500ms;
+  
+  /* Easings */
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-back: cubic-bezier(0.34, 1.56, 0.64, 1);
+  
+  /* Transitions */
+  --transition-base: all var(--duration-base) var(--ease-in-out);
+  --transition-colors: color var(--duration-base) var(--ease-in-out), background-color var(--duration-base) var(--ease-in-out), border-color var(--duration-base) var(--ease-in-out);
+  --transition-transform: transform var(--duration-base) var(--ease-out);
+  --transition-opacity: opacity var(--duration-base) var(--ease-in-out);
+  
+  /* ============================================
+     Z-INDEX
+     ============================================ */
+  
+  --z-base: 0;
+  --z-dropdown: 1000;
+  --z-sticky: 1020;
+  --z-fixed: 1030;
+  --z-modal-backdrop: 1040;
+  --z-modal: 1050;
+  --z-popover: 1060;
+  --z-tooltip: 1070;
+}
+
+/* ============================================
+   DARK MODE
+   ============================================ */
+
+.dark {
+  /* Background */
+  --background: 222.2 84% 4.9%;
+  --background-secondary: 217.2 32.6% 17.5%;
+  --background-muted: 217.2 32.6% 17.5%;
+  --background-accent: 217.2 32.6% 15%;
+  
+  /* Foreground (Texto) */
+  --foreground: 210 40% 98%;
+  --foreground-secondary: 215 20.2% 65.1%;
+  --foreground-muted: 217.9 10.6% 64.9%;
+  --foreground-accent: 215 20.2% 65.1%;
+  
+  /* Primary */
+  --primary: 217.2 91.2% 59.8%;
+  --primary-foreground: 222.2 47.4% 11.2%;
+  --primary-hover: 217.2 91.2% 65%;
+  --primary-light: 217.2 91.2% 70%;
+  --primary-dark: 217.2 91.2% 55%;
+  
+  /* Secondary */
+  --secondary: 217.2 32.6% 17.5%;
+  --secondary-foreground: 210 40% 98%;
+  --secondary-hover: 217.2 32.6% 20%;
+  
+  /* Muted */
+  --muted: 217.2 32.6% 17.5%;
+  --muted-foreground: 215 20.2% 65.1%;
+  
+  /* Accent */
+  --accent: 217.2 32.6% 17.5%;
+  --accent-foreground: 210 40% 98%;
+  
+  /* Destructive */
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 210 40% 98%;
+  --destructive-hover: 0 62.8% 35%;
+  
+  /* Warning */
+  --warning: 38 92% 45%;
+  --warning-foreground: 26 83.3% 14.1%;
+  --warning-hover: 38 92% 50%;
+  
+  /* Success */
+  --success: 142 71% 45%;
+  --success-foreground: 355.7 100% 97.3%;
+  --success-hover: 142 71% 50%;
+  
+  /* Border & Input */
+  --border: 217.2 32.6% 17.5%;
+  --input: 217.2 32.6% 17.5%;
+  --ring: 217.2 91.2% 59.8%;
+  
+  /* Card */
+  --card: 222.2 84% 4.9%;
+  --card-foreground: 210 40% 98%;
+  
+  /* Sombras ajustadas para dark mode */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.3);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.4), 0 4px 6px -4px rgb(0 0 0 / 0.3);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.5), 0 8px 10px -6px rgb(0 0 0 / 0.4);
+  --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.6);
+}
+
+/* ============================================
+   UTILITÁRIOS CSS
+   ============================================ */
+
+/* Helper classes para cores HSL */
+.bg-background { background-color: hsl(var(--background)); }
+.bg-foreground { background-color: hsl(var(--foreground)); }
+.bg-primary { background-color: hsl(var(--primary)); }
+.bg-secondary { background-color: hsl(var(--secondary)); }
+.bg-muted { background-color: hsl(var(--muted)); }
+.bg-accent { background-color: hsl(var(--accent)); }
+.bg-destructive { background-color: hsl(var(--destructive)); }
+.bg-warning { background-color: hsl(var(--warning)); }
+.bg-success { background-color: hsl(var(--success)); }
+
+.text-foreground { color: hsl(var(--foreground)); }
+.text-foreground-secondary { color: hsl(var(--foreground-secondary)); }
+.text-foreground-muted { color: hsl(var(--foreground-muted)); }
+.text-primary { color: hsl(var(--primary)); }
+.text-secondary { color: hsl(var(--secondary-foreground)); }
+.text-muted { color: hsl(var(--muted-foreground)); }
+.text-destructive { color: hsl(var(--destructive)); }
+.text-warning { color: hsl(var(--warning)); }
+.text-success { color: hsl(var(--success)); }
+
+.border-border { border-color: hsl(var(--border)); }
+.border-input { border-color: hsl(var(--input)); }
+.border-ring { border-color: hsl(var(--ring)); }
+

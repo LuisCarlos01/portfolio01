@@ -1,17 +1,30 @@
+/* Importar tokens de design primeiro */
+@import './tokens.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* Variáveis CSS legadas (compatibilidade) */
 :root {
-  --color-primary: #3b82f6;
-  --color-primary-dark: #2563eb;
-  --color-primary-light: #60a5fa;
-  --color-bg-dark: #0f172a;
-  --color-bg-light: #ffffff;
-  --color-card-bg: #1e293b;
-  --color-text-light: #f1f5f9;
-  --color-text-dark: #0f172a;
-  --color-border: #334155;
+  --color-primary: hsl(221.2, 83.2%, 53.3%);
+  --color-primary-dark: hsl(221.2, 83.2%, 45%);
+  --color-primary-light: hsl(221.2, 83.2%, 65%);
+  --color-bg-dark: hsl(222.2, 84%, 4.9%);
+  --color-bg-light: hsl(0, 0%, 100%);
+  --color-card-bg: hsl(217.2, 32.6%, 17.5%);
+  --color-text-light: hsl(210, 40%, 98%);
+  --color-text-dark: hsl(222.2, 84%, 4.9%);
+  --color-border: hsl(214.3, 31.8%, 91.4%);
+}
+
+.dark {
+  --color-bg-dark: hsl(222.2, 84%, 4.9%);
+  --color-bg-light: hsl(222.2, 84%, 4.9%);
+  --color-card-bg: hsl(217.2, 32.6%, 17.5%);
+  --color-text-light: hsl(210, 40%, 98%);
+  --color-text-dark: hsl(210, 40%, 98%);
+  --color-border: hsl(217.2, 32.6%, 17.5%);
 }
 
 * {

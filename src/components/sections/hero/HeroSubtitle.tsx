@@ -31,7 +31,7 @@ export const HeroSubtitle: React.FC<HeroSubtitleProps> = memo(({
   return (
     <div
       ref={subtitleRef}
-      className="text-xl md:text-2xl text-gray-600 dark:text-gray-400 font-semibold mb-4"
+      className="text-heading-lg md:text-heading-xl text-foreground-secondary font-semibold mb-4"
     >
       <span>Sou </span>
       <span ref={typedRef} className="text-primary"></span>

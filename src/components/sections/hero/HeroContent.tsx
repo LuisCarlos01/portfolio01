@@ -11,7 +11,7 @@ export const HeroContent: React.FC<HeroContentProps> = memo(({
   return (
     <p
       ref={contentRef}
-      className="text-base md:text-lg text-gray-700 dark:text-gray-300 max-w-2xl leading-relaxed font-normal"
+      className="text-body-base md:text-body-lg text-foreground-secondary max-w-2xl leading-relaxed font-normal"
     >
       {content}
     </p>

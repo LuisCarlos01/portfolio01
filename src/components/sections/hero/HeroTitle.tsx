@@ -8,7 +8,7 @@ export const HeroTitle: React.FC<HeroTitleProps> = memo(({ titleRef }) => {
   return (
     <h1
       ref={titleRef}
-      className="text-4xl md:text-5xl lg:text-6xl font-bold text-text-dark dark:text-text-light leading-tight tracking-tight"
+      className="text-display-lg md:text-display-xl lg:text-display-2xl font-bold text-foreground leading-tight tracking-tight"
     >
       Olá, sou <span className="text-primary">Luís Carlos</span>
     </h1>

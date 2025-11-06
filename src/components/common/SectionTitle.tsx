@@ -33,7 +33,7 @@ export const SectionTitle = forwardRef<HTMLHeadingElement, SectionTitleProps>(
     return (
       <div ref={ref} className={`mb-12 ${alignClasses[align]} ${className}`}>
         <h2
-          className={`text-4xl font-bold mb-4 text-text-dark dark:text-text-light relative inline-block pb-3 
+          className={`text-heading-3xl font-bold mb-4 text-foreground relative inline-block pb-3 
             after:content-[''] after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 
             after:w-20 after:h-1 after:bg-primary after:rounded-full ${titleClassName}`}
         >
@@ -42,7 +42,7 @@ export const SectionTitle = forwardRef<HTMLHeadingElement, SectionTitleProps>(
 
         {subtitle && (
           <p
-            className={`text-lg mb-2 text-gray-700 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed ${subtitleClassName}`}
+            className={`text-body-lg mb-2 text-foreground-secondary max-w-3xl mx-auto leading-relaxed ${subtitleClassName}`}
           >
             {subtitle}
           </p>

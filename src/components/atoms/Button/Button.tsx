@@ -24,17 +24,18 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       <button
         ref={ref}
         className={cn(
-          'inline-flex items-center justify-center rounded-lg font-medium transition-colors',
-          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2',
+          'inline-flex items-center justify-center rounded-lg font-medium',
+          'transition-colors duration-base ease-in-out',
+          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
           'disabled:opacity-50 disabled:pointer-events-none',
           variant === 'primary' &&
-            'bg-primary text-white hover:bg-primary-dark',
+            'bg-primary text-primary-foreground hover:bg-primary-hover',
           variant === 'secondary' &&
-            'bg-secondary text-white hover:bg-secondary-dark',
-          variant === 'ghost' && 'bg-transparent hover:bg-card-bg',
-          size === 'sm' && 'px-3 py-1.5 text-sm',
-          size === 'md' && 'px-4 py-2 text-base',
-          size === 'lg' && 'px-6 py-3 text-lg',
+            'bg-secondary text-secondary-foreground hover:bg-secondary-hover',
+          variant === 'ghost' && 'bg-transparent hover:bg-muted',
+          size === 'sm' && 'px-3 py-1.5 text-body-sm',
+          size === 'md' && 'px-4 py-2 text-body-base',
+          size === 'lg' && 'px-6 py-3 text-body-lg',
           className
         )}
         disabled={disabled || isLoading}

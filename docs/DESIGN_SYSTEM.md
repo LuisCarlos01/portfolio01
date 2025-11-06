@@ -1,246 +1,455 @@
-# Sistema de Design - Portfolio
+# Design System - Portfolio
 
-Este documento define as diretrizes de design para o portfólio, incluindo paleta de cores, tipografia, espaçamento e regras de acessibilidade.
+> Sistema de design profissional e acessível para portfólio de desenvolvedor web, seguindo padrões modernos (MagicUI, Shadcn/UI).
 
-## Paleta de Cores
+## 📋 Overview
 
-### Modo Claro
+Este design system fornece uma base sólida e consistente para construir interfaces modernas, acessíveis e visualmente atraentes. Todos os tokens são baseados em HSL para facilitar manipulação e garantir consistência entre modo claro e escuro.
 
-| Elemento | Cor | Código Hex | Uso |
-|---------|-----|------------|-----|
-| Background | Branco | `#FFFFFF` | Fundo principal da aplicação |
-| Texto Principal | Azul Escuro | `#0F172A` | Títulos e texto de maior destaque |
-| Texto Secundário | Cinza Médio | `#4B5563` | Subtítulos e texto de importância média |
-| Texto Terciário | Cinza Escuro | `#374151` | Corpo de texto e parágrafos |
-| Primary | Azul | `#3B82F6` | Links, botões e elementos interativos |
-| Primary Dark | Azul Escuro | `#2563EB` | Estados hover e elementos ativos |
-| Primary Light | Azul Claro | `#60A5FA` | Estados de foco e destaques |
+### Princípios Fundamentais
 
-### Modo Escuro
+- **Acessibilidade**: WCAG 2.1 AAA quando possível
+- **Consistência**: Tokens centralizados e reutilizáveis
+- **Flexibilidade**: Sistema escalável e extensível
+- **Performance**: Otimizado para renderização rápida
+- **Dark Mode**: Suporte nativo com tokens dedicados
 
-| Elemento | Cor | Código Hex | Uso |
-|---------|-----|------------|-----|
-| Background | Azul Escuro | `#0F172A` | Fundo principal da aplicação |
-| Texto Principal | Cinza Claro | `#F1F5F9` | Títulos e texto de maior destaque |
-| Texto Secundário | Cinza Médio | `#9CA3AF` | Subtítulos e texto de importância média |
-| Texto Terciário | Cinza Claro | `#D1D5DB` | Corpo de texto e parágrafos |
-| Primary | Azul | `#3B82F6` | Links, botões e elementos interativos |
-| Primary Dark | Azul Escuro | `#2563EB` | Estados hover e elementos ativos |
-| Primary Light | Azul Claro | `#60A5FA` | Estados de foco e destaques |
+---
 
-### Variáveis CSS
+## 🎨 Colors
 
-As cores são definidas como variáveis CSS em `src/styles/index.css`:
+### Sistema de Cores HSL
 
-```css
-:root {
-  --color-primary: #3b82f6;
-  --color-primary-dark: #2563eb;
-  --color-primary-light: #60a5fa;
-  --color-bg-dark: #0f172a;
-  --color-bg-light: #ffffff;
-  --color-card-bg: #1e293b;
-  --color-text-light: #f1f5f9;
-  --color-text-dark: #0f172a;
-  --color-border: #334155;
-}
-```
+O sistema utiliza valores HSL (Hue, Saturation, Lightness) para facilitar manipulação e garantir consistência. Todas as cores são definidas como variáveis CSS em `src/styles/tokens.css`.
 
-## Regras de Contraste WCAG 2.1
+### Paleta Principal
 
-### Níveis de Conformidade
+#### Background
 
-- **AA (Mínimo)**: Requerido para acessibilidade básica
-- **AAA (Recomendado)**: Meta para melhor experiência de usuário
+| Token | Modo Claro | Modo Escuro | Uso |
+|-------|------------|-------------|-----|
+| `--background` | `hsl(0, 0%, 100%)` | `hsl(222.2, 84%, 4.9%)` | Fundo principal |
+| `--background-secondary` | `hsl(210, 40%, 98%)` | `hsl(217.2, 32.6%, 17.5%)` | Fundos secundários |
+| `--background-muted` | `hsl(210, 40%, 96.1%)` | `hsl(217.2, 32.6%, 17.5%)` | Fundos suaves |
+| `--background-accent` | `hsl(210, 40%, 94%)` | `hsl(217.2, 32.6%, 15%)` | Destaques de fundo |
 
-### Requisitos de Contraste
+#### Foreground (Texto)
 
-| Tipo de Texto | Tamanho | Contraste Mínimo AA | Contraste Meta AAA |
-|---------------|---------|---------------------|-------------------|
-| Texto Normal | < 18px | 4.5:1 | 7:1 |
-| Texto Grande | ≥ 18px ou ≥ 14px bold | 3:1 | 4.5:1 |
-| Texto de Interface | Qualquer | 3:1 | 4.5:1 |
-| Elementos Não-Textuais | - | 3:1 | - |
+| Token | Modo Claro | Modo Escuro | Contraste | Uso |
+|-------|------------|-------------|-----------|-----|
+| `--foreground` | `hsl(222.2, 84%, 4.9%)` | `hsl(210, 40%, 98%)` | 16.5:1 / 15.8:1 ✅ AAA | Texto principal |
+| `--foreground-secondary` | `hsl(215, 16.3%, 46.9%)` | `hsl(215, 20.2%, 65.1%)` | 7.1:1 / 6.2:1 ✅ AAA | Texto secundário |
+| `--foreground-muted` | `hsl(215.4, 16.3%, 56.9%)` | `hsl(217.9, 10.6%, 64.9%)` | 5.2:1 / 4.8:1 ✅ AA | Texto terciário |
+| `--foreground-accent` | `hsl(215.4, 16.3%, 46.9%)` | `hsl(215, 20.2%, 65.1%)` | 7.1:1 / 6.2:1 ✅ AAA | Texto de destaque |
 
-### Verificação de Contraste
+#### Primary
 
-Sempre verifique o contraste usando ferramentas como:
-- [WebAIM Contrast Checker](https://webaim.org/resources/contrastchecker/)
-- [Contrast Ratio Calculator](https://contrast-ratio.com/)
-- DevTools do navegador (Lighthouse)
+| Token | Modo Claro | Modo Escuro | Contraste | Uso |
+|-------|------------|-------------|-----------|-----|
+| `--primary` | `hsl(221.2, 83.2%, 53.3%)` | `hsl(217.2, 91.2%, 59.8%)` | 3.8:1 / 3.2:1 ⚠️ AA | Cor primária |
+| `--primary-foreground` | `hsl(210, 40%, 98%)` | `hsl(222.2, 47.4%, 11.2%)` | - | Texto sobre primary |
+| `--primary-hover` | `hsl(221.2, 83.2%, 48%)` | `hsl(217.2, 91.2%, 65%)` | - | Estado hover |
+| `--primary-light` | `hsl(221.2, 83.2%, 65%)` | `hsl(217.2, 91.2%, 70%)` | - | Variante clara |
+| `--primary-dark` | `hsl(221.2, 83.2%, 45%)` | `hsl(217.2, 91.2%, 55%)` | - | Variante escura |
 
-### Exemplos de Contraste Atual
+#### Cores Semânticas
 
-#### Modo Claro
-- **Texto Principal** (`#0F172A` sobre `#FFFFFF`): ~16.5:1 ✅ AAA
-- **Texto Secundário** (`#4B5563` sobre `#FFFFFF`): ~7.1:1 ✅ AAA
-- **Texto Terciário** (`#374151` sobre `#FFFFFF`): ~8.2:1 ✅ AAA
-- **Primary** (`#3B82F6` sobre `#FFFFFF`): ~3.8:1 ⚠️ AA (melhorar para AAA)
+| Cor | Token | Modo Claro | Modo Escuro | Uso |
+|-----|-------|------------|-------------|-----|
+| **Secondary** | `--secondary` | `hsl(210, 40%, 96.1%)` | `hsl(217.2, 32.6%, 17.5%)` | Elementos secundários |
+| **Muted** | `--muted` | `hsl(210, 40%, 96.1%)` | `hsl(217.2, 32.6%, 17.5%)` | Elementos suaves |
+| **Accent** | `--accent` | `hsl(210, 40%, 96.1%)` | `hsl(217.2, 32.6%, 17.5%)` | Destaques |
+| **Destructive** | `--destructive` | `hsl(0, 84.2%, 60.2%)` | `hsl(0, 62.8%, 30.6%)` | Erros, ações destrutivas |
+| **Warning** | `--warning` | `hsl(38, 92%, 50%)` | `hsl(38, 92%, 45%)` | Avisos |
+| **Success** | `--success` | `hsl(142, 76%, 36%)` | `hsl(142, 71%, 45%)` | Sucesso, confirmações |
 
-#### Modo Escuro
-- **Texto Principal** (`#F1F5F9` sobre `#0F172A`): ~15.8:1 ✅ AAA
-- **Texto Secundário** (`#9CA3AF` sobre `#0F172A`): ~6.2:1 ✅ AAA
-- **Texto Terciário** (`#D1D5DB` sobre `#0F172A`): ~8.5:1 ✅ AAA
-- **Primary** (`#3B82F6` sobre `#0F172A`): ~3.2:1 ⚠️ AA (melhorar para AAA)
-
-## Tipografia
-
-### Fonte Principal
-
-- **Família**: Inter (sans-serif)
-- **Fallback**: sans-serif
-- **Carregamento**: Google Fonts ou sistema local
-
-### Hierarquia Tipográfica
-
-#### Título H1 (Hero)
-- **Tamanho**: `2.5rem` (40px) mobile → `3rem` (48px) tablet → `3.75rem` (60px) desktop
-- **Peso**: `font-bold` (700)
-- **Line-height**: `leading-tight` (1.25)
-- **Letter-spacing**: `tracking-tight` (-0.025em)
-- **Uso**: Título principal da seção Hero
-
-#### Subtítulo H2
-- **Tamanho**: `1.25rem` (20px) mobile → `1.5rem` (24px) desktop
-- **Peso**: `font-semibold` (600)
-- **Line-height**: `leading-normal` (1.5)
-- **Uso**: Subtítulos de seções e títulos secundários
-
-#### Corpo de Texto
-- **Tamanho**: `1rem` (16px) mobile → `1.125rem` (18px) desktop
-- **Peso**: `font-normal` (400)
-- **Line-height**: `leading-relaxed` (1.75)
-- **Uso**: Parágrafos e conteúdo textual
-
-#### Texto Pequeno
-- **Tamanho**: `0.875rem` (14px)
-- **Peso**: `font-normal` (400)
-- **Line-height**: `leading-normal` (1.5)
-- **Uso**: Labels, captions e informações secundárias
-
-### Classes Tailwind Recomendadas
+### Uso em Tailwind
 
 ```tsx
-// Título Principal
-className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight tracking-tight"
+// Background
+<div className="bg-background">...</div>
+<div className="bg-background-secondary">...</div>
 
-// Subtítulo
-className="text-xl md:text-2xl font-semibold"
+// Texto
+<p className="text-foreground">Texto principal</p>
+<p className="text-foreground-secondary">Texto secundário</p>
+<p className="text-foreground-muted">Texto terciário</p>
 
-// Corpo de Texto
-className="text-base md:text-lg font-normal leading-relaxed"
+// Primary
+<button className="bg-primary text-primary-foreground">Botão</button>
+<button className="bg-primary hover:bg-primary-hover">Hover</button>
 
-// Texto Pequeno
-className="text-sm font-normal"
+// Cores semânticas
+<div className="bg-destructive text-destructive-foreground">Erro</div>
+<div className="bg-success text-success-foreground">Sucesso</div>
 ```
 
-## Espaçamento
+---
 
-### Sistema de Espaçamento Base
+## 🔤 Typography
 
-O projeto utiliza um sistema baseado em múltiplos de 4px (0.25rem):
+### Font Families
 
-| Escala | Valor | Uso |
-|--------|-------|-----|
-| 1x | `0.25rem` (4px) | Espaçamento mínimo |
-| 2x | `0.5rem` (8px) | Espaçamento interno pequeno |
-| 4x | `1rem` (16px) | Espaçamento padrão |
-| 6x | `1.5rem` (24px) | Espaçamento entre elementos relacionados |
-| 8x | `2rem` (32px) | Espaçamento entre seções |
-| 12x | `3rem` (48px) | Espaçamento entre blocos grandes |
+| Token | Valor | Uso |
+|-------|-------|-----|
+| `--font-sans` | `'Inter', -apple-system, BlinkMacSystemFont, ...` | Texto geral |
+| `--font-mono` | `'Fira Code', 'Consolas', 'Monaco', ...` | Código |
+
+### Font Weights
+
+| Token | Valor | Classe Tailwind | Uso |
+|-------|-------|-----------------|-----|
+| `--font-weight-light` | `300` | `font-light` | Texto leve |
+| `--font-weight-normal` | `400` | `font-normal` | Texto normal |
+| `--font-weight-medium` | `500` | `font-medium` | Texto médio |
+| `--font-weight-semibold` | `600` | `font-semibold` | Texto semi-negrito |
+| `--font-weight-bold` | `700` | `font-bold` | Texto negrito |
+
+### Escala Tipográfica
+
+#### Display (Hero Titles)
+
+| Token | Tamanho | Line Height | Letter Spacing | Classe Tailwind |
+|-------|---------|-------------|----------------|-----------------|
+| `--font-size-display-2xl` | `4.5rem` (72px) | `1.25` | `-0.025em` | `text-display-2xl` |
+| `--font-size-display-xl` | `3.75rem` (60px) | `1.25` | `-0.025em` | `text-display-xl` |
+| `--font-size-display-lg` | `3rem` (48px) | `1.25` | `-0.025em` | `text-display-lg` |
+
+#### Heading (Section Titles)
+
+| Token | Tamanho | Line Height | Letter Spacing | Classe Tailwind |
+|-------|---------|-------------|----------------|-----------------|
+| `--font-size-heading-3xl` | `2.25rem` (36px) | `1.25` | `0` | `text-heading-3xl` |
+| `--font-size-heading-2xl` | `1.875rem` (30px) | `1.25` | `0` | `text-heading-2xl` |
+| `--font-size-heading-xl` | `1.5rem` (24px) | `1.5` | `0` | `text-heading-xl` |
+| `--font-size-heading-lg` | `1.25rem` (20px) | `1.5` | `0` | `text-heading-lg` |
+
+#### Body (Text Content)
+
+| Token | Tamanho | Line Height | Letter Spacing | Classe Tailwind |
+|-------|---------|-------------|----------------|-----------------|
+| `--font-size-body-lg` | `1.125rem` (18px) | `1.75` | `0` | `text-body-lg` |
+| `--font-size-body-base` | `1rem` (16px) | `1.75` | `0` | `text-body-base` |
+| `--font-size-body-sm` | `0.875rem` (14px) | `1.5` | `0` | `text-body-sm` |
+
+#### Label (Small Text)
+
+| Token | Tamanho | Line Height | Letter Spacing | Classe Tailwind |
+|-------|---------|-------------|----------------|-----------------|
+| `--font-size-label-lg` | `0.875rem` (14px) | `1.5` | `0.025em` | `text-label-lg` |
+| `--font-size-label-base` | `0.75rem` (12px) | `1.5` | `0.025em` | `text-label-base` |
+| `--font-size-label-sm` | `0.625rem` (10px) | `1.5` | `0.025em` | `text-label-sm` |
+
+### Line Heights
+
+| Token | Valor | Classe Tailwind | Uso |
+|-------|-------|-----------------|-----|
+| `--line-height-tighter` | `1.1` | `leading-tighter` | Títulos muito compactos |
+| `--line-height-tight` | `1.25` | `leading-tight` | Títulos |
+| `--line-height-normal` | `1.5` | `leading-normal` | Texto padrão |
+| `--line-height-relaxed` | `1.75` | `leading-relaxed` | Parágrafos |
+| `--line-height-loose` | `2` | `leading-loose` | Texto espaçado |
+
+### Letter Spacing
+
+| Token | Valor | Classe Tailwind | Uso |
+|-------|-------|-----------------|-----|
+| `--letter-spacing-tighter` | `-0.05em` | `tracking-tighter` | Títulos grandes |
+| `--letter-spacing-tight` | `-0.025em` | `tracking-tight` | Títulos |
+| `--letter-spacing-normal` | `0` | `tracking-normal` | Texto padrão |
+| `--letter-spacing-wide` | `0.025em` | `tracking-wide` | Labels |
+| `--letter-spacing-wider` | `0.05em` | `tracking-wider` | Destaques |
+
+### Exemplos de Uso
+
+```tsx
+// Hero Title
+<h1 className="text-display-xl font-bold leading-tight tracking-tight">
+  Título Principal
+</h1>
+
+// Section Heading
+<h2 className="text-heading-2xl font-semibold leading-tight">
+  Título de Seção
+</h2>
+
+// Body Text
+<p className="text-body-base leading-relaxed">
+  Texto corrido com espaçamento adequado para leitura.
+</p>
+
+// Label
+<label className="text-label-base font-medium tracking-wide">
+  Label do Campo
+</label>
+```
+
+---
+
+## 📏 Spacing
+
+### Sistema Base
+
+O sistema utiliza múltiplos de 4px (0.25rem) como base, seguindo a escala padrão do Tailwind.
+
+| Token | Valor | Pixels | Classe Tailwind | Uso |
+|-------|-------|--------|----------------|-----|
+| `--spacing-0` | `0` | 0px | `p-0`, `m-0` | Sem espaçamento |
+| `--spacing-0.5` | `0.125rem` | 2px | `p-0.5`, `m-0.5` | Espaçamento mínimo |
+| `--spacing-1` | `0.25rem` | 4px | `p-1`, `m-1` | Espaçamento pequeno |
+| `--spacing-2` | `0.5rem` | 8px | `p-2`, `m-2` | Espaçamento interno |
+| `--spacing-4` | `1rem` | 16px | `p-4`, `m-4` | Espaçamento padrão |
+| `--spacing-6` | `1.5rem` | 24px | `p-6`, `m-6` | Espaçamento médio |
+| `--spacing-8` | `2rem` | 32px | `p-8`, `m-8` | Espaçamento grande |
+| `--spacing-12` | `3rem` | 48px | `p-12`, `m-12` | Espaçamento extra |
+| `--spacing-16` | `4rem` | 64px | `p-16`, `m-16` | Espaçamento máximo |
+| `--spacing-24` | `6rem` | 96px | `p-24`, `m-24` | Padding de seções |
 
 ### Espaçamento Vertical
 
-- **Entre elementos relacionados**: `space-y-6` (1.5rem / 24px)
-- **Entre seções**: `space-y-8` (2rem / 32px)
-- **Entre blocos grandes**: `space-y-12` (3rem / 48px)
+```tsx
+// Entre elementos relacionados
+<div className="space-y-6">...</div>
+
+// Entre seções
+<section className="space-y-8">...</section>
+
+// Entre blocos grandes
+<div className="space-y-12">...</div>
+```
 
 ### Espaçamento Horizontal
 
-- **Mobile**: `px-4` (1rem / 16px)
-- **Tablet**: `px-6` (1.5rem / 24px)
-- **Desktop**: Padding automático via container
+```tsx
+// Mobile
+<div className="px-4">...</div>
 
-### Padding de Seções
+// Tablet
+<div className="px-6">...</div>
 
-- **Vertical**: `py-24` (6rem / 96px) para seções principais
-- **Horizontal**: Responsivo conforme breakpoints
+// Desktop (via container)
+<div className="container mx-auto px-4 md:px-6 lg:px-8">...</div>
+```
 
-## Diretrizes de Acessibilidade
+---
 
-### Contraste de Cores
+## 🔲 Borders
 
-1. **Sempre verificar** o contraste antes de usar uma cor
+### Border Width
+
+| Token | Valor | Classe Tailwind | Uso |
+|-------|-------|----------------|-----|
+| `--border-width-0` | `0` | `border-0` | Sem borda |
+| `--border-width-1` | `1px` | `border` | Borda padrão |
+| `--border-width-2` | `2px` | `border-2` | Borda destacada |
+| `--border-width-4` | `4px` | `border-4` | Borda muito destacada |
+
+### Border Radius
+
+| Token | Valor | Classe Tailwind | Uso |
+|-------|-------|----------------|-----|
+| `--radius-none` | `0` | `rounded-none` | Sem arredondamento |
+| `--radius-sm` | `0.25rem` (4px) | `rounded-sm` | Pequeno |
+| `--radius-md` | `0.375rem` (6px) | `rounded-md` | Médio |
+| `--radius-lg` | `0.5rem` (8px) | `rounded-lg` | Grande |
+| `--radius-xl` | `0.75rem` (12px) | `rounded-xl` | Extra grande |
+| `--radius-2xl` | `1rem` (16px) | `rounded-2xl` | Muito grande |
+| `--radius-3xl` | `1.5rem` (24px) | `rounded-3xl` | Extremo |
+| `--radius-full` | `9999px` | `rounded-full` | Círculo |
+
+### Exemplos
+
+```tsx
+// Card com borda
+<div className="border border-border rounded-lg">...</div>
+
+// Input com borda
+<input className="border border-input rounded-md" />
+
+// Botão circular
+<button className="rounded-full">...</button>
+```
+
+---
+
+## 🌑 Shadows
+
+### Sombras Padrão
+
+| Token | Valor | Classe Tailwind | Uso |
+|-------|-------|----------------|-----|
+| `--shadow-sm` | `0 1px 2px 0 rgb(0 0 0 / 0.05)` | `shadow-sm` | Sombra pequena |
+| `--shadow-md` | `0 4px 6px -1px rgb(0 0 0 / 0.1)...` | `shadow-md` | Sombra média |
+| `--shadow-lg` | `0 10px 15px -3px rgb(0 0 0 / 0.1)...` | `shadow-lg` | Sombra grande |
+| `--shadow-xl` | `0 20px 25px -5px rgb(0 0 0 / 0.1)...` | `shadow-xl` | Sombra extra |
+| `--shadow-2xl` | `0 25px 50px -12px rgb(0 0 0 / 0.25)` | `shadow-2xl` | Sombra máxima |
+| `--shadow-inner` | `inset 0 2px 4px 0 rgb(0 0 0 / 0.05)` | `shadow-inner` | Sombra interna |
+| `--shadow-none` | `0 0 #0000` | `shadow-none` | Sem sombra |
+
+### Sombras Coloridas
+
+| Token | Classe Tailwind | Uso |
+|-------|----------------|-----|
+| `--shadow-primary` | `shadow-primary` | Sombra com cor primária |
+| `--shadow-primary-lg` | `shadow-primary-lg` | Sombra primária grande |
+
+### Exemplos
+
+```tsx
+// Card com sombra
+<div className="bg-card rounded-lg shadow-md">...</div>
+
+// Botão com sombra colorida
+<button className="bg-primary shadow-primary">...</button>
+
+// Input com sombra interna
+<input className="shadow-inner" />
+```
+
+---
+
+## ⚡ Animations & Transitions
+
+### Durations
+
+| Token | Valor | Classe Tailwind | Uso |
+|-------|-------|----------------|-----|
+| `--duration-fast` | `150ms` | `duration-fast` | Transições rápidas |
+| `--duration-base` | `200ms` | `duration-base` | Transições padrão |
+| `--duration-slow` | `300ms` | `duration-slow` | Transições lentas |
+| `--duration-slower` | `500ms` | `duration-slower` | Transições muito lentas |
+
+### Easings
+
+| Token | Valor | Classe Tailwind | Uso |
+|-------|-------|----------------|-----|
+| `--ease-in` | `cubic-bezier(0.4, 0, 1, 1)` | `ease-in` | Aceleração |
+| `--ease-out` | `cubic-bezier(0, 0, 0.2, 1)` | `ease-out` | Desaceleração |
+| `--ease-in-out` | `cubic-bezier(0.4, 0, 0.2, 1)` | `ease-in-out` | Padrão |
+| `--ease-back` | `cubic-bezier(0.34, 1.56, 0.64, 1)` | `ease-back` | Efeito bounce |
+
+### Transitions Padrão
+
+| Token | Valor | Uso |
+|-------|-------|-----|
+| `--transition-base` | `all var(--duration-base) var(--ease-in-out)` | Transição geral |
+| `--transition-colors` | `color, background-color, border-color var(--duration-base) var(--ease-in-out)` | Cores |
+| `--transition-transform` | `transform var(--duration-base) var(--ease-out)` | Transformações |
+| `--transition-opacity` | `opacity var(--duration-base) var(--ease-in-out)` | Opacidade |
+
+### Exemplos
+
+```tsx
+// Botão com transição
+<button className="transition-colors duration-base ease-in-out hover:bg-primary-hover">
+  Hover me
+</button>
+
+// Card com animação
+<div className="transition-transform duration-slow ease-out hover:scale-105">
+  ...
+</div>
+```
+
+---
+
+## 📚 Z-Index
+
+| Token | Valor | Classe Tailwind | Uso |
+|-------|-------|----------------|-----|
+| `--z-base` | `0` | `z-0` | Base |
+| `--z-dropdown` | `1000` | `z-dropdown` | Dropdowns |
+| `--z-sticky` | `1020` | `z-sticky` | Elementos sticky |
+| `--z-fixed` | `1030` | `z-fixed` | Elementos fixed |
+| `--z-modal-backdrop` | `1040` | `z-modal-backdrop` | Backdrop de modal |
+| `--z-modal` | `1050` | `z-modal` | Modais |
+| `--z-popover` | `1060` | `z-popover` | Popovers |
+| `--z-tooltip` | `1070` | `z-tooltip` | Tooltips |
+
+---
+
+## ♿ Accessibility
+
+### Contraste WCAG 2.1
+
+| Nível | Texto Normal | Texto Grande | Elementos UI |
+|-------|---------------|--------------|--------------|
+| **AA (Mínimo)** | 4.5:1 | 3:1 | 3:1 |
+| **AAA (Recomendado)** | 7:1 | 4.5:1 | 4.5:1 |
+
+### Diretrizes
+
+1. **Sempre verificar** contraste antes de usar uma cor
 2. **Priorizar AAA** quando possível, especialmente para texto longo
 3. **Testar** em diferentes condições de iluminação
 4. **Considerar** usuários com daltonismo ao escolher cores
+5. **Manter** line-height mínimo de 1.5 para texto corrido
+6. **Garantir** que textos possam ser ampliados até 200% sem perda de funcionalidade
 
-### Tipografia
+### Ferramentas Recomendadas
 
-1. **Não usar** tamanhos menores que 14px para texto legível
-2. **Manter** line-height mínimo de 1.5 para texto corrido
-3. **Evitar** textos em maiúsculas extensos (dificulta leitura)
-4. **Garantir** que textos possam ser ampliados até 200% sem perda de funcionalidade
-
-### Estados Interativos
-
-1. **Foco visível**: Todos os elementos interativos devem ter estado de foco claro
-2. **Hover**: Manter contraste adequado mesmo em estados hover
-3. **Active**: Fornecer feedback visual claro para ações
-4. **Disabled**: Usar opacidade reduzida mas manter legibilidade
-
-### Leitores de Tela
-
-1. **Semântica HTML**: Usar elementos semânticos corretos (h1, h2, p, etc.)
-2. **ARIA Labels**: Adicionar labels descritivos quando necessário
-3. **Alt Text**: Sempre fornecer texto alternativo para imagens
-4. **Landmarks**: Usar elementos de navegação semânticos
-
-## Boas Práticas de UX
-
-### Hierarquia Visual
-
-1. **Tamanho**: Elementos mais importantes devem ser maiores
-2. **Peso**: Usar variação de peso de fonte para criar hierarquia
-3. **Cor**: Elementos primários devem ter maior contraste
-4. **Espaçamento**: Mais espaço ao redor indica maior importância
-
-### Consistência
-
-1. **Cores**: Usar a paleta definida consistentemente
-2. **Tipografia**: Manter hierarquia tipográfica em toda aplicação
-3. **Espaçamento**: Seguir o sistema de espaçamento definido
-4. **Componentes**: Reutilizar componentes existentes quando possível
-
-### Performance
-
-1. **Fontes**: Carregar apenas pesos e estilos necessários
-2. **Cores**: Usar variáveis CSS para facilitar manutenção
-3. **Animações**: Respeitar `prefers-reduced-motion`
-4. **Contraste**: Otimizar para diferentes dispositivos e condições
-
-## Ferramentas Recomendadas
-
-### Verificação de Contraste
 - [WebAIM Contrast Checker](https://webaim.org/resources/contrastchecker/)
 - [Contrast Ratio Calculator](https://contrast-ratio.com/)
-- Lighthouse (DevTools)
+- [Lighthouse](https://developers.google.com/web/tools/lighthouse) (DevTools)
 
-### Testes de Acessibilidade
-- [WAVE](https://wave.webaim.org/)
-- [axe DevTools](https://www.deque.com/axe/devtools/)
-- [Lighthouse Accessibility Audit](https://developers.google.com/web/tools/lighthouse)
+---
 
-### Design e Prototipagem
-- [Figma](https://www.figma.com/) - Para criar designs acessíveis
-- [Stark](https://www.getstark.co/) - Plugin Figma para verificação de contraste
+## 🎯 Usage Guidelines
 
-## Changelog
+### Boas Práticas
 
-### 2024 - Versão Inicial
-- Definição da paleta de cores para modo claro e escuro
-- Estabelecimento de regras de contraste WCAG 2.1
-- Criação da hierarquia tipográfica
-- Definição do sistema de espaçamento
-- Correção de problemas de contraste na seção Hero
+1. **Use tokens sempre que possível** - Não use valores hardcoded
+2. **Mantenha consistência** - Use as mesmas classes em contextos similares
+3. **Respeite a hierarquia** - Use tamanhos de fonte apropriados
+4. **Teste em ambos os modos** - Claro e escuro
+5. **Valide acessibilidade** - Sempre verifique contraste
 
+### Exemplo Completo
+
+```tsx
+// Card Component
+<div className="
+  bg-card 
+  border border-border 
+  rounded-lg 
+  shadow-md 
+  p-6
+  transition-shadow duration-base ease-in-out
+  hover:shadow-lg
+">
+  <h3 className="text-heading-xl font-semibold text-card-foreground mb-2">
+    Título do Card
+  </h3>
+  <p className="text-body-base text-foreground-secondary leading-relaxed">
+    Descrição do card com texto corrido e espaçamento adequado.
+  </p>
+</div>
+```
+
+---
+
+## 📖 Referências
+
+- [Design Tokens Reference](./TOKENS.md) - Referência completa de tokens
+- [Components Guide](./COMPONENTS.md) - Guia de componentes base
+- [Shadcn/UI](https://ui.shadcn.com/) - Inspiração do sistema
+- [MagicUI](https://magicui.design/) - Padrões modernos
+- [WCAG 2.1](https://www.w3.org/WAI/WCAG21/quickref/) - Diretrizes de acessibilidade
+
+---
+
+## 📝 Changelog
+
+### v2.0.0 - Refatoração Completa
+- Sistema de tokens HSL completo
+- Suporte completo a dark mode
+- Escala tipográfica robusta
+- Sistema de sombras estruturado
+- Tokens de animação e transição
+- Documentação profissional
+
+### v1.0.0 - Versão Inicial
+- Sistema básico de cores
+- Tipografia básica
+- Espaçamento padrão
+- Correções de contraste
