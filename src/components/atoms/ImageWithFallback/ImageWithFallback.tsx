@@ -184,7 +184,7 @@ const ImageWithFallback = ({
     >
       {!isLoaded && !error && (
         <div
-          className="absolute inset-0 bg-gray-200 dark:bg-gray-800 animate-pulse"
+          className="absolute inset-0 bg-muted animate-pulse"
           style={{
             background:
               'linear-gradient(90deg, rgba(0,0,0,0.03) 0%, rgba(0,0,0,0.06) 50%, rgba(0,0,0,0.03) 100%)',
@@ -218,11 +218,11 @@ const ImageWithFallback = ({
 
       {error && (
         <div
-          className="absolute inset-0 flex items-center justify-center bg-gray-900 bg-opacity-30 text-white text-xs"
+          className="absolute inset-0 flex items-center justify-center bg-foreground/30 text-foreground text-label-base"
           role="alert"
           aria-label="Imagem não disponível"
         >
-          <span>Imagem não disponível</span>
+          <span className="text-card-foreground">Imagem não disponível</span>
         </div>
       )}
 
