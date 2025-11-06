@@ -1,6 +1,6 @@
 import React, { memo } from 'react';
 import { HeroImageProps } from '@/types/heroTypes';
-import ImageWithFallback from '@/components/atoms/ImageWithFallback';
+import { ImageWithFallback } from '@/components/atoms/ImageWithFallback';
 
 /**
  * Componente para a imagem principal da seção Hero
