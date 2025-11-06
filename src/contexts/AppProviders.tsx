@@ -14,18 +14,18 @@ const ErrorFallback: React.FC<ErrorFallbackProps> = ({
   return (
     <div
       role="alert"
-      className="min-h-screen flex items-center justify-center bg-bg-light dark:bg-bg-dark p-4"
+      className="min-h-screen flex items-center justify-center bg-background p-4"
     >
       <div className="text-center max-w-md">
-        <h1 className="text-2xl font-bold text-text-dark dark:text-text-light mb-4">
+        <h1 className="text-heading-2xl font-bold text-foreground mb-4">
           Algo deu errado
         </h1>
-        <p className="text-text-dark dark:text-text-light mb-4">
+        <p className="text-body-base text-foreground mb-4">
           {error.message || 'Ocorreu um erro inesperado'}
         </p>
         <button
           onClick={resetErrorBoundary}
-          className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-primary"
+          className="px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary-hover focus:outline-none focus:ring-2 focus:ring-ring transition-colors duration-base ease-in-out"
           aria-label="Tentar novamente"
         >
           Tentar novamente

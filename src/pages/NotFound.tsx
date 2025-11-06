@@ -11,12 +11,12 @@ export const NotFound = memo(() => {
   });
 
   return (
-    <div className="min-h-screen bg-bg-light dark:bg-bg-dark flex items-center justify-center">
+    <div className="min-h-screen bg-background flex items-center justify-center">
       <div className="text-center">
-        <h1 className="text-6xl font-bold text-text-dark dark:text-text-light mb-4">
+        <h1 className="text-display-2xl font-bold text-foreground mb-4">
           404
         </h1>
-        <p className="text-xl text-text-dark dark:text-text-light mb-8">
+        <p className="text-heading-xl text-foreground mb-8">
           Página não encontrada
         </p>
         <Link to="/" aria-label="Voltar para a página inicial">

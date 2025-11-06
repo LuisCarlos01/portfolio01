@@ -40,11 +40,11 @@ export const Home = memo(() => {
   });
 
   return (
-    <div className="min-h-screen bg-bg-light dark:bg-bg-dark">
-      <header className="border-b border-border-color bg-card-bg sticky top-0 z-50">
+    <div className="min-h-screen bg-background">
+      <header className="border-b border-border bg-card text-card-foreground sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4">
           <nav className="flex items-center justify-between">
-            <h1 className="text-2xl font-bold text-text-dark dark:text-text-light">
+            <h1 className="text-heading-2xl font-bold text-card-foreground">
               Portfólio
             </h1>
             <div className="flex items-center gap-4">
@@ -71,65 +71,65 @@ export const Home = memo(() => {
 
         {/* Features Section */}
         <section className="mb-16">
-          <h3 className="text-3xl font-bold text-text-dark dark:text-text-light mb-8 text-center">
+          <h3 className="text-heading-3xl font-bold text-foreground mb-8 text-center">
             Tecnologias e Recursos Implementados
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <Card hover>
-              <h4 className="text-xl font-bold text-text-dark dark:text-text-light mb-2">
+              <h4 className="text-heading-xl font-bold text-card-foreground mb-2">
                 Atomic Design
               </h4>
-              <p className="text-text-dark dark:text-text-light">
+              <p className="text-body-base text-card-foreground">
                 Componentes organizados em atoms, molecules, organisms e
                 templates para máxima reutilização.
               </p>
             </Card>
 
             <Card hover>
-              <h4 className="text-xl font-bold text-text-dark dark:text-text-light mb-2">
+              <h4 className="text-heading-xl font-bold text-card-foreground mb-2">
                 TypeScript
               </h4>
-              <p className="text-text-dark dark:text-text-light">
+              <p className="text-body-base text-card-foreground">
                 Type safety completo em todo o projeto para maior confiabilidade
                 e manutenibilidade.
               </p>
             </Card>
 
             <Card hover>
-              <h4 className="text-xl font-bold text-text-dark dark:text-text-light mb-2">
+              <h4 className="text-heading-xl font-bold text-card-foreground mb-2">
                 Performance
               </h4>
-              <p className="text-text-dark dark:text-text-light">
+              <p className="text-body-base text-card-foreground">
                 Code splitting, lazy loading, PWA e otimizações de bundle para
                 carregamento rápido.
               </p>
             </Card>
 
             <Card hover>
-              <h4 className="text-xl font-bold text-text-dark dark:text-text-light mb-2">
+              <h4 className="text-heading-xl font-bold text-card-foreground mb-2">
                 Acessibilidade
               </h4>
-              <p className="text-text-dark dark:text-text-light">
+              <p className="text-body-base text-card-foreground">
                 WCAG 2.1 AA compliant com ARIA labels, navegação por teclado e
                 contraste adequado.
               </p>
             </Card>
 
             <Card hover>
-              <h4 className="text-xl font-bold text-text-dark dark:text-text-light mb-2">
+              <h4 className="text-heading-xl font-bold text-card-foreground mb-2">
                 SEO
               </h4>
-              <p className="text-text-dark dark:text-text-light">
+              <p className="text-body-base text-card-foreground">
                 Meta tags dinâmicas, structured data (JSON-LD) e sitemap para
                 melhor indexação.
               </p>
             </Card>
 
             <Card hover>
-              <h4 className="text-xl font-bold text-text-dark dark:text-text-light mb-2">
+              <h4 className="text-heading-xl font-bold text-card-foreground mb-2">
                 API Serverless
               </h4>
-              <p className="text-text-dark dark:text-text-light">
+              <p className="text-body-base text-card-foreground">
                 Formulário de contato com validação, rate limiting e integração
                 com Resend.
               </p>
@@ -138,9 +138,9 @@ export const Home = memo(() => {
         </section>
 
         {/* Contact Form Section */}
-        <section className="py-16 bg-card-bg">
+        <section className="py-16 bg-card text-card-foreground">
           <div className="container mx-auto px-4">
-            <h3 className="text-3xl font-bold text-text-dark dark:text-text-light mb-8 text-center">
+            <h3 className="text-heading-3xl font-bold text-card-foreground mb-8 text-center">
               Entre em Contato
             </h3>
             <div className="max-w-2xl mx-auto">
@@ -157,9 +157,9 @@ export const Home = memo(() => {
         </section>
 
         {/* Status Section */}
-        <section className="py-16 bg-bg-light dark:bg-bg-dark text-center">
+        <section className="py-16 bg-background text-center">
           <div className="container mx-auto px-4">
-            <h3 className="text-2xl font-bold text-text-dark dark:text-text-light mb-4">
+            <h3 className="text-heading-2xl font-bold text-foreground mb-4">
               Status do Projeto
             </h3>
             <div className="flex flex-wrap gap-2 justify-center">
@@ -174,9 +174,9 @@ export const Home = memo(() => {
         </section>
       </main>
 
-      <footer className="border-t border-border-color bg-card-bg mt-16">
+      <footer className="border-t border-border bg-card text-card-foreground mt-16">
         <div className="container mx-auto px-4 py-8 text-center">
-          <p className="text-text-dark dark:text-text-light">
+          <p className="text-body-base text-card-foreground">
             © 2024 Luis Carlos - Portfólio Modernizado
           </p>
         </div>
