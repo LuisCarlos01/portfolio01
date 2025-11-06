@@ -158,19 +158,30 @@ Ao migrar um componente, verifique:
 
 ### ✅ Seção About
 - [x] AboutHeader
+- [x] AboutContent
 - [x] AboutStats
-- [x] CategoryFilter (Skills)
-- [x] CategoryFilter (Portfolio)
+- [x] ServiceCard
+- [x] ServiceModal
+- [x] ServicesList
+- [x] index.tsx
 
-### ⏳ Componentes Pendentes
-- [ ] ServiceCard
-- [ ] ServiceModal
-- [ ] SkillCard
-- [ ] SkillDetailModal
-- [ ] ProjectCard
-- [ ] ProjectModal
-- [ ] ProjectsList
-- [ ] ServicesList
+### ✅ Seção Skills
+- [x] SkillCard
+- [x] SkillDetailModal
+- [x] CategoryFilter
+- [x] index.tsx
+
+### ✅ Seção Portfolio
+- [x] ProjectCard
+- [x] ProjectModal
+- [x] ProjectsList
+- [x] CategoryFilter
+- [x] index.tsx
+
+### ⏳ Componentes Opcionais (não críticos)
+- [ ] HeroImage (usa duration-500/700 para animações específicas - OK manter)
+- [ ] AboutImage (usa duration-500/700 para animações específicas - OK manter)
+- [ ] ImageWithFallback (componente de imagem - pode migrar depois)
 
 ## 🔍 Como Encontrar Componentes para Migrar
 

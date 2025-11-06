@@ -294,14 +294,14 @@ export const SkillDetailModal: React.FC<SkillDetailModalProps> = memo(({
                   </div>
                   <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent opacity-90"></div>
                   <div className="absolute bottom-0 left-0 p-4 w-full">
-                    <h5 className="text-white font-bold mb-2 group-hover:text-primary transition-colors duration-300">
+                    <h5 className="text-white font-bold mb-2 group-hover:text-primary transition-colors duration-base ease-in-out">
                       {project.title}
                     </h5>
                     <p className="text-body-sm text-foreground-secondary line-clamp-2 mb-3">
                       {project.description}
                     </p>
                     <div
-                      className="flex items-center justify-center text-xs font-medium px-3 py-1.5 rounded-full w-max text-white transition-transform duration-300 group-hover:scale-105"
+                      className="flex items-center justify-center text-xs font-medium px-3 py-1.5 rounded-full w-max text-white transition-transform duration-base ease-in-out group-hover:scale-105"
                       style={{ backgroundColor: skill.color }}
                     >
                       Ver Projeto{' '}
