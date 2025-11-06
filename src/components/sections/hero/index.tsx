@@ -199,7 +199,7 @@ export const HeroSection: React.FC = memo(() => {
     >
       <div className="container mx-auto max-w-6xl">
         <div className="flex flex-col md:flex-row items-center justify-between gap-12">
-          <div className="w-full md:w-3/5 space-y-6">
+          <div className="w-full md:w-3/5 space-y-8">
             <HeroTitle titleRef={titleRef} />
             <HeroSubtitle
               subtitleRef={subtitleRef}
