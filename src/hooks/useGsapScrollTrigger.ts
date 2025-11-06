@@ -145,16 +145,18 @@ export function useGsapScrollTrigger(
       // Resetar o ref apenas quando o componente desmontar completamente
       // Não resetar aqui para evitar retrigger durante re-renders
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     ref,
     prefersReducedMotion,
     opts.start,
     opts.once,
     opts.threshold,
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     opts.onEnter,
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     opts.onLeave,
+    // Nota: opts.onEnter e opts.onLeave são funções que podem mudar a cada render.
+    // Isso é intencional - permite que os callbacks sejam atualizados dinamicamente.
+    // O hook usa hasTriggeredRef para evitar re-execuções desnecessárias.
   ]);
 }
 
