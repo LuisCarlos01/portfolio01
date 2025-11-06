@@ -1,0 +1,118 @@
+---
+id: ui-ux-effects-expert
+title: "UI/UX + Efeitos — Regra para desenvolvedor expert (React)"
+version: 1.0.0
+summary: "Padrões e regras para um desenvolvedor especialista em UI/UX e efeitos que entregue interfaces visuais ricas, performáticas, acessíveis e compatíveis com React/TypeScript."
+author: "Equipe / Luis Carlos"
+license: "CC-BY-4.0"
+tags: ["ui-ux","animation","react","performance","accessibility","gsap","framer-motion"]
+---
+
+# Regra: UI/UX & Efeitos (React)
+
+## Objetivo
+Gerar e modificar componentes visuais que tragam **efeitos únicos e polidos** (animações, micro-interactions, transições) mantendo **performance**, **acessibilidade** e **manutenibilidade**. Todo código gerado deve ser compatível com **React + TypeScript**, seguir a arquitetura do projeto (atomic design) e ser validado por lint/tests/CI.
+
+---
+
+## Escopo
+- Componentes React/TSX (átomos → organisms) com animações.
+- Integração com bibliotecas de efeitos (GSAP, Framer Motion) e técnicas CSS (transforms, filters).
+- Estratégias de fallback (prefers-reduced-motion, imagens otimizadas).
+- Regras de performance, SEO e acessibilidade aplicáveis a efeitos visuais.
+- NÃO cobre: animações server-side (SSR-only) que causem layout shift severo sem prevenção.
+
+---
+
+## Principais regras (do / don't)
+### Obrigatório (do)
+- **Respeitar `prefers-reduced-motion`**: reduzir/omitir animações para usuários que pediram redução de movimento.
+- **Animações via GPU-friendly properties**: use `transform` e `opacity` sempre que possível; evite `top/left` para animações.
+- **Debounce/throttle** para listeners (scroll/resize/mousemove).
+- **Lazy-load** e otimização de assets (WebP, gráficos vetoriais quando possível).
+- **Isolar efeitos** em hooks (ex.: `useGsap`, `useEntranceAnimation`) ou em HOCs para reuso e testes.
+- **Limitar simultaneidade**: não iniciar >3 animações pesadas ao mesmo tempo na viewport.
+- **Graceful fallback**: se uma lib externa não estiver disponível, a UI continua usável (sem erro fatal).
+- **Acessibilidade**: todos controles animados devem ser navegáveis por teclado e possuir labels ARIA quando necessário.
+- **Documentar**: cada animação complexa precisa de comentário curto explicando intenção e performance trade-offs.
+
+### Proibido (don't)
+- Não usar animações que causem layout shift perceptível (grande CLS).
+- Não executar animações pesadas em mount sem lazy-loading progressivo.
+- Não usar `requestAnimationFrame` sem cancelamento apropriado no cleanup do hook.
+- Não embutir lógica de animação dentro de componentes de apresentação (separe em hooks/containers).
+
+---
+
+## Bibliotecas recomendadas (primária / backup) — versões sugeridas
+> Use as versões sugeridas como referência. Ajuste se seu projeto já padronizou outra versão.
+
+- **Primárias**
+  - `framer-motion` — *para animações declarativas, micro-interactions e layout animations.* (ex.: ^11.0.0)
+  - `gsap` — *para animações complexas/timelines e performance máxima.* (ex.: ^3.12.5)
+- **Complementares**
+  - `lottie-react` — animações vetoriais/exportadas do After Effects (Lottie).
+  - `locomotive-scroll` ou `smooth-scrollbar` — scroll smooth + parallax (usar com cuidado por performance).
+- **Utilitários**
+  - `intersection-observer` polyfill / usar native `IntersectionObserver` para lazy triggers.
+  - `usehooks-ts` (ou hooks próprios) para padrões reutilizáveis.
+
+**Alternativas**:
+- Se priorizar bundle pequeno → micro-animations + CSS transitions (sem framer/gsap).
+- Para SSR SEO-first sites → usar transições mais simples no cliente e placeholders server-side.
+
+---
+
+## Padrões React / Arquitetura (regras de implementação)
+1. **Atomic Design**: componentes animados devem ser implementados em `components/atoms` (micro-animation) ou `organisms` (timelines de seção).
+2. **Separation of concerns**:
+   - UI (markup + styles) em componente de apresentação.
+   - Lógica de animação em hook customizado: `useEntranceEffect`, `useParallax`, `useHoverMotion`.
+3. **Hooks de animação**:
+   - Recebem ref (`React.RefObject<HTMLElement>`), opções (duration, delay, ease) e dependências.
+   - Fazem cleanup no `useEffect` (ex.: `.kill()` em GSAP).
+4. **Server-side rendering**:
+   - Evitar chamadas diretas que acessam `window` na fase de render. Use guards (`if (typeof window !== 'undefined')`).
+5. **TypeScript**:
+   - Hooks e componentes devem ter tipagem explícita (props + retorno).
+6. **Testing**:
+   - Testes unitários para hooks com mocks de `IntersectionObserver` e mocks de timeline (para gsap).
+   - E2E para verificar comportamento visual-chave (ex.: o CTA aparece animado e é clicável).
+
+---
+
+## Exemplo prático — Hook `useGsapEntrance` + componente `Hero` (React + TSX)
+
+**Hook: `src/hooks/useGsapEntrance.ts`**
+```ts
+import { useEffect } from 'react';
+import gsap from 'gsap';
+
+type UseGsapOptions = {
+  stagger?: number;
+  from?: Record<string, any>;
+  to?: Record<string, any>;
+  delay?: number;
+};
+
+export function useGsapEntrance(ref: React.RefObject<HTMLElement>, opts: UseGsapOptions = {}) {
+  useEffect(() => {
+    if (!ref.current) return;
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      // No animation for reduced motion
+      return;
+    }
+
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        ref.current!.querySelectorAll('[data-anim]'),
+        { opacity: 0, y: 20, ...(opts.from || {}) },
+        { opacity: 1, y: 0, stagger: opts.stagger ?? 0.08, duration: 0.7, ease: 'power3.out', ...(opts.to || {}) }
+      );
+    }, ref.current);
+
+    return () => {
+      ctx.revert();
+    };
+  }, [ref, opts.stagger, opts.delay]);
+}

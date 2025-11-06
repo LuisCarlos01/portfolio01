@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect, memo } from 'react';
+import React, { useRef, useState, memo, useCallback } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { AboutHeader } from './AboutHeader';
@@ -9,10 +9,21 @@ import { ServicesList } from './ServicesList';
 import { ServiceModal } from './ServiceModal';
 import { Service } from '@/types/aboutTypes';
 import { services, statistics } from '@/data/aboutData';
+import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
+import { useGsapScrollTrigger } from '@/hooks/useGsapScrollTrigger';
 
-// Registrar ScrollTrigger
-gsap.registerPlugin(ScrollTrigger);
+// Registrar ScrollTrigger (apenas no cliente)
+if (typeof window !== 'undefined' && gsap && ScrollTrigger) {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
+/**
+ * Componente principal da seção About
+ *
+ * Performance: Usa transform (y, x, scale, rotate) e opacity (GPU-friendly)
+ * Acessibilidade: Respeita prefers-reduced-motion
+ * Cleanup: Faz cleanup automático das animações GSAP e ScrollTrigger
+ */
 export const AboutSection: React.FC = memo(() => {
   // Refs para os elementos da seção
   const sectionRef = useRef<HTMLElement>(null);
@@ -26,11 +37,34 @@ export const AboutSection: React.FC = memo(() => {
   const [hoveredService, setHoveredService] = useState<number | null>(null);
   const [selectedService, setSelectedService] = useState<Service | null>(null);
 
-  // Função para animar as estatísticas
-  const animateStats = () => {
+  // Hook para verificar prefers-reduced-motion
+  const prefersReducedMotion = usePrefersReducedMotion();
+
+  // Função para animar as estatísticas (respeitando prefers-reduced-motion)
+  const animateStats = useCallback(() => {
+    // Guard para SSR
+    if (typeof window === 'undefined') return;
+
     if (!statsRef.current) return;
 
-    // Animar os cards de estatísticas
+    // Graceful fallback ou prefers-reduced-motion
+    if (!gsap || prefersReducedMotion) {
+      const statItems = statsRef.current.querySelectorAll('.stat-item');
+      const statValues = statsRef.current.querySelectorAll('.stat-value');
+
+      statItems.forEach((el) => {
+        (el as HTMLElement).style.opacity = '1';
+        (el as HTMLElement).style.transform = 'none';
+      });
+
+      statValues.forEach((el) => {
+        const target = parseInt(el.getAttribute('data-value') || '0');
+        el.textContent = target.toString();
+      });
+      return;
+    }
+
+    // Animar os cards de estatísticas (usando transform e opacity - GPU-friendly)
     gsap.fromTo(
       statsRef.current.querySelectorAll('.stat-item'),
       {
@@ -80,12 +114,26 @@ export const AboutSection: React.FC = memo(() => {
         },
       }
     );
-  };
+  }, [prefersReducedMotion]);
 
-  // Função para animar os cards de serviços
-  const animateServiceCards = () => {
+  // Função para animar os cards de serviços (respeitando prefers-reduced-motion)
+  const animateServiceCards = useCallback(() => {
+    // Guard para SSR
+    if (typeof window === 'undefined') return;
+
     if (!servicesRef.current) return;
 
+    // Graceful fallback ou prefers-reduced-motion
+    if (!gsap || prefersReducedMotion) {
+      const serviceCards = servicesRef.current.querySelectorAll('.service-card');
+      serviceCards.forEach((el) => {
+        (el as HTMLElement).style.opacity = '1';
+        (el as HTMLElement).style.transform = 'none';
+      });
+      return;
+    }
+
+    // Animar cards usando transform e opacity (GPU-friendly)
     gsap.fromTo(
       servicesRef.current.querySelectorAll('.service-card'),
       {
@@ -102,7 +150,7 @@ export const AboutSection: React.FC = memo(() => {
         ease: 'back.out(1.2)',
       }
     );
-  };
+  }, [prefersReducedMotion]);
 
   // Função para lidar com hover nos serviços
   const handleServiceHover = (index: number | null) => {
@@ -119,80 +167,97 @@ export const AboutSection: React.FC = memo(() => {
     setSelectedService(null);
   };
 
-  // Efeito para iniciar animações quando a seção ficar visível
-  useEffect(() => {
-    if (sectionRef.current) {
-      // Detectar quando a seção fica visível na tela
-      const scrollTrigger = ScrollTrigger.create({
-        trigger: sectionRef.current,
-        start: 'top 70%',
-        onEnter: () => {
-          // Animar título
-          gsap.fromTo(
-            titleRef.current,
-            {
-              opacity: 0,
-              y: 30,
-            },
-            {
-              opacity: 1,
-              y: 0,
-              duration: 0.7,
-              ease: 'power3.out',
-            }
-          );
+  // Usar hook customizado para ScrollTrigger
+  useGsapScrollTrigger(sectionRef, {
+    start: 'top 70%',
+    once: true,
+    onEnter: () => {
+      // Guard para SSR
+      if (typeof window === 'undefined') return;
 
-          // Animar imagem com efeito de revelação
-          gsap.fromTo(
-            imageRef.current,
-            {
-              opacity: 0,
-              scale: 0.9,
-              rotate: -5,
-            },
-            {
-              opacity: 1,
-              scale: 1,
-              rotate: 0,
-              duration: 0.8,
-              ease: 'back.out(1.7)',
-            }
-          );
+      // Graceful fallback ou prefers-reduced-motion
+      if (!gsap || prefersReducedMotion) {
+        // Apenas mostrar elementos sem animação
+        if (titleRef.current) {
+          titleRef.current.style.opacity = '1';
+          titleRef.current.style.transform = 'none';
+        }
+        if (imageRef.current) {
+          imageRef.current.style.opacity = '1';
+          imageRef.current.style.transform = 'none';
+        }
+        if (contentRef.current) {
+          const elements = contentRef.current.querySelectorAll('p, h3, a');
+          elements.forEach((el) => {
+            (el as HTMLElement).style.opacity = '1';
+            (el as HTMLElement).style.transform = 'none';
+          });
+        }
+        animateStats();
+        animateServiceCards();
+        return;
+      }
 
-          // Animar conteúdo com efeito de deslizamento
-          if (contentRef.current) {
-            const elements = contentRef.current.querySelectorAll('p, h3, a');
-            if (elements.length > 0) {
-              gsap.fromTo(
-                elements,
-                {
-                  opacity: 0,
-                  x: -30,
-                },
-                {
-                  opacity: 1,
-                  x: 0,
-                  stagger: 0.15,
-                  duration: 0.6,
-                  ease: 'power2.out',
-                }
-              );
-            }
-          }
-
-          // Animar estatísticas
-          animateStats();
-
-          // Animar cards de serviços
-          animateServiceCards();
+      // Animar título (usando transform e opacity - GPU-friendly)
+      gsap.fromTo(
+        titleRef.current,
+        {
+          opacity: 0,
+          y: 30,
         },
-      });
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.7,
+          ease: 'power3.out',
+        }
+      );
 
-      return () => {
-        scrollTrigger.kill();
-      };
-    }
-  }, []);
+      // Animar imagem com efeito de revelação (usando transform - GPU-friendly)
+      gsap.fromTo(
+        imageRef.current,
+        {
+          opacity: 0,
+          scale: 0.9,
+          rotate: -5,
+        },
+        {
+          opacity: 1,
+          scale: 1,
+          rotate: 0,
+          duration: 0.8,
+          ease: 'back.out(1.7)',
+        }
+      );
+
+      // Animar conteúdo com efeito de deslizamento (usando transform - GPU-friendly)
+      if (contentRef.current) {
+        const elements = contentRef.current.querySelectorAll('p, h3, a');
+        if (elements.length > 0) {
+          gsap.fromTo(
+            elements,
+            {
+              opacity: 0,
+              x: -30,
+            },
+            {
+              opacity: 1,
+              x: 0,
+              stagger: 0.15,
+              duration: 0.6,
+              ease: 'power2.out',
+            }
+          );
+        }
+      }
+
+      // Animar estatísticas
+      animateStats();
+
+      // Animar cards de serviços
+      animateServiceCards();
+    },
+  });
 
   return (
     <section

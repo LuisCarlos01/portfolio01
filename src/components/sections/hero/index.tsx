@@ -13,9 +13,14 @@ import {
   socialLinks,
 } from '@/data/heroData';
 import { logger } from '@/utils/logger';
+import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 
 /**
  * Componente principal da seção Hero que integra todos os componentes menores
+ *
+ * Performance: Usa transform (y) e opacity (GPU-friendly)
+ * Acessibilidade: Respeita prefers-reduced-motion
+ * Cleanup: Faz cleanup automático das animações GSAP
  */
 export const HeroSection: React.FC = memo(() => {
   // Refs para animações
@@ -26,6 +31,7 @@ export const HeroSection: React.FC = memo(() => {
   const socialRef = useRef<HTMLDivElement>(null);
   const scrollIconRef = useRef<HTMLDivElement>(null);
   const typedRef = useRef<HTMLSpanElement>(null);
+  const prefersReducedMotion = usePrefersReducedMotion();
 
   // Efeito para garantir visibilidade da seção hero
   useEffect(() => {
@@ -37,11 +43,48 @@ export const HeroSection: React.FC = memo(() => {
     }
   }, []);
 
-  // Animações GSAP
+  // Animações GSAP (respeitando prefers-reduced-motion)
   useEffect(() => {
+    // Guard para SSR
+    if (typeof window === 'undefined') return;
+
+    // Graceful fallback se GSAP não estiver disponível
+    if (!gsap) {
+      // Apenas mostrar elementos sem animação
+      const elements = [
+        titleRef.current,
+        subtitleRef.current,
+        contentRef.current,
+        socialRef.current,
+      ].filter(Boolean) as HTMLElement[];
+
+      elements.forEach((el) => {
+        el.style.opacity = '1';
+        el.style.transform = 'none';
+      });
+      return;
+    }
+
+    // Respeitar prefers-reduced-motion
+    if (prefersReducedMotion) {
+      // Sem animação: apenas mostrar elementos
+      const elements = [
+        titleRef.current,
+        subtitleRef.current,
+        contentRef.current,
+        socialRef.current,
+      ].filter(Boolean) as HTMLElement[];
+
+      elements.forEach((el) => {
+        el.style.opacity = '1';
+        el.style.transform = 'none';
+      });
+      return;
+    }
+
     const tl = gsap.timeline();
 
-    // Definir estado inicial
+    // Definir estado inicial (usando transform e opacity - GPU-friendly)
     gsap.set(
       [
         titleRef.current,
@@ -51,11 +94,11 @@ export const HeroSection: React.FC = memo(() => {
       ],
       {
         opacity: 0,
-        y: 30,
+        y: 30, // Usar transform: translateY ao invés de top
       }
     );
 
-    // Sequência de animação
+    // Sequência de animação (usando transform e opacity)
     tl.to(titleRef.current, {
       opacity: 1,
       y: 0,
@@ -94,8 +137,8 @@ export const HeroSection: React.FC = memo(() => {
         '-=0.5'
       );
 
-    // Animação do ícone de scroll
-    gsap.to(scrollIconRef.current, {
+    // Animação do ícone de scroll (usando transform - GPU-friendly)
+    const scrollAnimation = gsap.to(scrollIconRef.current, {
       y: 15,
       duration: 1.5,
       repeat: -1,
@@ -105,8 +148,9 @@ export const HeroSection: React.FC = memo(() => {
 
     return () => {
       tl.kill();
+      scrollAnimation.kill();
     };
-  }, []);
+  }, [prefersReducedMotion]);
 
   // Função para rolar para a próxima seção
   const handleScrollToNext = () => {

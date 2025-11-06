@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef, memo, useCallback } from 'react';
 import { gsap } from 'gsap';
+import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 
 interface PreloaderProps {
   onComplete: () => void;
@@ -20,26 +21,58 @@ const greetings = [
   { text: 'नमस्ते', language: 'Hindi' },
 ];
 
+/**
+ * Componente Preloader com animações GSAP
+ * Respeita prefers-reduced-motion e usa propriedades GPU-friendly
+ *
+ * Performance: Usa transform e opacity (GPU-friendly)
+ * Acessibilidade: Respeita prefers-reduced-motion
+ */
 export const Preloader: React.FC<PreloaderProps> = memo(({ onComplete }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const preloaderRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLDivElement>(null);
   const languageRef = useRef<HTMLDivElement>(null);
   const spinnerRef = useRef<HTMLDivElement>(null);
+  const prefersReducedMotion = usePrefersReducedMotion();
 
   // Animar saída do preloader
   const animatePreloaderExit = useCallback(() => {
-    if (preloaderRef.current) {
-      gsap.to(preloaderRef.current, {
-        opacity: 0,
-        duration: 0.8,
-        ease: 'power2.inOut',
-        onComplete: () => {
-          onComplete();
-        },
-      });
+    // Guard para SSR
+    if (typeof window === 'undefined') {
+      onComplete();
+      return;
     }
-  }, [onComplete]);
+
+    if (!preloaderRef.current) {
+      onComplete();
+      return;
+    }
+
+    // Graceful fallback se GSAP não estiver disponível
+    if (!gsap) {
+      preloaderRef.current.style.opacity = '0';
+      setTimeout(() => onComplete(), 100);
+      return;
+    }
+
+    // Respeitar prefers-reduced-motion
+    if (prefersReducedMotion) {
+      preloaderRef.current.style.opacity = '0';
+      setTimeout(() => onComplete(), 100);
+      return;
+    }
+
+    // Animar saída usando transform e opacity (GPU-friendly)
+    gsap.to(preloaderRef.current, {
+      opacity: 0,
+      duration: 0.8,
+      ease: 'power2.inOut',
+      onComplete: () => {
+        onComplete();
+      },
+    });
+  }, [onComplete, prefersReducedMotion]);
 
   // Rotacionar saudações a cada 800ms
   useEffect(() => {
@@ -50,9 +83,24 @@ export const Preloader: React.FC<PreloaderProps> = memo(({ onComplete }) => {
     return () => clearInterval(interval);
   }, []);
 
-  // Animar texto a cada mudança
+  // Animar texto a cada mudança (respeitando prefers-reduced-motion)
   useEffect(() => {
+    // Guard para SSR
+    if (typeof window === 'undefined') return;
+
+    // Graceful fallback ou prefers-reduced-motion
+    if (!gsap || prefersReducedMotion) {
+      if (textRef.current && languageRef.current) {
+        textRef.current.style.opacity = '1';
+        textRef.current.style.transform = 'none';
+        languageRef.current.style.opacity = '0.6';
+        languageRef.current.style.transform = 'none';
+      }
+      return;
+    }
+
     if (textRef.current && languageRef.current) {
+      // Usar transform (y) e opacity (GPU-friendly)
       gsap.fromTo(
         textRef.current,
         { opacity: 0, y: 20 },
@@ -65,19 +113,36 @@ export const Preloader: React.FC<PreloaderProps> = memo(({ onComplete }) => {
         { opacity: 0.6, y: 0, duration: 0.5, delay: 0.1, ease: 'power2.out' }
       );
     }
-  }, [currentIndex]);
+  }, [currentIndex, prefersReducedMotion]);
 
-  // Animar spinner
+  // Animar spinner (respeitando prefers-reduced-motion)
   useEffect(() => {
+    // Guard para SSR
+    if (typeof window === 'undefined') return;
+
+    // Graceful fallback ou prefers-reduced-motion
+    if (!gsap || prefersReducedMotion) {
+      if (spinnerRef.current) {
+        // Apenas mostrar spinner sem rotação
+        spinnerRef.current.style.opacity = '1';
+      }
+      return;
+    }
+
     if (spinnerRef.current) {
-      gsap.to(spinnerRef.current, {
+      // Usar transform: rotate (GPU-friendly)
+      const animation = gsap.to(spinnerRef.current, {
         rotation: 360,
         duration: 1,
         repeat: -1,
         ease: 'none',
       });
+
+      return () => {
+        animation.kill();
+      };
     }
-  }, []);
+  }, [prefersReducedMotion]);
 
   // Finalizar preloader após 2.5 segundos
   useEffect(() => {
