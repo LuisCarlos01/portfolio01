@@ -132,20 +132,26 @@ async function sendEmail({
   // Se RESEND_API_KEY estiver configurado, usar Resend
   if (process.env.RESEND_API_KEY) {
     try {
-      const resend = await import('resend');
-      const resendClient = new resend.Resend(process.env.RESEND_API_KEY);
+      const { Resend } = await import('resend');
+      const resend = new Resend(process.env.RESEND_API_KEY);
 
-      await resendClient.emails.send({
+      const { error } = await resend.emails.send({
         from,
         to,
         subject,
         html,
       });
 
+      if (error) {
+        // eslint-disable-next-line no-console
+        console.error('Resend error:', error);
+        return false;
+      }
+
       return true;
     } catch (error) {
       // eslint-disable-next-line no-console
-      console.error('Resend error:', error);
+      console.error('Resend import/execution error:', error);
       return false;
     }
   }
