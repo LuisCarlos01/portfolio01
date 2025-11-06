@@ -17,10 +17,10 @@ export const CategoryFilter: React.FC<CategoryFilterProps> = memo(({
       {categories.map((category) => (
         <button
           key={category.id}
-          className={`category-button px-4 py-2 rounded-full transition-all duration-300 ${
+          className={`category-button px-4 py-2 rounded-full transition-all duration-base ease-in-out ${
             activeCategory === category.id
-              ? 'bg-primary text-white'
-              : 'bg-card-bg dark:bg-card-bg text-text-dark dark:text-text-light hover:bg-primary hover:bg-opacity-10'
+              ? 'bg-primary text-primary-foreground'
+              : 'bg-card text-card-foreground hover:bg-primary hover:bg-opacity-10'
           }`}
           onClick={() => onChange(category.id)}
           aria-pressed={activeCategory === category.id}

@@ -24,12 +24,12 @@ export const CategoryFilter: React.FC<CategoryFilterProps> = memo(({
       {categories.map((category) => (
         <button
           key={category.id}
-          className={`category-button px-6 py-2 rounded-full transition-all duration-300 
-            transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2
+          className={`category-button px-6 py-2 rounded-full transition-all duration-base ease-in-out 
+            transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2
             ${
               activeCategory === category.id
-                ? 'bg-primary text-white shadow-lg scale-105'
-                : 'bg-card-bg dark:bg-card-bg text-text-dark dark:text-text-light hover:bg-primary hover:bg-opacity-10'
+                ? 'bg-primary text-primary-foreground shadow-lg scale-105'
+                : 'bg-card text-card-foreground hover:bg-primary hover:bg-opacity-10'
             }`}
           onClick={() => onChange(category.id)}
           onKeyDown={(e) => {

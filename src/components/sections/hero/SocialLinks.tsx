@@ -16,7 +16,7 @@ export const SocialLinks: React.FC<SocialLinksProps> = memo(({
           href={link.url}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors duration-300"
+          className="text-foreground-secondary hover:text-primary transition-colors duration-base ease-in-out"
           aria-label={link.ariaLabel}
         >
           {link.icon}
