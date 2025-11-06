@@ -36,7 +36,7 @@ export const ServiceCard: React.FC<ServiceCardProps> = memo(({
       <h4 className="text-xl font-bold mb-3 text-text-dark dark:text-text-light">
         {service.title}
       </h4>
-      <p className="text-text-dark dark:text-text-light opacity-80">
+      <p className="text-gray-700 dark:text-gray-300">
         {service.description.substring(0, 100)}
         {service.description.length > 100 ? '...' : ''}
       </p>

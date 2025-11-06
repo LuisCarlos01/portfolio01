@@ -101,7 +101,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = memo(({
         <h3 className="text-xl font-bold mb-2 text-text-dark dark:text-text-light">
           {project.title}
         </h3>
-        <p className="text-sm text-text-dark dark:text-text-light opacity-80 mb-4 line-clamp-2">
+        <p className="text-sm text-gray-700 dark:text-gray-300 mb-4 line-clamp-2 leading-relaxed">
           {project.description}
         </p>
 

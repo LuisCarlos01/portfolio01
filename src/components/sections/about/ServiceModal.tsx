@@ -116,7 +116,7 @@ export const ServiceModal: React.FC<ServiceModalProps> = memo(({
         <div className="mb-8">
           <p
             id="service-modal-description"
-            className="text-text-dark dark:text-text-light opacity-80 leading-relaxed"
+            className="text-gray-700 dark:text-gray-300 leading-relaxed"
           >
             {service.description}
           </p>
@@ -139,7 +139,7 @@ export const ServiceModal: React.FC<ServiceModalProps> = memo(({
                 >
                   <FaLightbulb />
                 </span>
-                <p className="text-text-dark dark:text-text-light opacity-80">
+                <p className="text-gray-700 dark:text-gray-300">
                   {item}
                 </p>
               </li>

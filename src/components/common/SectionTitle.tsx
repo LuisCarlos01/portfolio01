@@ -42,7 +42,7 @@ export const SectionTitle = forwardRef<HTMLHeadingElement, SectionTitleProps>(
 
         {subtitle && (
           <p
-            className={`text-lg mb-2 text-text-dark dark:text-text-light opacity-80 max-w-3xl mx-auto ${subtitleClassName}`}
+            className={`text-lg mb-2 text-gray-700 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed ${subtitleClassName}`}
           >
             {subtitle}
           </p>

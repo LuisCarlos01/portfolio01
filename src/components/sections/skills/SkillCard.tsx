@@ -55,7 +55,7 @@ export const SkillCard: React.FC<SkillCardProps> = memo(({
           <h3 className="text-lg font-bold text-text-dark dark:text-text-light">
             {skill.name}
           </h3>
-          <p className="text-sm text-text-dark dark:text-text-light opacity-70">
+          <p className="text-sm text-gray-700 dark:text-gray-300">
             {skill.category === 'frontend'
               ? 'Frontend'
               : skill.category === 'backend'
@@ -76,7 +76,7 @@ export const SkillCard: React.FC<SkillCardProps> = memo(({
         ></div>
       </div>
 
-      <p className="text-right text-sm mt-1 text-text-dark dark:text-text-light opacity-70">
+      <p className="text-right text-sm mt-1 text-gray-700 dark:text-gray-300">
         {skill.level}%
       </p>
     </div>

@@ -254,7 +254,7 @@ export const SkillDetailModal: React.FC<SkillDetailModalProps> = memo(({
                 <div className="text-lg font-medium mb-1 group-hover:text-primary transition-colors text-text-dark dark:text-text-light">
                   {area.title}
                 </div>
-                <p className="text-text-dark dark:text-text-light text-sm opacity-80">
+                <p className="text-gray-700 dark:text-gray-300 text-sm">
                   {area.description}
                 </p>
               </div>
@@ -297,7 +297,7 @@ export const SkillDetailModal: React.FC<SkillDetailModalProps> = memo(({
                     <h5 className="text-white font-bold mb-2 group-hover:text-primary transition-colors duration-300">
                       {project.title}
                     </h5>
-                    <p className="text-gray-300 text-sm line-clamp-2 mb-3">
+                    <p className="text-gray-700 dark:text-gray-300 text-sm line-clamp-2 mb-3">
                       {project.description}
                     </p>
                     <div

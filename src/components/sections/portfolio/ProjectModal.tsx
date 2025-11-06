@@ -176,7 +176,7 @@ export const ProjectModal: React.FC<ProjectModalProps> = memo(({
               <h3 className="text-lg font-semibold mb-2 text-text-dark dark:text-text-light">
                 Sobre o Projeto
               </h3>
-              <p className="text-text-dark dark:text-text-light opacity-90 leading-relaxed">
+              <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
                 {project.description}
               </p>
             </div>

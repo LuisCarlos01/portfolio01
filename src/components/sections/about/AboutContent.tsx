@@ -14,19 +14,19 @@ export const AboutContent: React.FC<AboutContentProps> = memo(({
         Desenvolvedor Frontend & Fullstack
       </h3>
 
-      <p className="mb-4">
+      <p className="mb-4 leading-relaxed">
         Olá! Sou Luis Carlos, um desenvolvedor apaixonado por criar experiências
         web únicas e soluções tecnológicas que resolvem problemas reais.
       </p>
 
-      <p className="mb-4">
+      <p className="mb-4 leading-relaxed">
         Com mais de 3 anos de experiência no desenvolvimento web, tenho me
         especializado em React, TypeScript e construção de interfaces modernas e
         acessíveis, sempre buscando as melhores práticas e padrões para entregar
         código de qualidade.
       </p>
 
-      <p className="mb-8">
+      <p className="mb-8 leading-relaxed">
         Minha abordagem combina habilidades técnicas com uma forte atenção para
         UX/UI, garantindo que as aplicações não sejam apenas funcionais, mas
         também intuitivas e agradáveis para o usuário.
