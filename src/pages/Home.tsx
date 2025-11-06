@@ -1,9 +1,9 @@
 import { memo } from 'react';
 import { useSEO } from '@/hooks/useSEO';
 import { useStructuredData } from '@/hooks/useStructuredData';
+import { HeroSection } from '@/components/sections/hero';
 import { ContactForm } from '@/components/organisms/ContactForm';
 import { Card } from '@/components/molecules/Card';
-import { Button } from '@/components/atoms/Button';
 import { Badge } from '@/components/atoms/Badge';
 import { ThemeToggle } from '@/components/common/ThemeToggle';
 
@@ -38,7 +38,7 @@ export const Home = memo(() => {
 
   return (
     <div className="min-h-screen bg-bg-light dark:bg-bg-dark">
-      <header className="border-b border-border-color bg-card-bg">
+      <header className="border-b border-border-color bg-card-bg sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4">
           <nav className="flex items-center justify-between">
             <h1 className="text-2xl font-bold text-text-dark dark:text-text-light">
@@ -53,26 +53,9 @@ export const Home = memo(() => {
         </div>
       </header>
 
-      <main className="container mx-auto px-4 py-8">
+      <main>
         {/* Hero Section */}
-        <section className="mb-16 text-center">
-          <h2 className="text-5xl font-bold text-text-dark dark:text-text-light mb-4">
-            Bem-vindo ao Portfólio Modernizado
-          </h2>
-          <p className="text-xl text-text-dark dark:text-text-light mb-8 max-w-2xl mx-auto">
-            Este projeto foi modernizado seguindo as melhores práticas de
-            desenvolvimento, incluindo Atomic Design, TypeScript, e arquitetura
-            escalável.
-          </p>
-          <div className="flex gap-4 justify-center">
-            <Button variant="primary" size="lg">
-              Ver Projetos
-            </Button>
-            <Button variant="secondary" size="lg">
-              Contato
-            </Button>
-          </div>
-        </section>
+        <HeroSection />
 
         {/* Features Section */}
         <section className="mb-16">
@@ -143,34 +126,38 @@ export const Home = memo(() => {
         </section>
 
         {/* Contact Form Section */}
-        <section className="mb-16">
-          <h3 className="text-3xl font-bold text-text-dark dark:text-text-light mb-8 text-center">
-            Entre em Contato
-          </h3>
-          <div className="max-w-2xl mx-auto">
-            <Card>
-              <ContactForm
-                onSubmit={(result) => {
-                  // eslint-disable-next-line no-console
-                  console.log('Form submitted:', result);
-                }}
-              />
-            </Card>
+        <section className="py-16 bg-card-bg">
+          <div className="container mx-auto px-4">
+            <h3 className="text-3xl font-bold text-text-dark dark:text-text-light mb-8 text-center">
+              Entre em Contato
+            </h3>
+            <div className="max-w-2xl mx-auto">
+              <Card>
+                <ContactForm
+                  onSubmit={(result) => {
+                    // eslint-disable-next-line no-console
+                    console.log('Form submitted:', result);
+                  }}
+                />
+              </Card>
+            </div>
           </div>
         </section>
 
         {/* Status Section */}
-        <section className="text-center">
-          <h3 className="text-2xl font-bold text-text-dark dark:text-text-light mb-4">
-            Status do Projeto
-          </h3>
-          <div className="flex flex-wrap gap-2 justify-center">
-            <Badge variant="success">Sprint 0: Concluído</Badge>
-            <Badge variant="success">Sprint 1: Concluído</Badge>
-            <Badge variant="success">Sprint 2: Concluído</Badge>
-            <Badge variant="success">Sprint 3: Concluído</Badge>
-            <Badge variant="success">Sprint 4: Concluído</Badge>
-            <Badge variant="primary">Sprint 5: Em andamento</Badge>
+        <section className="py-16 bg-bg-light dark:bg-bg-dark text-center">
+          <div className="container mx-auto px-4">
+            <h3 className="text-2xl font-bold text-text-dark dark:text-text-light mb-4">
+              Status do Projeto
+            </h3>
+            <div className="flex flex-wrap gap-2 justify-center">
+              <Badge variant="success">Sprint 0: Concluído</Badge>
+              <Badge variant="success">Sprint 1: Concluído</Badge>
+              <Badge variant="success">Sprint 2: Concluído</Badge>
+              <Badge variant="success">Sprint 3: Concluído</Badge>
+              <Badge variant="success">Sprint 4: Concluído</Badge>
+              <Badge variant="primary">Sprint 5: Em andamento</Badge>
+            </div>
           </div>
         </section>
       </main>
