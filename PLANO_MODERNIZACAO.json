@@ -1,0 +1,848 @@
+{
+  "summary": "Este plano propõe a modernização do portfólio mantendo a identidade visual e funcionalidades existentes, mas elevando a qualidade técnica através de melhorias arquiteturais, padrões de código mais robustos, otimizações de performance e uma stack tecnológica atualizada. O projeto atual já possui uma base sólida com React 19, TypeScript, Vite e estrutura modular, mas pode se beneficiar de melhorias em gerenciamento de estado, testes, acessibilidade, SEO e CI/CD. A estratégia de migração será incremental, permitindo deploy contínuo sem downtime.",
+  "current_evaluation": {
+    "problems": [
+      "Gerenciamento de estado fragmentado: uso misto de Context API e useState local sem padrão claro",
+      "Falta de testes E2E: apenas testes unitários básicos com Vitest",
+      "Formulário de contato sem integração real: apenas simulação de envio",
+      "SEO limitado: falta de meta tags dinâmicas, sitemap e structured data",
+      "Acessibilidade incompleta: falta de ARIA labels, navegação por teclado e contraste adequado",
+      "Performance: imagens não otimizadas (sem lazy loading avançado, WebP, ou CDN)",
+      "CI/CD ausente: não há pipeline automatizado de deploy",
+      "PWA não implementado: falta service worker e manifest.json",
+      "Falta de monitoramento: sem analytics ou error tracking",
+      "Dependências desatualizadas: algumas libs podem ter versões mais recentes estáveis"
+    ],
+    "strengths": [
+      "Arquitetura modular bem organizada: separação clara entre components, hooks, data e types",
+      "TypeScript bem implementado: tipagem consistente em toda aplicação",
+      "Estrutura de pastas escalável: fácil adicionar novas seções e componentes",
+      "Lazy loading implementado: componentes carregados sob demanda",
+      "Sistema de estilos organizado: Tailwind + CSS customizado bem estruturado",
+      "Hooks personalizados reutilizáveis: boa separação de lógica de negócio",
+      "Animações performáticas: uso adequado de GSAP",
+      "Responsividade: design adaptável a diferentes dispositivos",
+      "Tema escuro/claro: sistema de temas funcional",
+      "Código limpo: componentes pequenos e focados (SRP respeitado)"
+    ]
+  },
+  "decision_logic": {
+    "criteria": [
+      {
+        "name": "Manutenibilidade",
+        "weight": 0.25,
+        "explanation": "Prioridade máxima: código deve ser fácil de entender e modificar por qualquer desenvolvedor"
+      },
+      {
+        "name": "Performance",
+        "weight": 0.20,
+        "explanation": "Crítico para portfólio: tempo de carregamento e interatividade impactam primeira impressão"
+      },
+      {
+        "name": "Escalabilidade",
+        "weight": 0.15,
+        "explanation": "Arquitetura deve suportar crescimento futuro sem refatorações massivas"
+      },
+      {
+        "name": "Developer Experience",
+        "weight": 0.15,
+        "explanation": "Ferramentas e padrões que aceleram desenvolvimento e reduzem bugs"
+      },
+      {
+        "name": "Acessibilidade",
+        "weight": 0.10,
+        "explanation": "WCAG 2.1 AA mínimo: inclusão e compliance legal"
+      },
+      {
+        "name": "SEO",
+        "weight": 0.10,
+        "explanation": "Visibilidade em mecanismos de busca é essencial para portfólio"
+      },
+      {
+        "name": "Custo",
+        "weight": 0.05,
+        "explanation": "Soluções devem ser economicamente viáveis (preferir opções gratuitas/tier free)"
+      }
+    ],
+    "weights": {
+      "manutenibilidade": 0.25,
+      "performance": 0.20,
+      "escalabilidade": 0.15,
+      "developer_experience": 0.15,
+      "acessibilidade": 0.10,
+      "seo": 0.10,
+      "custo": 0.05
+    }
+  },
+  "recommended_stack": {
+    "frontend": {
+      "primary": {
+        "framework": "React 19.1.0",
+        "build_tool": "Vite 5.4.0",
+        "styling": "Tailwind CSS 3.4.0 + CSS Modules para componentes complexos",
+        "state_management": "Zustand 4.5.0 (leve) + React Query 5.0.0 (server state)",
+        "routing": "React Router DOM 6.22.0",
+        "animations": "GSAP 3.12.5 + Framer Motion 11.0.0 (alternativa leve)",
+        "forms": "React Hook Form 7.51.0 + Zod 3.23.0 (validação)",
+        "justification": "React 19 mantém compatibilidade e traz melhorias de performance. Vite continua sendo a melhor opção para build rápido. Zustand é mais simples que Redux e suficiente para estado global. React Query gerencia cache e sincronização de dados do servidor. React Hook Form reduz re-renders e melhora performance de formulários."
+      },
+      "alternatives": [
+        {
+          "option": "Remix 2.0.0",
+          "pros": ["SSR nativo", "melhor SEO", "data loading integrado"],
+          "cons": ["Curva de aprendizado", "ecossistema menor", "migração mais complexa"],
+          "when_to_consider": "Se SEO for prioridade absoluta e houver necessidade de SSR"
+        },
+        {
+          "option": "Next.js 14.2.0",
+          "pros": ["SSR/SSG", "Image optimization nativa", "ecossistema maduro"],
+          "cons": ["Mais pesado", "configuração mais complexa", "overhead desnecessário para SPA"],
+          "when_to_consider": "Se precisar de SSR ou SSG para melhor SEO"
+        }
+      ]
+    },
+    "backend": {
+      "primary": {
+        "option": "Serverless Functions (Vercel/Netlify Functions)",
+        "runtime": "Node.js 20.x",
+        "framework": "Sem framework (vanilla) ou Express.js 4.18.0",
+        "justification": "Para portfólio, serverless é ideal: escala automática, sem servidor para gerenciar, custo zero até certo limite. Funções para formulário de contato, analytics e webhooks."
+      },
+      "alternatives": [
+        {
+          "option": "Express.js + Railway/Render",
+          "pros": ["Mais controle", "melhor para APIs complexas"],
+          "cons": ["Custo mensal", "manutenção de servidor", "overkill para portfólio"],
+          "when_to_consider": "Se precisar de APIs mais complexas ou integrações pesadas"
+        },
+        {
+          "option": "Supabase/Firebase",
+          "pros": ["Backend completo", "banco de dados incluído", "autenticação pronta"],
+          "cons": ["Vendor lock-in", "custo pode crescer", "complexidade desnecessária"],
+          "when_to_consider": "Se precisar de banco de dados ou autenticação de usuários"
+        }
+      ]
+    },
+    "database": {
+      "primary": {
+        "option": "Sem banco de dados (dados estáticos)",
+        "storage": "JSON files + Git",
+        "justification": "Portfólio não precisa de banco: dados são estáticos e mudam raramente. Usar arquivos JSON versionados no Git é suficiente."
+      },
+      "alternatives": [
+        {
+          "option": "Contentful/Sanity CMS",
+          "pros": ["Interface visual", "fácil atualização", "API GraphQL"],
+          "cons": ["Custo mensal", "dependência externa", "overkill para portfólio simples"],
+          "when_to_consider": "Se cliente precisar atualizar conteúdo frequentemente sem conhecimento técnico"
+        },
+        {
+          "option": "GitHub API + Markdown",
+          "pros": ["Gratuito", "versionamento nativo", "workflow familiar"],
+          "cons": ["Requer conhecimento Git", "menos flexível"],
+          "when_to_consider": "Se quiser integrar projetos do GitHub automaticamente"
+        }
+      ]
+    },
+    "hosting": {
+      "primary": {
+        "option": "Vercel",
+        "justification": "Deploy automático do Git, CDN global, SSL gratuito, preview deployments, analytics integrado, serverless functions incluídas. Plano free generoso."
+      },
+      "alternatives": [
+        {
+          "option": "Netlify",
+          "pros": ["Similar ao Vercel", "form handling nativo", "split testing"],
+          "cons": ["Build times mais lentos", "menos focado em Next.js"],
+          "when_to_consider": "Se precisar de form handling sem código backend"
+        },
+        {
+          "option": "Cloudflare Pages",
+          "pros": ["CDN rápido", "gratuito ilimitado", "workers integrados"],
+          "cons": ["Menos features", "ecossistema menor"],
+          "when_to_consider": "Se performance global for prioridade absoluta"
+        }
+      ]
+    },
+    "ci_cd": {
+      "primary": {
+        "option": "GitHub Actions",
+        "workflow": "Lint → Test → Build → Deploy",
+        "justification": "Integrado ao GitHub, gratuito para repositórios públicos, fácil configuração, grande ecossistema de actions."
+      },
+      "alternatives": [
+        {
+          "option": "Vercel/Netlify CI nativo",
+          "pros": ["Zero configuração", "otimizado para frontend"],
+          "cons": ["Menos flexível", "vendor lock-in"],
+          "when_to_consider": "Se quiser simplicidade máxima e não precisar de CI customizado"
+        }
+      ]
+    },
+    "monitoring": {
+      "primary": {
+        "option": "Vercel Analytics + Sentry Free Tier",
+        "justification": "Vercel Analytics para métricas de performance e usuário. Sentry para error tracking e performance monitoring."
+      },
+      "alternatives": [
+        {
+          "option": "Google Analytics 4",
+          "pros": ["Gratuito", "familiar", "integrações"],
+          "cons": ["Privacy concerns", "mais pesado", "menos focado em performance"],
+          "when_to_consider": "Se precisar de analytics detalhado de comportamento do usuário"
+        }
+      ]
+    }
+  },
+  "folder_structure": {
+    "description": "Estrutura proposta mantendo organização atual mas adicionando camadas de serviços, testes e configurações",
+    "structure": {
+      "root": [
+        ".github/workflows/",
+        ".vscode/",
+        "public/",
+        "src/",
+        "docs/",
+        "scripts/",
+        "config files (package.json, tsconfig.json, etc.)"
+      ],
+      "src": {
+        "components": {
+          "atomic": "src/components/atoms/ (Button, Input, Icon)",
+          "molecules": "src/components/molecules/ (FormField, Card, Modal)",
+          "organisms": "src/components/organisms/ (ContactForm, ProjectCard, ResumeSection)",
+          "templates": "src/components/templates/ (PageLayout, SectionLayout)",
+          "sections": "src/components/sections/ (mantém estrutura atual)",
+          "common": "src/components/common/ (mantém estrutura atual)",
+          "layout": "src/components/layout/ (Header, Footer, Navigation)"
+        },
+        "features": "src/features/ (agrupa por domínio: contact/, portfolio/, resume/)",
+        "hooks": "src/hooks/ (mantém estrutura atual)",
+        "services": "src/services/ (API clients, external integrations)",
+        "stores": "src/stores/ (Zustand stores)",
+        "utils": "src/utils/ (helpers, validators, formatters)",
+        "types": "src/types/ (mantém estrutura atual)",
+        "constants": "src/constants/ (configurações, enums)",
+        "assets": "src/assets/ (images, fonts, icons)",
+        "styles": "src/styles/ (mantém estrutura atual)",
+        "pages": "src/pages/ (mantém estrutura atual)",
+        "tests": "src/__tests__/ (mantém estrutura atual)",
+        "e2e": "e2e/ (Playwright tests)"
+      },
+      "examples": {
+        "component_atomic": "src/components/atoms/Button/Button.tsx, Button.test.tsx, Button.stories.tsx, index.ts",
+        "component_molecule": "src/components/molecules/FormField/FormField.tsx, FormField.test.tsx, index.ts",
+        "service": "src/services/contact/contactService.ts, contactService.test.ts",
+        "store": "src/stores/useThemeStore.ts",
+        "hook": "src/hooks/useContactForm.ts (mantém)",
+        "page": "src/pages/Home.tsx (mantém)",
+        "e2e": "e2e/contact.spec.ts"
+      }
+    }
+  },
+  "architecture_patterns": {
+    "atomic_design": {
+      "description": "Organização de componentes em átomos, moléculas, organismos e templates",
+      "mapping": {
+        "atoms": "Button, Input, Icon, Badge → componentes básicos reutilizáveis",
+        "molecules": "FormField (Input + Label + Error), ProjectCard (Image + Title + Tags) → combinações de átomos",
+        "organisms": "ContactForm, PortfolioSection → componentes complexos com lógica",
+        "templates": "PageLayout, SectionLayout → estruturas de página"
+      },
+      "current_code": "ContactFormField pode virar molécula, Button pode virar átomo"
+    },
+    "container_presenter": {
+      "description": "Separação entre componentes de apresentação (dumb) e containers (smart)",
+      "mapping": {
+        "presenter": "Componentes em components/ que recebem props e não têm lógica",
+        "container": "Hooks customizados (useContactForm) que gerenciam estado e lógica",
+        "current_code": "ContactForm já segue parcialmente: componente recebe dados do hook"
+      }
+    },
+    "repository_pattern": {
+      "description": "Abstração de acesso a dados através de repositórios",
+      "mapping": {
+        "repository": "src/services/repositories/projectsRepository.ts, contactRepository.ts",
+        "benefit": "Facilita migração futura para API real sem mudar componentes",
+        "current_code": "data/projectsData.ts pode ser encapsulado em repository"
+      }
+    },
+    "facade_pattern": {
+      "description": "Interface simplificada para subsistemas complexos",
+      "mapping": {
+        "facade": "src/services/analytics/analyticsFacade.ts (abstrai Vercel Analytics + Sentry)",
+        "benefit": "Componentes não precisam conhecer detalhes de implementação",
+        "current_code": "Logger pode ser expandido para facade de monitoramento"
+      }
+    },
+    "strategy_pattern": {
+      "description": "Algoritmos intercambiáveis (validação, formatação, animação)",
+      "mapping": {
+        "validation": "Zod schemas como estratégias de validação",
+        "animation": "GSAP vs Framer Motion como estratégias intercambiáveis",
+        "current_code": "Validação em useContactForm pode usar Zod strategies"
+      }
+    },
+    "custom_hooks_pattern": {
+      "description": "Lógica reutilizável encapsulada em hooks",
+      "mapping": {
+        "current": "useContactForm, useGSAPAnimation, usePreloader",
+        "improvement": "Padronizar retorno de hooks, adicionar error boundaries"
+      }
+    }
+  },
+  "refactor_plan": {
+    "sprint_0": {
+      "name": "Setup e Configuração Base",
+      "duration": "3-5 dias",
+      "tasks": [
+        {
+          "id": "S0-T1",
+          "name": "Configurar Zustand e React Query",
+          "complexity": "baixa",
+          "description": "Instalar dependências e configurar stores básicos",
+          "acceptance_criteria": [
+            "Zustand instalado e configurado",
+            "React Query Provider configurado no AppProviders",
+            "Store de tema migrado para Zustand",
+            "Testes passando"
+          ]
+        },
+        {
+          "id": "S0-T2",
+          "name": "Configurar React Hook Form + Zod",
+          "complexity": "baixa",
+          "description": "Substituir validação manual por Zod schemas",
+          "acceptance_criteria": [
+            "React Hook Form instalado",
+            "Zod instalado e configurado",
+            "Schema de validação criado para ContactForm",
+            "Formulário funcionando com nova validação"
+          ]
+        },
+        {
+          "id": "S0-T3",
+          "name": "Setup de testes E2E com Playwright",
+          "complexity": "média",
+          "description": "Configurar Playwright e criar primeiros testes",
+          "acceptance_criteria": [
+            "Playwright instalado e configurado",
+            "Pasta e2e/ criada",
+            "Teste básico de navegação funcionando",
+            "CI configurado para rodar E2E"
+          ]
+        },
+        {
+          "id": "S0-T4",
+          "name": "Configurar GitHub Actions CI/CD",
+          "complexity": "média",
+          "description": "Criar workflow de CI/CD básico",
+          "acceptance_criteria": [
+            ".github/workflows/ci.yml criado",
+            "Pipeline: lint → test → build",
+            "Deploy automático em push para main",
+            "Preview deployments em PRs"
+          ]
+        }
+      ]
+    },
+    "sprint_1": {
+      "name": "Refatoração de Componentes e Estado",
+      "duration": "5-7 dias",
+      "tasks": [
+        {
+          "id": "S1-T1",
+          "name": "Migrar para Atomic Design",
+          "complexity": "alta",
+          "description": "Reorganizar componentes seguindo Atomic Design",
+          "acceptance_criteria": [
+            "Pasta atoms/ criada com Button, Input, Icon",
+            "Pasta molecules/ criada com FormField, Card",
+            "Componentes existentes refatorados",
+            "Imports atualizados em toda aplicação",
+            "Testes atualizados e passando"
+          ]
+        },
+        {
+          "id": "S1-T2",
+          "name": "Migrar estado global para Zustand",
+          "complexity": "média",
+          "description": "Substituir Context API por Zustand onde apropriado",
+          "acceptance_criteria": [
+            "Store de tema migrado",
+            "Store de seções migrado",
+            "Performance melhorada (menos re-renders)",
+            "Testes atualizados"
+          ]
+        },
+        {
+          "id": "S1-T3",
+          "name": "Refatorar ContactForm com React Hook Form",
+          "complexity": "média",
+          "description": "Migrar formulário para React Hook Form + Zod",
+          "acceptance_criteria": [
+            "Formulário usando React Hook Form",
+            "Validação com Zod schemas",
+            "Performance melhorada",
+            "Testes unitários e E2E passando"
+          ]
+        },
+        {
+          "id": "S1-T4",
+          "name": "Implementar Repository Pattern para dados",
+          "complexity": "baixa",
+          "description": "Criar repositories para abstrair acesso a dados",
+          "acceptance_criteria": [
+            "projectsRepository criado",
+            "contactRepository criado",
+            "Componentes usando repositories",
+            "Facilita migração futura para API"
+          ]
+        }
+      ]
+    },
+    "sprint_2": {
+      "name": "Performance e Otimizações",
+      "duration": "4-6 dias",
+      "tasks": [
+        {
+          "id": "S2-T1",
+          "name": "Otimizar imagens (WebP, lazy loading avançado)",
+          "complexity": "média",
+          "description": "Converter imagens para WebP e implementar lazy loading inteligente",
+          "acceptance_criteria": [
+            "Todas imagens convertidas para WebP",
+            "Fallback para navegadores antigos",
+            "Lazy loading com Intersection Observer",
+            "Redução de 40%+ no tamanho de imagens"
+          ]
+        },
+        {
+          "id": "S2-T2",
+          "name": "Implementar code splitting avançado",
+          "complexity": "média",
+          "description": "Otimizar bundle splitting e preload de rotas críticas",
+          "acceptance_criteria": [
+            "Bundle analisado e otimizado",
+            "Chunks menores que 200KB",
+            "Preload de rotas críticas",
+            "Lighthouse Performance score > 90"
+          ]
+        },
+        {
+          "id": "S2-T3",
+          "name": "Implementar PWA",
+          "complexity": "média",
+          "description": "Adicionar service worker e manifest.json",
+          "acceptance_criteria": [
+            "manifest.json configurado",
+            "Service worker funcionando",
+            "Offline support básico",
+            "Installable como app",
+            "Lighthouse PWA score > 90"
+          ]
+        },
+        {
+          "id": "S2-T4",
+          "name": "Otimizar animações GSAP",
+          "complexity": "baixa",
+          "description": "Reduzir uso de animações pesadas e usar will-change",
+          "acceptance_criteria": [
+            "Animações usando GPU",
+            "will-change aplicado onde necessário",
+            "Performance de animações melhorada",
+            "Sem jank em dispositivos móveis"
+          ]
+        }
+      ]
+    },
+    "sprint_3": {
+      "name": "Acessibilidade e SEO",
+      "duration": "4-5 dias",
+      "tasks": [
+        {
+          "id": "S3-T1",
+          "name": "Melhorar acessibilidade (WCAG 2.1 AA)",
+          "complexity": "alta",
+          "description": "Adicionar ARIA labels, navegação por teclado, contraste",
+          "acceptance_criteria": [
+            "Todos componentes com ARIA labels",
+            "Navegação completa por teclado",
+            "Contraste mínimo 4.5:1",
+            "Screen reader testado",
+            "Lighthouse Accessibility score > 95"
+          ]
+        },
+        {
+          "id": "S3-T2",
+          "name": "Implementar SEO completo",
+          "complexity": "média",
+          "description": "Meta tags dinâmicas, sitemap, structured data",
+          "acceptance_criteria": [
+            "react-helmet-async instalado",
+            "Meta tags dinâmicas por página",
+            "sitemap.xml gerado",
+            "robots.txt configurado",
+            "Structured data (JSON-LD) implementado",
+            "Lighthouse SEO score > 95"
+          ]
+        },
+        {
+          "id": "S3-T3",
+          "name": "Adicionar analytics e error tracking",
+          "complexity": "baixa",
+          "description": "Configurar Vercel Analytics e Sentry",
+          "acceptance_criteria": [
+            "Vercel Analytics configurado",
+            "Sentry configurado",
+            "Error boundaries melhorados",
+            "Métricas sendo coletadas"
+          ]
+        }
+      ]
+    },
+    "sprint_4": {
+      "name": "Backend e Integrações",
+      "duration": "3-5 dias",
+      "tasks": [
+        {
+          "id": "S4-T1",
+          "name": "Implementar API serverless para formulário",
+          "complexity": "média",
+          "description": "Criar função serverless para envio de email",
+          "acceptance_criteria": [
+            "API route criada (Vercel/Netlify)",
+            "Integração com serviço de email (Resend/SendGrid)",
+            "Validação no backend",
+            "Rate limiting implementado",
+            "Testes E2E do fluxo completo"
+          ]
+        },
+        {
+          "id": "S4-T2",
+          "name": "Configurar monitoramento e alertas",
+          "complexity": "baixa",
+          "description": "Configurar Sentry alerts e Vercel Analytics",
+          "acceptance_criteria": [
+            "Alertas configurados para erros críticos",
+            "Dashboard de métricas acessível",
+            "Uptime monitoring configurado"
+          ]
+        }
+      ]
+    },
+    "sprint_5": {
+      "name": "Testes e Qualidade",
+      "duration": "5-7 dias",
+      "tasks": [
+        {
+          "id": "S5-T1",
+          "name": "Aumentar cobertura de testes unitários",
+          "complexity": "alta",
+          "description": "Atingir 80%+ de cobertura",
+          "acceptance_criteria": [
+            "Cobertura > 80%",
+            "Todos componentes críticos testados",
+            "Hooks testados",
+            "Services testados",
+            "CI bloqueando se cobertura < 80%"
+          ]
+        },
+        {
+          "id": "S5-T2",
+          "name": "Criar suite completa de testes E2E",
+          "complexity": "alta",
+          "description": "Testes E2E para fluxos críticos",
+          "acceptance_criteria": [
+            "Teste de navegação entre seções",
+            "Teste de formulário de contato",
+            "Teste de filtros de portfólio",
+            "Teste de tema escuro/claro",
+            "Teste de responsividade",
+            "CI rodando E2E em PRs"
+          ]
+        },
+        {
+          "id": "S5-T3",
+          "name": "Configurar lint-staged e husky",
+          "complexity": "baixa",
+          "description": "Pre-commit hooks para qualidade",
+          "acceptance_criteria": [
+            "husky instalado",
+            "lint-staged configurado",
+            "Pre-commit: lint + format + test",
+            "Commits bloqueados se testes falharem"
+          ]
+        }
+      ]
+    },
+    "migration_strategy": {
+      "approach": "Incremental com feature flags",
+      "steps": [
+        "1. Criar branch feature/modernization",
+        "2. Implementar mudanças em pequenos PRs",
+        "3. Usar feature flags para testar em produção",
+        "4. Deploy gradual: 10% → 50% → 100% de tráfego",
+        "5. Rollback rápido se necessário",
+        "6. Monitorar métricas durante migração"
+      ],
+      "downtime": "Zero: deploy incremental com Vercel previews"
+    }
+  },
+  "code_examples": {
+    "component_atomic": "// src/components/atoms/Button/Button.tsx\nimport { ButtonHTMLAttributes, forwardRef } from 'react';\nimport { cn } from '@/utils/cn';\n\nexport interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {\n  variant?: 'primary' | 'secondary' | 'ghost';\n  size?: 'sm' | 'md' | 'lg';\n  isLoading?: boolean;\n}\n\nexport const Button = forwardRef<HTMLButtonElement, ButtonProps>(\n  ({ className, variant = 'primary', size = 'md', isLoading, children, disabled, ...props }, ref) => {\n    return (\n      <button\n        ref={ref}\n        className={cn(\n          'inline-flex items-center justify-center rounded-lg font-medium transition-colors',\n          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2',\n          'disabled:opacity-50 disabled:pointer-events-none',\n          {\n            'bg-primary text-white hover:bg-primary-dark': variant === 'primary',\n            'bg-secondary text-white hover:bg-secondary-dark': variant === 'secondary',\n            'bg-transparent hover:bg-card-bg': variant === 'ghost',\n            'px-3 py-1.5 text-sm': size === 'sm',\n            'px-4 py-2 text-base': size === 'md',\n            'px-6 py-3 text-lg': size === 'lg',\n          },\n          className\n        )}\n        disabled={disabled || isLoading}\n        aria-busy={isLoading}\n        {...props}\n      >\n        {isLoading ? (\n          <span className=\"mr-2 animate-spin\" aria-hidden=\"true\">⏳</span>\n        ) : null}\n        {children}\n      </button>\n    );\n  }\n);\n\nButton.displayName = 'Button';\n\n// src/components/atoms/Button/Button.test.tsx\nimport { render, screen } from '@testing-library/react';\nimport { Button } from './Button';\n\ndescribe('Button', () => {\n  it('renders correctly', () => {\n    render(<Button>Click me</Button>);\n    expect(screen.getByRole('button', { name: /click me/i })).toBeInTheDocument();\n  });\n\n  it('handles loading state', () => {\n    render(<Button isLoading>Submit</Button>);\n    const button = screen.getByRole('button');\n    expect(button).toHaveAttribute('aria-busy', 'true');\n    expect(button).toBeDisabled();\n  });\n\n  it('applies variant classes', () => {\n    const { rerender } = render(<Button variant=\"secondary\">Test</Button>);\n    expect(screen.getByRole('button')).toHaveClass('bg-secondary');\n  });\n});",
+    "service_api": "// src/services/contact/contactService.ts\nimport { z } from 'zod';\nimport { contactRepository } from './contactRepository';\nimport logger from '@/utils/logger';\n\nconst ContactFormSchema = z.object({\n  name: z.string().min(3, 'Nome deve ter pelo menos 3 caracteres'),\n  email: z.string().email('Email inválido'),\n  subject: z.string().min(1, 'Assunto é obrigatório'),\n  message: z.string().min(20, 'Mensagem deve ter pelo menos 20 caracteres'),\n});\n\nexport type ContactFormData = z.infer<typeof ContactFormSchema>;\n\nexport class ContactService {\n  static async submitForm(data: ContactFormData): Promise<{ success: boolean; message: string }> {\n    try {\n      // Validar dados\n      const validatedData = ContactFormSchema.parse(data);\n      \n      // Enviar para API\n      const result = await contactRepository.submit(validatedData);\n      \n      logger.info('Contact form submitted successfully', { email: validatedData.email });\n      \n      return {\n        success: true,\n        message: 'Mensagem enviada com sucesso! Responderei em breve.',\n      };\n    } catch (error) {\n      if (error instanceof z.ZodError) {\n        logger.warn('Contact form validation failed', { errors: error.errors });\n        return {\n          success: false,\n          message: error.errors[0].message,\n        };\n      }\n      \n      logger.error('Contact form submission failed', { error });\n      return {\n        success: false,\n        message: 'Erro ao enviar mensagem. Tente novamente mais tarde.',\n      };\n    }\n  }\n}\n\n// src/services/contact/contactRepository.ts\nconst API_BASE_URL = import.meta.env.VITE_API_URL || '/api';\n\nexport const contactRepository = {\n  async submit(data: ContactFormData) {\n    const response = await fetch(`${API_BASE_URL}/contact`, {\n      method: 'POST',\n      headers: { 'Content-Type': 'application/json' },\n      body: JSON.stringify(data),\n    });\n    \n    if (!response.ok) {\n      throw new Error(`HTTP error! status: ${response.status}`);\n    }\n    \n    return response.json();\n  },\n};",
+    "test_unit": "// src/services/contact/contactService.test.ts\nimport { describe, it, expect, vi } from 'vitest';\nimport { ContactService } from './contactService';\nimport { contactRepository } from './contactRepository';\n\nvi.mock('./contactRepository');\n\ndescribe('ContactService', () => {\n  it('should submit form with valid data', async () => {\n    const mockData = {\n      name: 'John Doe',\n      email: 'john@example.com',\n      subject: 'Test Subject',\n      message: 'This is a test message with enough characters.',\n    };\n    \n    vi.mocked(contactRepository.submit).mockResolvedValue({ success: true });\n    \n    const result = await ContactService.submitForm(mockData);\n    \n    expect(result.success).toBe(true);\n    expect(contactRepository.submit).toHaveBeenCalledWith(mockData);\n  });\n\n  it('should reject invalid email', async () => {\n    const invalidData = {\n      name: 'John Doe',\n      email: 'invalid-email',\n      subject: 'Test',\n      message: 'This is a test message.',\n    };\n    \n    const result = await ContactService.submitForm(invalidData);\n    \n    expect(result.success).toBe(false);\n    expect(result.message).toContain('Email inválido');\n  });\n\n  it('should handle API errors gracefully', async () => {\n    vi.mocked(contactRepository.submit).mockRejectedValue(new Error('API Error'));\n    \n    const result = await ContactService.submitForm({\n      name: 'John',\n      email: 'john@example.com',\n      subject: 'Test',\n      message: 'Valid message with enough characters.',\n    });\n    \n    expect(result.success).toBe(false);\n    expect(result.message).toContain('Erro ao enviar');\n  });\n});",
+    "test_e2e": "// e2e/contact.spec.ts\nimport { test, expect } from '@playwright/test';\n\ntest.describe('Contact Form', () => {\n  test.beforeEach(async ({ page }) => {\n    await page.goto('/');\n    await page.click('a[href=\"#contact\"]');\n    await page.waitForSelector('[data-testid=\"contact-form\"]');\n  });\n\n  test('should submit form successfully', async ({ page }) => {\n    await page.fill('[name=\"name\"]', 'John Doe');\n    await page.fill('[name=\"email\"]', 'john@example.com');\n    await page.fill('[name=\"subject\"]', 'Test Subject');\n    await page.fill('[name=\"message\"]', 'This is a test message with enough characters to pass validation.');\n    \n    await page.click('button[type=\"submit\"]');\n    \n    await expect(page.locator('[data-testid=\"success-message\"]')).toBeVisible({ timeout: 5000 });\n    expect(await page.locator('[name=\"name\"]').inputValue()).toBe('');\n  });\n\n  test('should show validation errors', async ({ page }) => {\n    await page.fill('[name=\"email\"]', 'invalid-email');\n    await page.blur('[name=\"email\"]');\n    \n    await expect(page.locator('[data-testid=\"email-error\"]')).toBeVisible();\n    expect(await page.locator('[data-testid=\"email-error\"]').textContent()).toContain('Email inválido');\n  });\n\n  test('should be keyboard accessible', async ({ page }) => {\n    await page.keyboard.press('Tab');\n    await expect(page.locator('[name=\"name\"]')).toBeFocused();\n    \n    await page.keyboard.press('Tab');\n    await expect(page.locator('[name=\"email\"]')).toBeFocused();\n  });\n});"
+  },
+  "ci_cd": {
+    "description": "Pipeline completo de CI/CD com GitHub Actions",
+    "workflow_file": ".github/workflows/ci.yml",
+    "stages": [
+      {
+        "name": "Lint",
+        "command": "npm run lint",
+        "on_failure": "Bloquear merge"
+      },
+      {
+        "name": "Format Check",
+        "command": "npm run format:check",
+        "on_failure": "Warning apenas"
+      },
+      {
+        "name": "Type Check",
+        "command": "tsc --noEmit",
+        "on_failure": "Bloquear merge"
+      },
+      {
+        "name": "Unit Tests",
+        "command": "npm run test:coverage",
+        "on_failure": "Bloquear merge",
+        "coverage_threshold": "80%"
+      },
+      {
+        "name": "E2E Tests",
+        "command": "npm run test:e2e",
+        "on_failure": "Bloquear merge",
+        "run_on": "Pull requests apenas"
+      },
+      {
+        "name": "Build",
+        "command": "npm run build",
+        "on_failure": "Bloquear merge"
+      },
+      {
+        "name": "Deploy Preview",
+        "command": "Vercel CLI deploy",
+        "on": "Pull requests",
+        "creates": "Preview URL"
+      },
+      {
+        "name": "Deploy Production",
+        "command": "Vercel CLI deploy --prod",
+        "on": "Push to main",
+        "requires": "Approval manual ou auto após testes"
+      }
+    ],
+    "scripts_recommended": {
+      "test:e2e": "playwright test",
+      "test:e2e:ui": "playwright test --ui",
+      "test:coverage": "vitest --coverage",
+      "lint:fix": "eslint . --ext ts,tsx --fix",
+      "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json,css,md}\"",
+      "type-check": "tsc --noEmit",
+      "prepare": "husky install"
+    }
+  },
+  "qa_checklist": {
+    "linting": {
+      "tool": "ESLint 8.57.0+",
+      "config": "TypeScript ESLint recommended + React hooks",
+      "rules": "Max warnings: 0 em CI",
+      "auto_fix": "Pre-commit hook"
+    },
+    "formatting": {
+      "tool": "Prettier 3.6.0+",
+      "config": ".prettierrc com regras padronizadas",
+      "check": "Pre-commit hook",
+      "auto_format": "VS Code format on save"
+    },
+    "type_safety": {
+      "tool": "TypeScript 5.2.0+",
+      "strict_mode": "true",
+      "no_any": "Permitido apenas com @ts-expect-error e comentário",
+      "type_check": "tsc --noEmit em CI"
+    },
+    "testing": {
+      "unit": "Vitest 1.0.0+",
+      "e2e": "Playwright 1.40.0+",
+      "coverage_minimum": "80%",
+      "critical_paths": [
+        "Formulário de contato",
+        "Navegação entre seções",
+        "Filtros de portfólio",
+        "Tema escuro/claro"
+      ]
+    },
+    "performance": {
+      "lighthouse_score": "> 90 em todas métricas",
+      "bundle_size": "< 200KB inicial (gzipped)",
+      "first_contentful_paint": "< 1.5s",
+      "largest_contentful_paint": "< 2.5s",
+      "cumulative_layout_shift": "< 0.1",
+      "time_to_interactive": "< 3.5s"
+    },
+    "accessibility": {
+      "wcag_level": "AA (2.1)",
+      "lighthouse_score": "> 95",
+      "keyboard_navigation": "100% funcional",
+      "screen_reader": "Testado com NVDA/JAWS",
+      "color_contrast": "Mínimo 4.5:1",
+      "aria_labels": "Todos componentes interativos"
+    },
+    "seo": {
+      "lighthouse_score": "> 95",
+      "meta_tags": "Dinâmicas por página",
+      "sitemap": "sitemap.xml gerado",
+      "robots_txt": "Configurado",
+      "structured_data": "JSON-LD implementado",
+      "open_graph": "Tags para redes sociais",
+      "canonical_urls": "Configuradas"
+    },
+    "pwa": {
+      "manifest": "manifest.json completo",
+      "service_worker": "Implementado",
+      "offline_support": "Básico funcionando",
+      "installable": "Score > 90",
+      "icons": "Todos tamanhos (192x192, 512x512)"
+    },
+    "security": {
+      "dependencies": "Audit regular (npm audit)",
+      "env_vars": "Nunca commitadas",
+      "csp": "Content Security Policy configurado",
+      "https": "Obrigatório em produção"
+    }
+  },
+  "risks": [
+    {
+      "risk": "Quebra de funcionalidades durante migração",
+      "probability": "média",
+      "impact": "alto",
+      "mitigation": "Testes E2E completos, feature flags, deploy gradual, rollback plan"
+    },
+    {
+      "risk": "Aumento de complexidade com novas libs",
+      "probability": "baixa",
+      "impact": "médio",
+      "mitigation": "Escolher libs simples (Zustand vs Redux), documentação clara, code reviews"
+    },
+    {
+      "risk": "Performance piorar com novas abstrações",
+      "probability": "baixa",
+      "impact": "médio",
+      "mitigation": "Benchmarks antes/depois, profiling contínuo, otimizações incrementais"
+    },
+    {
+      "risk": "Dependências desatualizadas ou vulneráveis",
+      "probability": "média",
+      "impact": "médio",
+      "mitigation": "Dependabot configurado, atualizações regulares, audit em CI"
+    },
+    {
+      "risk": "Falta de conhecimento da equipe em novas tecnologias",
+      "probability": "média",
+      "impact": "alto",
+      "mitigation": "Documentação detalhada, pair programming, treinamentos, escolher techs com curva suave"
+    },
+    {
+      "risk": "Custo de hosting aumentar",
+      "probability": "baixa",
+      "impact": "baixo",
+      "mitigation": "Usar tier free (Vercel/Netlify), monitorar uso, otimizar recursos"
+    }
+  ],
+  "trade_offs": [
+    {
+      "decision": "Zustand vs Redux vs Context API",
+      "chosen": "Zustand",
+      "pros": ["Mais simples", "menos boilerplate", "melhor performance", "TypeScript first"],
+      "cons": ["Menos features avançadas", "ecossistema menor"],
+      "rationale": "Portfólio não precisa de Redux. Zustand é suficiente e mais simples."
+    },
+    {
+      "decision": "React Hook Form vs Formik",
+      "chosen": "React Hook Form",
+      "pros": ["Melhor performance", "menos re-renders", "API mais simples"],
+      "cons": ["Menos features out-of-box"],
+      "rationale": "Performance é crítica. React Hook Form é mais leve."
+    },
+    {
+      "decision": "Playwright vs Cypress",
+      "chosen": "Playwright",
+      "pros": ["Mais rápido", "suporta múltiplos browsers", "melhor para CI"],
+      "cons": ["Menos popular", "curva de aprendizado"],
+      "rationale": "Playwright é mais moderno e performático para CI/CD."
+    },
+    {
+      "decision": "Vercel vs Netlify",
+      "chosen": "Vercel",
+      "pros": ["Melhor para React", "deploy mais rápido", "analytics integrado"],
+      "cons": ["Vendor lock-in"],
+      "rationale": "Vercel é otimizado para React e oferece melhor DX."
+    }
+  ],
+  "pr_templates": {
+    "description": "Template para Pull Requests seguindo Conventional Commits",
+    "template": "## Descrição\n\n[Descrição clara do que foi implementado]\n\n## Tipo de Mudança\n\n- [ ] 🐛 Bug fix\n- [ ] ✨ Nova feature\n- [ ] ♻️ Refatoração\n- [ ] 📝 Documentação\n- [ ] ⚡ Performance\n- [ ] ♿ Acessibilidade\n\n## Checklist\n\n- [ ] Código segue padrões do projeto\n- [ ] Testes unitários adicionados/atualizados\n- [ ] Testes E2E adicionados/atualizados (se aplicável)\n- [ ] Documentação atualizada\n- [ ] Lint passando\n- [ ] Type check passando\n- [ ] Build passando\n- [ ] Screenshots (se UI mudou)\n\n## Testes\n\n[Como testar as mudanças]\n\n## Screenshots (se aplicável)\n\n[Adicionar screenshots]\n\n## Relacionado\n\n[Issues relacionadas: #123]",
+    "commit_message_format": "Conventional Commits: type(scope): description\n\nExemplos:\n- feat(contact): add form validation with Zod\n- fix(portfolio): correct image lazy loading\n- refactor(components): migrate to atomic design\n- perf(images): convert to WebP format\n- test(contact): add E2E tests for form submission"
+  },
+  "assumptions": [
+    "assumption_1": "Projeto é SPA (Single Page Application) e não precisa de SSR inicialmente",
+    "assumption_2": "Formulário de contato será integrado com serviço de email (Resend/SendGrid) via API serverless",
+    "assumption_3": "Dados do portfólio continuarão sendo estáticos (JSON files) por enquanto",
+    "assumption_4": "Equipe tem conhecimento básico de React e TypeScript",
+    "assumption_5": "Orçamento permite uso de serviços gratuitos (Vercel free tier, Sentry free tier)",
+    "assumption_6": "Não há necessidade de autenticação de usuários no momento",
+    "assumption_7": "Portfólio será atualizado esporadicamente (não precisa de CMS imediatamente)",
+    "assumption_8": "Suporte a navegadores modernos (últimas 2 versões de Chrome, Firefox, Safari, Edge)"
+  ],
+  "deliverables": {
+    "prs_review_path": [
+      "PR #1: Setup base (Sprint 0)",
+      "PR #2: Atomic Design migration (Sprint 1)",
+      "PR #3: State management migration (Sprint 1)",
+      "PR #4: Performance optimizations (Sprint 2)",
+      "PR #5: Accessibility improvements (Sprint 3)",
+      "PR #6: SEO implementation (Sprint 3)",
+      "PR #7: Backend integration (Sprint 4)",
+      "PR #8: Test coverage increase (Sprint 5)"
+    ],
+    "issues_templates": [
+      {
+        "title": "Implementar [Feature Name]",
+        "description": "## Descrição\n\n[Descrição detalhada]\n\n## Critérios de Aceitação\n\n- [ ] Critério 1\n- [ ] Critério 2\n\n## Estimativa\n\n[Baixa/Média/Alta]\n\n## Labels\n\n[feature, enhancement]"
+      }
+    ],
+    "documentation": [
+      "README.md atualizado",
+      "ARCHITECTURE.md (documentação de arquitetura)",
+      "CONTRIBUTING.md (guia de contribuição)",
+      "DEPLOYMENT.md (guia de deploy)",
+      "TESTING.md (guia de testes)"
+    ]
+  },
+  "version_requirements": {
+    "node": ">=18.0.0 (recomendado: 20.x LTS)",
+    "npm": ">=9.0.0",
+    "react": "^19.1.0",
+    "typescript": "^5.2.0",
+    "vite": "^5.4.0",
+    "zustand": "^4.5.0",
+    "react-query": "^5.0.0",
+    "react-hook-form": "^7.51.0",
+    "zod": "^3.23.0",
+    "playwright": "^1.40.0",
+    "vitest": "^1.0.0"
+  }
+}
+

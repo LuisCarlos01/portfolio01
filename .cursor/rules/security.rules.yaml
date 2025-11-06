@@ -1,0 +1,1 @@
+# Objetivo: evitar segredos no repositório e padrões inseguros (ex.: credenciais em .env).

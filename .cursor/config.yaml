@@ -1,0 +1,11 @@
+version: 1
+
+mcpServers:
+  filesystem:
+    command: npx
+    args: ["-y", "@modelcontextprotocol/server-filesystem", "."]
+    cwd: "${workspaceRoot}"
+
+  browser:
+    command: npx
+    args: ["-y", "@modelcontextprotocol/server-browser"]
