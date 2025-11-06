@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, memo } from 'react';
+import React, { useEffect, useState, useRef, memo, useCallback } from 'react';
 import { gsap } from 'gsap';
 
 interface PreloaderProps {
@@ -26,6 +26,20 @@ export const Preloader: React.FC<PreloaderProps> = memo(({ onComplete }) => {
   const textRef = useRef<HTMLDivElement>(null);
   const languageRef = useRef<HTMLDivElement>(null);
   const spinnerRef = useRef<HTMLDivElement>(null);
+
+  // Animar saída do preloader
+  const animatePreloaderExit = useCallback(() => {
+    if (preloaderRef.current) {
+      gsap.to(preloaderRef.current, {
+        opacity: 0,
+        duration: 0.8,
+        ease: 'power2.inOut',
+        onComplete: () => {
+          onComplete();
+        },
+      });
+    }
+  }, [onComplete]);
 
   // Rotacionar saudações a cada 800ms
   useEffect(() => {
@@ -74,21 +88,7 @@ export const Preloader: React.FC<PreloaderProps> = memo(({ onComplete }) => {
     }, duration);
 
     return () => clearTimeout(timer);
-  }, [onComplete]);
-
-  // Animar saída do preloader
-  const animatePreloaderExit = () => {
-    if (preloaderRef.current) {
-      gsap.to(preloaderRef.current, {
-        opacity: 0,
-        duration: 0.8,
-        ease: 'power2.inOut',
-        onComplete: () => {
-          onComplete();
-        },
-      });
-    }
-  };
+  }, [animatePreloaderExit]);
 
   return (
     <div
