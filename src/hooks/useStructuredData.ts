@@ -72,7 +72,9 @@ export const useStructuredData = ({
     }
 
     // Remove script anterior se existir
-    const existingScript = document.querySelector('script[type="application/ld+json"]');
+    const existingScript = document.querySelector(
+      'script[type="application/ld+json"]'
+    );
     if (existingScript) {
       existingScript.remove();
     }
@@ -84,11 +86,12 @@ export const useStructuredData = ({
     document.head.appendChild(script);
 
     return () => {
-      const scriptToRemove = document.querySelector('script[type="application/ld+json"]');
+      const scriptToRemove = document.querySelector(
+        'script[type="application/ld+json"]'
+      );
       if (scriptToRemove) {
         scriptToRemove.remove();
       }
     };
   }, [type, name, description, url, image, jobTitle, sameAs]);
 };
-

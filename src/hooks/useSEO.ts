@@ -28,7 +28,9 @@ export const useSEO = ({
   author = 'Luis Carlos',
 }: SEOProps = {}) => {
   useEffect(() => {
-    const fullTitle = title.includes('Luis Carlos') ? title : `${title} | Luis Carlos`;
+    const fullTitle = title.includes('Luis Carlos')
+      ? title
+      : `${title} | Luis Carlos`;
     const fullUrl = url.startsWith('http') ? url : `https://${url}`;
     const fullImage = image.startsWith('http') ? image : `${fullUrl}${image}`;
 
@@ -36,16 +38,20 @@ export const useSEO = ({
     document.title = fullTitle;
 
     // Função helper para atualizar ou criar meta tag
-    const setMetaTag = (property: string, content: string, isProperty = false) => {
+    const setMetaTag = (
+      property: string,
+      content: string,
+      isProperty = false
+    ) => {
       const attribute = isProperty ? 'property' : 'name';
       let meta = document.querySelector(`meta[${attribute}="${property}"]`);
-      
+
       if (!meta) {
         meta = document.createElement('meta');
         meta.setAttribute(attribute, property);
         document.head.appendChild(meta);
       }
-      
+
       meta.setAttribute('content', content);
     };
 
@@ -83,4 +89,3 @@ export const useSEO = ({
     document.documentElement.lang = 'pt-BR';
   }, [title, description, keywords, image, url, type, author]);
 };
-

@@ -1,4 +1,4 @@
-import React, { Component, ReactNode } from 'react';
+import React, { ReactNode } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { useThemeStore } from '@/stores/useThemeStore';
 
@@ -47,8 +47,6 @@ export const AppProviders: React.FC<AppProvidersProps> = ({ children }) => {
   }, [initializeTheme]);
 
   return (
-    <ErrorBoundary FallbackComponent={ErrorFallback}>
-      {children}
-    </ErrorBoundary>
+    <ErrorBoundary FallbackComponent={ErrorFallback}>{children}</ErrorBoundary>
   );
 };
