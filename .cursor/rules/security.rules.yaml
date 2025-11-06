@@ -1,1 +1,273 @@
 # Objetivo: evitar segredos no repositório e padrões inseguros (ex.: credenciais em .env).
+
+## Princípios de Segurança
+
+1. **Nunca commitar segredos**: Credenciais nunca devem estar no código
+2. **Variáveis de ambiente**: Usar arquivos `.env` (não commitados)
+3. **Validação**: Validar entrada de dados sempre
+4. **HTTPS**: Sempre usar HTTPS em produção
+5. **Dependências**: Manter atualizadas e auditadas
+
+## Segredos e Credenciais
+
+### O Que NUNCA Commitar
+
+- ❌ **API Keys**: Chaves de API de serviços externos
+- ❌ **Tokens**: Tokens de autenticação (JWT, OAuth, etc.)
+- ❌ **Senhas**: Senhas de banco de dados, serviços, etc.
+- ❌ **Secrets**: Qualquer informação sensível
+- ❌ **Certificados**: Certificados SSL/TLS privados
+- ❌ **Chaves SSH**: Chaves privadas SSH
+- ❌ **Credenciais**: Usuários e senhas de qualquer serviço
+
+### O Que PODE Commitar
+
+- ✅ Configurações públicas (sem valores sensíveis)
+- ✅ Estrutura de `.env.example` (sem valores reais)
+- ✅ Configurações de desenvolvimento (sem secrets)
+- ✅ Documentação (sem credenciais reais)
+
+## Variáveis de Ambiente
+
+### Arquivo .env
+
+- **Localização**: Raiz do projeto
+- **Status**: ❌ NUNCA commitar
+- **Uso**: Valores locais de desenvolvimento
+
+### Arquivo .env.example
+
+- **Localização**: Raiz do projeto
+- **Status**: ✅ Commitar (sem valores reais)
+- **Uso**: Template para outros desenvolvedores
+- **Formato**: Variáveis sem valores ou com valores de exemplo
+
+### Exemplo .env.example
+
+```env
+# API Configuration
+VITE_API_URL=https://api.example.com
+VITE_API_KEY=your_api_key_here
+
+# Analytics
+VITE_ANALYTICS_ID=your_analytics_id
+
+# Email Service
+VITE_EMAIL_SERVICE_API_KEY=your_email_service_key
+```
+
+### .gitignore
+
+Garantir que `.gitignore` inclui:
+
+```gitignore
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env*.local
+
+# Secrets
+*.pem
+*.key
+secrets/
+credentials/
+```
+
+## Validação de Entrada
+
+### Regras
+
+- ✅ **Sempre validar**: Validar todos os dados de entrada
+- ✅ **Sanitizar**: Sanitizar dados antes de processar
+- ✅ **TypeScript**: Usar tipos para validação em tempo de compilação
+- ✅ **Zod**: Usar Zod para validação em runtime
+
+### Exemplo
+
+```typescript
+import { z } from 'zod';
+
+const ContactFormSchema = z.object({
+  name: z.string().min(3).max(100),
+  email: z.string().email(),
+  message: z.string().min(20).max(1000),
+});
+
+// Validar antes de usar
+const validatedData = ContactFormSchema.parse(formData);
+```
+
+## HTTPS e SSL
+
+### Regras
+
+- ✅ **Produção**: Sempre usar HTTPS
+- ✅ **Desenvolvimento**: Usar HTTPS quando possível
+- ✅ **Certificados**: Nunca commitar certificados privados
+- ✅ **CSP**: Configurar Content Security Policy
+
+### Configuração Vercel/Netlify
+
+- ✅ SSL automático configurado
+- ✅ HTTPS obrigatório em produção
+- ✅ Redirecionamento HTTP → HTTPS
+
+## Dependências Seguras
+
+### Auditoria
+
+- ✅ **Regular**: Rodar `npm audit` regularmente
+- ✅ **Automático**: Usar Dependabot para alertas
+- ✅ **Correção**: Corrigir vulnerabilidades críticas imediatamente
+
+### Processo
+
+1. Rodar `npm audit` semanalmente
+2. Corrigir vulnerabilidades críticas em 24h
+3. Corrigir vulnerabilidades altas em 1 semana
+4. Manter dependências atualizadas
+
+## API e Backend
+
+### Regras
+
+- ✅ **Validação**: Validar todos os dados no backend
+- ✅ **Rate Limiting**: Implementar rate limiting
+- ✅ **CORS**: Configurar CORS adequadamente
+- ✅ **Headers**: Usar headers de segurança
+
+### Headers de Segurança
+
+```typescript
+// Exemplo de headers recomendados
+{
+  'Content-Security-Policy': "default-src 'self'",
+  'X-Content-Type-Options': 'nosniff',
+  'X-Frame-Options': 'DENY',
+  'X-XSS-Protection': '1; mode=block',
+}
+```
+
+## Autenticação
+
+### Regras
+
+- ✅ **Tokens**: Armazenar tokens de forma segura (httpOnly cookies)
+- ✅ **JWT**: Validar assinatura de JWT
+- ✅ **Expiração**: Tokens devem expirar
+- ✅ **Refresh**: Implementar refresh tokens
+
+### Nunca Fazer
+
+- ❌ Armazenar tokens no localStorage (XSS vulnerável)
+- ❌ Enviar tokens em URLs
+- ❌ Commitar tokens de teste
+
+## Sanitização de Dados
+
+### Regras
+
+- ✅ **HTML**: Sanitizar HTML antes de renderizar
+- ✅ **SQL**: Usar prepared statements (se usar SQL)
+- ✅ **XSS**: Prevenir Cross-Site Scripting
+- ✅ **CSRF**: Prevenir Cross-Site Request Forgery
+
+### Exemplo
+
+```typescript
+import DOMPurify from 'dompurify';
+
+// Sanitizar HTML antes de renderizar
+const sanitizedHtml = DOMPurify.sanitize(userInput);
+```
+
+## Content Security Policy (CSP)
+
+### Configuração
+
+- ✅ Configurar CSP adequadamente
+- ✅ Restringir fontes de scripts, styles, etc.
+- ✅ Usar nonce ou hash para scripts inline
+
+### Exemplo
+
+```html
+<meta
+  http-equiv="Content-Security-Policy"
+  content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline';"
+/>
+```
+
+## Secrets Management
+
+### Desenvolvimento
+
+- ✅ Usar `.env` local (não commitado)
+- ✅ Usar `.env.example` como template
+- ✅ Documentar variáveis necessárias
+
+### Produção
+
+- ✅ Usar variáveis de ambiente da plataforma (Vercel/Netlify)
+- ✅ Nunca hardcodar secrets no código
+- ✅ Usar serviços de secrets management se necessário
+
+### Vercel
+
+```bash
+# Adicionar variável de ambiente
+vercel env add VITE_API_KEY production
+```
+
+## Validação de Código
+
+### Pre-commit Hooks
+
+- ✅ Verificar se há secrets no código
+- ✅ Usar ferramentas como `git-secrets` ou `truffleHog`
+- ✅ Bloquear commit se secrets encontrados
+
+### Ferramentas
+
+- **git-secrets**: Prevenir commit de secrets
+- **truffleHog**: Scanner de secrets
+- **npm audit**: Auditoria de dependências
+
+## Checklist de Segurança
+
+Antes de commit:
+
+- [ ] Nenhum secret hardcodado no código
+- [ ] `.env` está no `.gitignore`
+- [ ] `.env.example` existe e está atualizado
+- [ ] Dependências auditadas (`npm audit`)
+- [ ] Validação de entrada implementada
+- [ ] HTTPS configurado em produção
+- [ ] Headers de segurança configurados
+
+## Incident Response
+
+### Se Secret Exposto
+
+1. **Rotacionar**: Rotacionar secret imediatamente
+2. **Remover**: Remover do histórico Git (se possível)
+3. **Notificar**: Notificar equipe/usuários se necessário
+4. **Documentar**: Documentar incidente
+
+### Remover do Histórico Git
+
+```bash
+# ATENÇÃO: Isso reescreve histórico
+git filter-branch --force --index-filter \
+  "git rm --cached --ignore-unmatch .env" \
+  --prune-empty --tag-name-filter cat -- --all
+```
+
+## Referências
+
+- [OWASP Top 10](https://owasp.org/www-project-top-ten/)
+- [Git Secrets](https://github.com/awslabs/git-secrets)
+- [npm Security Best Practices](https://docs.npmjs.com/security-best-practices)

@@ -1,1 +1,230 @@
 # Objetivo: padronizar mensagens de commit (Conventional Commits)
+
+## Formato Obrigatório
+
+Todas as mensagens de commit devem seguir o padrão Conventional Commits:
+
+```
+type(scope): description
+
+[corpo opcional]
+
+[footer opcional]
+```
+
+## Tipos de Commit
+
+### Tipos Principais
+
+- **feat**: Nova feature (adiciona funcionalidade)
+- **fix**: Correção de bug
+- **refactor**: Refatoração de código (sem mudança de comportamento)
+- **perf**: Melhoria de performance
+- **test**: Adição ou correção de testes
+- **docs**: Mudanças na documentação
+- **chore**: Tarefas de manutenção (deps, configs, etc.)
+- **style**: Formatação (não afeta código, apenas estilo)
+- **ci**: Mudanças em CI/CD
+- **build**: Mudanças no build system
+- **revert**: Reverter commit anterior
+
+### Tipos Não Permitidos
+
+- ❌ Não usar tipos genéricos como "update", "change", "modify"
+- ❌ Não usar tipos em português
+- ❌ Não usar tipos inventados
+
+## Scope (Opcional mas Recomendado)
+
+O scope deve indicar a área do código afetada:
+
+- **component**: Componentes React
+- **hook**: Hooks customizados
+- **service**: Services e APIs
+- **store**: Zustand stores
+- **test**: Testes
+- **config**: Configurações
+- **deps**: Dependências
+- **docs**: Documentação
+- **style**: Estilos
+- **ci**: CI/CD
+- **build**: Build system
+
+Exemplos de scopes específicos:
+- `contact`: Formulário de contato
+- `portfolio`: Seção de portfólio
+- `theme`: Sistema de temas
+- `auth`: Autenticação
+- `api`: APIs
+
+## Description (Obrigatório)
+
+- **Formato**: Minúscula, sem ponto final
+- **Tamanho**: Máximo 72 caracteres
+- **Linguagem**: Português (descrição) ou Inglês (se preferir)
+- **Tom**: Imperativo ("adiciona", "corrige", "remove")
+
+### Boas Práticas
+
+✅ **Bom**:
+- `feat(contact): adiciona validação com Zod`
+- `fix(portfolio): corrige lazy loading de imagens`
+- `refactor(components): migra para atomic design`
+
+❌ **Ruim**:
+- `feat: adiciona coisa nova`
+- `fix: bug`
+- `update: atualiza arquivo`
+
+## Corpo (Opcional)
+
+Usar para explicar o "o quê" e "por quê", não o "como":
+
+```
+feat(contact): adiciona validação com Zod
+
+Substitui validação manual por schemas Zod para melhor
+tipagem e reutilização. Isso permite validação tanto no
+frontend quanto no backend usando os mesmos schemas.
+```
+
+### Regras do Corpo
+
+- Separar do header por linha em branco
+- Máximo 72 caracteres por linha
+- Usar para explicar contexto e motivação
+- Não repetir o que está no header
+
+## Footer (Opcional)
+
+Usar para referências e breaking changes:
+
+```
+feat(api): adiciona novo endpoint de contato
+
+BREAKING CHANGE: Remove endpoint antigo /contact/old
+Closes #123
+Refs #456
+```
+
+### Tipos de Footer
+
+- **BREAKING CHANGE**: Mudanças incompatíveis
+- **Closes**: Fecha issue/PR
+- **Refs**: Referencia issue/PR
+- **Co-authored-by**: Co-autor
+
+## Exemplos Completos
+
+### Commit Simples
+
+```
+feat(contact): adiciona validação de email
+```
+
+### Commit com Scope
+
+```
+fix(portfolio): corrige filtro de categorias
+```
+
+### Commit com Corpo
+
+```
+refactor(components): migra Button para atomic design
+
+Move Button de components/common para components/atoms
+seguindo padrão Atomic Design. Isso melhora organização
+e facilita reutilização em outros projetos.
+```
+
+### Commit com Breaking Change
+
+```
+feat(api): refatora endpoint de projetos
+
+BREAKING CHANGE: Endpoint /api/projects agora retorna
+formato diferente. Migrar clientes para nova estrutura.
+
+Closes #123
+```
+
+### Commit de Correção
+
+```
+fix(theme): corrige contraste em modo escuro
+
+Ajusta cores do tema escuro para atender WCAG AA.
+Contraste mínimo agora é 4.5:1 em todos os textos.
+```
+
+### Commit de Teste
+
+```
+test(contact): adiciona testes E2E para formulário
+
+Adiciona testes Playwright para fluxo completo de
+envio do formulário de contato incluindo validação.
+```
+
+### Commit de Documentação
+
+```
+docs(readme): atualiza instruções de instalação
+
+Adiciona seção sobre variáveis de ambiente e
+configuração do Vercel.
+```
+
+### Commit de Dependências
+
+```
+chore(deps): atualiza React para 19.1.0
+
+Atualiza React e React DOM para versão 19.1.0.
+Nenhuma mudança breaking no código atual.
+```
+
+## Regras Especiais
+
+### Commits Múltiplos
+
+Se um commit afeta múltiplas áreas, usar scope mais genérico:
+
+```
+refactor: migra componentes para atomic design
+
+Afeta múltiplos componentes e estrutura de pastas.
+```
+
+### Commits de Merge
+
+Commits de merge automáticos podem não seguir padrão, mas commits manuais devem seguir.
+
+### Commits de Revert
+
+```
+revert: "feat(contact): adiciona validação com Zod"
+
+Reverte commit anterior devido a bug crítico.
+Será reimplementado na próxima sprint.
+```
+
+## Validação
+
+- ✅ Commit message deve começar com tipo válido
+- ✅ Deve ter descrição clara e objetiva
+- ✅ Scope deve ser relevante
+- ✅ Corpo deve explicar contexto quando necessário
+- ✅ Breaking changes devem ser documentados
+
+## Ferramentas
+
+- **Husky**: Pre-commit hook para validar formato
+- **commitlint**: Validação automática de commits
+- **Conventional Commits**: Padrão oficial
+
+## Referências
+
+- [Conventional Commits](https://www.conventionalcommits.org/)
+- [Angular Commit Message Guidelines](https://github.com/angular/angular/blob/main/CONTRIBUTING.md#commit)

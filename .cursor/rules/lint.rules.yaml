@@ -1,1 +1,303 @@
 # Objetivo: mapeamento mínimo de lint/format (ESLint/Prettier) e regras de severidade.
+
+## Ferramentas
+
+- **ESLint**: Linting de código JavaScript/TypeScript
+- **Prettier**: Formatação automática de código
+- **TypeScript**: Verificação de tipos
+
+## Configuração ESLint
+
+### Extensões Base
+
+- `@typescript-eslint/recommended`: Regras recomendadas TypeScript
+- `eslint:recommended`: Regras recomendadas JavaScript
+- `plugin:react-hooks/recommended`: Regras React Hooks
+- `plugin:react/recommended`: Regras React
+
+### Regras Principais
+
+#### TypeScript
+
+```yaml
+@typescript-eslint/no-unused-vars: error
+@typescript-eslint/no-explicit-any: warn
+@typescript-eslint/explicit-function-return-type: off
+@typescript-eslint/no-non-null-assertion: warn
+```
+
+#### React
+
+```yaml
+react/react-in-jsx-scope: off          # Não necessário no React 17+
+react/prop-types: off                  # TypeScript já faz isso
+react-hooks/rules-of-hooks: error      # Regras de hooks obrigatórias
+react-hooks/exhaustive-deps: warn     # Dependências de useEffect
+```
+
+#### Geral
+
+```yaml
+no-console: warn                       # Permitir console em dev
+no-debugger: error                     # Proibir debugger
+no-unused-vars: off                    # Usar versão TypeScript
+prefer-const: error                    # Preferir const
+no-var: error                          # Proibir var
+```
+
+### Severidades
+
+- **error**: Bloqueia commit/build (vermelho)
+- **warn**: Aviso mas não bloqueia (amarelo)
+- **off**: Desabilitado
+
+## Configuração Prettier
+
+### Regras Principais
+
+```json
+{
+  "semi": true,
+  "trailingComma": "es5",
+  "singleQuote": true,
+  "printWidth": 80,
+  "tabWidth": 2,
+  "useTabs": false,
+  "arrowParens": "always",
+  "endOfLine": "lf"
+}
+```
+
+### Arquivos Formatados
+
+- `*.ts`, `*.tsx`: TypeScript/React
+- `*.js`, `*.jsx`: JavaScript/React
+- `*.json`: JSON
+- `*.css`, `*.scss`: Estilos
+- `*.md`: Markdown
+
+## Integração com Git
+
+### Pre-commit Hooks
+
+- **Husky**: Gerenciar git hooks
+- **lint-staged**: Rodar apenas em arquivos staged
+
+### Configuração lint-staged
+
+```json
+{
+  "*.{ts,tsx}": [
+    "eslint --fix",
+    "prettier --write"
+  ],
+  "*.{json,md,css}": [
+    "prettier --write"
+  ]
+}
+```
+
+## Regras de Severidade por Contexto
+
+### Desenvolvimento Local
+
+- **Warnings**: Permitidos mas devem ser corrigidos
+- **Errors**: Devem ser corrigidos antes de commit
+
+### CI/CD
+
+- **Warnings**: Bloquear merge (max-warnings: 0)
+- **Errors**: Bloquear merge sempre
+
+### Pre-commit
+
+- **Warnings**: Tentar corrigir automaticamente
+- **Errors**: Bloquear commit
+
+## Regras Específicas por Tipo de Arquivo
+
+### Componentes React (.tsx)
+
+```yaml
+react/display-name: warn
+react/jsx-key: error
+react/jsx-no-duplicate-props: error
+react/jsx-no-undef: error
+```
+
+### Hooks
+
+```yaml
+react-hooks/rules-of-hooks: error
+react-hooks/exhaustive-deps: warn
+```
+
+### Testes
+
+```yaml
+# Desabilitar algumas regras em testes
+@typescript-eslint/no-explicit-any: off
+no-console: off
+```
+
+## Auto-fix
+
+### Comandos
+
+```bash
+# ESLint auto-fix
+npm run lint:fix
+
+# Prettier format
+npm run format
+
+# Ambos
+npm run lint:fix && npm run format
+```
+
+### Quando Usar
+
+- ✅ Antes de commit
+- ✅ Após merge
+- ✅ Durante desenvolvimento (salvar arquivo)
+
+## Ignorar Regras
+
+### Quando Permitido
+
+- ⚠️ Apenas quando absolutamente necessário
+- ⚠️ Deve ter comentário explicando motivo
+- ⚠️ Preferir `eslint-disable-next-line` sobre `eslint-disable`
+
+### Formato
+
+```typescript
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+// Necessário para tipagem dinâmica de API response
+const data: any = await fetchData();
+```
+
+## Configuração VS Code
+
+### Extensões Recomendadas
+
+- ESLint
+- Prettier
+- TypeScript
+
+### Settings.json
+
+```json
+{
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
+}
+```
+
+## Regras Customizadas
+
+### Projeto Específico
+
+Criar regras customizadas em `.eslintrc.js` quando necessário:
+
+```javascript
+module.exports = {
+  rules: {
+    // Regras específicas do projeto
+    'no-relative-imports': 'error',
+    'prefer-absolute-imports': 'warn',
+  },
+};
+```
+
+## Verificação de Tipos TypeScript
+
+### Comando
+
+```bash
+npm run type-check
+```
+
+### Regras
+
+- ✅ Rodar em CI antes de build
+- ✅ Bloquear merge se houver erros
+- ✅ Usar `strict: true` no tsconfig.json
+
+## Formatação de Imports
+
+### Ordem
+
+1. React e bibliotecas externas
+2. Bibliotecas internas (@/)
+3. Imports relativos
+4. Types
+5. Styles
+
+### Exemplo
+
+```typescript
+import React, { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { Button } from '@/components/atoms/Button';
+import { ContactForm } from './ContactForm';
+import type { ContactData } from '@/types/contactTypes';
+import './ContactSection.css';
+```
+
+## Regras de Naming
+
+### Arquivos
+
+- **Componentes**: PascalCase (`Button.tsx`)
+- **Hooks**: camelCase com `use` (`useContactForm.ts`)
+- **Utils**: camelCase (`formatDate.ts`)
+- **Types**: camelCase (`contactTypes.ts`)
+- **Constants**: UPPER_SNAKE_CASE (`API_URL.ts`)
+
+## Checklist de Qualidade
+
+Antes de commit:
+
+- [ ] ESLint sem erros (`npm run lint`)
+- [ ] Prettier formatado (`npm run format:check`)
+- [ ] TypeScript sem erros (`npm run type-check`)
+- [ ] Todos arquivos seguem padrão de imports
+- [ ] Nenhum `console.log` em produção
+- [ ] Nenhum `debugger` no código
+
+## CI/CD Integration
+
+### GitHub Actions
+
+```yaml
+- name: Lint
+  run: npm run lint
+
+- name: Format Check
+  run: npm run format:check
+
+- name: Type Check
+  run: npm run type-check
+```
+
+### Bloqueios
+
+- ❌ Merge bloqueado se lint falhar
+- ❌ Merge bloqueado se type-check falhar
+- ⚠️ Merge bloqueado se format-check falhar (configurável)
+
+## Referências
+
+- [ESLint Rules](https://eslint.org/docs/rules/)
+- [Prettier Options](https://prettier.io/docs/en/options.html)
+- [TypeScript ESLint](https://typescript-eslint.io/)

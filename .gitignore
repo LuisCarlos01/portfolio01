@@ -39,8 +39,10 @@ lerna-debug.log*
 # OS
 Thumbs.db
 
-# Cursor
-.cursor/
+# Cursor (exceto regras)
+.cursor/*
+!.cursor/rules/
+!.cursor/config.yaml
 
 # Playwright
 test-results/

@@ -1,1 +1,162 @@
 # Padrão de Arquitetura e estrutura de pasta para o projeto
+
+## Princípios Fundamentais
+
+1. **Atomic Design**: Organizar componentes em átomos, moléculas, organismos e templates
+2. **Separation of Concerns**: Separar lógica de negócio, apresentação e dados
+3. **Single Responsibility**: Cada componente/classe/função deve ter uma única responsabilidade
+4. **DRY (Don't Repeat Yourself)**: Evitar duplicação de código
+5. **KISS (Keep It Simple, Stupid)**: Preferir soluções simples sobre complexas
+
+## Estrutura de Pastas
+
+### Componentes (Atomic Design)
+
+```
+src/components/
+├── atoms/              # Componentes básicos reutilizáveis
+│   ├── Button/
+│   ├── Input/
+│   ├── Icon/
+│   └── Badge/
+├── molecules/          # Combinações de átomos
+│   ├── FormField/      # Input + Label + Error
+│   ├── Card/
+│   └── Modal/
+├── organisms/          # Componentes complexos com lógica
+│   ├── ContactForm/
+│   └── ProjectCard/
+├── templates/          # Estruturas de página
+│   ├── PageLayout/
+│   └── SectionLayout/
+├── sections/           # Seções do portfólio
+│   ├── about/
+│   ├── contact/
+│   ├── hero/
+│   ├── portfolio/
+│   ├── resume/
+│   ├── skills/
+│   └── testimonials/
+├── common/             # Componentes compartilhados
+├── layout/             # Header, Footer, Navigation
+└── feedback/           # ErrorBoundary, LoadingSpinner
+```
+
+### Regras de Organização
+
+- **Atoms**: Componentes que não podem ser divididos (Button, Input, Icon)
+- **Molecules**: Combinações de 2+ atoms (FormField = Input + Label + Error)
+- **Organisms**: Componentes complexos com lógica de negócio (ContactForm)
+- **Templates**: Estruturas de layout reutilizáveis (PageLayout)
+- **Sections**: Seções específicas do portfólio (mantém estrutura atual)
+
+### Estrutura de um Componente
+
+Cada componente deve seguir esta estrutura:
+
+```
+ComponentName/
+├── ComponentName.tsx       # Componente principal
+├── ComponentName.test.tsx  # Testes unitários
+├── ComponentName.stories.tsx  # Storybook (opcional)
+├── index.ts                # Export do componente
+└── types.ts                # Tipos específicos (se necessário)
+```
+
+## Padrões Arquiteturais
+
+### Container/Presenter Pattern
+
+- **Presenter**: Componentes "dumb" que apenas recebem props e renderizam
+- **Container**: Hooks customizados que gerenciam estado e lógica
+- **Exemplo**: `ContactForm` (presenter) usa `useContactForm` (container)
+
+### Repository Pattern
+
+- Abstrair acesso a dados através de repositories
+- Facilita migração futura para API real
+- Localização: `src/services/repositories/`
+
+### Facade Pattern
+
+- Interface simplificada para subsistemas complexos
+- Exemplo: `analyticsFacade.ts` abstrai Vercel Analytics + Sentry
+- Localização: `src/services/`
+
+### Strategy Pattern
+
+- Algoritmos intercambiáveis (validação, formatação, animação)
+- Exemplo: Zod schemas como estratégias de validação
+
+## Regras de Componentes
+
+1. **Tamanho máximo**: Componentes devem ter no máximo 200 linhas
+2. **Props**: Máximo de 5 props, usar objeto para mais props
+3. **Hooks**: Extrair lógica complexa para hooks customizados
+4. **Memoização**: Usar `React.memo` apenas quando necessário (profiling primeiro)
+5. **TypeScript**: Todos componentes devem ser tipados
+
+## Regras de Hooks
+
+1. **Nomenclatura**: Sempre começar com `use` (useContactForm, useTheme)
+2. **Responsabilidade única**: Um hook = uma responsabilidade
+3. **Retorno padronizado**: Retornar objeto com propriedades nomeadas
+4. **Error handling**: Incluir tratamento de erros quando aplicável
+
+## Regras de Services
+
+1. **Classes estáticas**: Preferir classes com métodos estáticos
+2. **Validação**: Sempre validar entrada com Zod
+3. **Error handling**: Tratar erros de forma consistente
+4. **Logging**: Usar logger para operações importantes
+
+## Regras de State Management
+
+1. **Zustand**: Para estado global (tema, seções)
+2. **React Query**: Para server state e cache
+3. **useState**: Para estado local de componentes
+4. **Context API**: Evitar, preferir Zustand
+
+## Regras de Imports
+
+1. **Ordem**: 
+   - React e bibliotecas externas
+   - Componentes internos
+   - Hooks
+   - Services/Utils
+   - Types
+   - Styles
+
+2. **Alias**: Usar `@/` para imports de `src/`
+   - `@/components/Button`
+   - `@/hooks/useContactForm`
+   - `@/services/contactService`
+
+3. **Absolute imports**: Sempre usar imports absolutos com alias
+
+## Regras de Performance
+
+1. **Lazy loading**: Componentes de rotas devem ser lazy loaded
+2. **Code splitting**: Separar por rotas e features grandes
+3. **Memoização**: Usar apenas quando profiling indicar necessidade
+4. **Bundle size**: Manter chunks menores que 200KB (gzipped)
+
+## Regras de Acessibilidade
+
+1. **ARIA labels**: Todos componentes interativos devem ter
+2. **Keyboard navigation**: Suportar navegação completa por teclado
+3. **Semantic HTML**: Usar elementos semânticos corretos
+4. **Focus management**: Gerenciar foco adequadamente
+
+## Regras de Estilos
+
+1. **Tailwind CSS**: Preferir para estilos utilitários
+2. **CSS Modules**: Para componentes complexos que precisam de CSS isolado
+3. **CSS Variables**: Para temas e valores dinâmicos
+4. **Responsive**: Mobile-first approach
+
+## Exceções e Casos Especiais
+
+- Componentes muito simples podem estar em um único arquivo
+- Componentes temporários podem não seguir estrutura completa
+- Componentes de terceiros não precisam seguir estas regras

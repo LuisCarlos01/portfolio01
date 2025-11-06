@@ -1,1 +1,338 @@
 # Objetivo: convenções de nomes para arquivos, componentes, hooks e testes
+
+## Princípios Gerais
+
+1. **Consistência**: Seguir padrão consistente em todo projeto
+2. **Clareza**: Nomes devem ser descritivos e claros
+3. **Convenções**: Seguir convenções da comunidade React/TypeScript
+4. **Busca**: Nomes devem ser fáceis de buscar e encontrar
+
+## Arquivos e Pastas
+
+### Componentes React
+
+- **Formato**: PascalCase
+- **Extensão**: `.tsx` para componentes, `.ts` para tipos/utils
+- **Exemplos**:
+  - ✅ `Button.tsx`
+  - ✅ `ContactForm.tsx`
+  - ✅ `ProjectCard.tsx`
+  - ❌ `button.tsx`
+  - ❌ `contact-form.tsx`
+
+### Hooks Customizados
+
+- **Formato**: camelCase com prefixo `use`
+- **Extensão**: `.ts`
+- **Exemplos**:
+  - ✅ `useContactForm.ts`
+  - ✅ `useGSAPAnimation.ts`
+  - ✅ `useTheme.ts`
+  - ❌ `UseContactForm.ts`
+  - ❌ `contactForm.ts`
+
+### Services e Utils
+
+- **Formato**: camelCase
+- **Extensão**: `.ts`
+- **Exemplos**:
+  - ✅ `contactService.ts`
+  - ✅ `formatDate.ts`
+  - ✅ `logger.ts`
+  - ❌ `ContactService.ts`
+  - ❌ `format-date.ts`
+
+### Types e Interfaces
+
+- **Formato**: camelCase com sufixo `Types` ou nome descritivo
+- **Extensão**: `.ts`
+- **Exemplos**:
+  - ✅ `contactTypes.ts`
+  - ✅ `portfolioTypes.ts`
+  - ✅ `types.ts` (para tipos gerais)
+  - ❌ `ContactTypes.ts`
+  - ❌ `contact-types.ts`
+
+### Constants
+
+- **Formato**: UPPER_SNAKE_CASE para constantes, camelCase para arquivo
+- **Extensão**: `.ts`
+- **Exemplos**:
+  - ✅ `constants.ts` com `API_URL`, `MAX_RETRIES`
+  - ✅ `config.ts` com configurações
+  - ❌ `CONSTANTS.ts`
+
+### Testes
+
+- **Formato**: Mesmo nome do arquivo + `.test.` ou `.spec.`
+- **Extensão**: `.test.tsx` ou `.test.ts`
+- **Exemplos**:
+  - ✅ `Button.test.tsx` (testa `Button.tsx`)
+  - ✅ `useContactForm.test.ts` (testa `useContactForm.ts`)
+  - ✅ `contactService.test.ts` (testa `contactService.ts`)
+  - ❌ `button.test.tsx`
+  - ❌ `Button.spec.tsx`
+
+### Stories (Storybook)
+
+- **Formato**: Mesmo nome do arquivo + `.stories.`
+- **Extensão**: `.stories.tsx`
+- **Exemplos**:
+  - ✅ `Button.stories.tsx`
+  - ✅ `ContactForm.stories.tsx`
+
+### Pastas
+
+- **Formato**: camelCase ou kebab-case (consistente)
+- **Recomendado**: camelCase para pastas de componentes
+- **Exemplos**:
+  - ✅ `components/contactForm/`
+  - ✅ `components/contact-form/` (se usar kebab-case)
+  - ✅ `hooks/`
+  - ✅ `services/`
+
+## Componentes React
+
+### Nomes de Componentes
+
+- **Formato**: PascalCase
+- **Regra**: Nome deve corresponder ao nome do arquivo
+- **Exemplos**:
+  - ✅ `export const Button = () => {}`
+  - ✅ `export const ContactForm = () => {}`
+  - ❌ `export const button = () => {}`
+  - ❌ `export const contact_form = () => {}`
+
+### Props Interfaces
+
+- **Formato**: `ComponentNameProps`
+- **Exemplos**:
+  - ✅ `ButtonProps`
+  - ✅ `ContactFormProps`
+  - ✅ `ProjectCardProps`
+
+### Componentes com forwardRef
+
+- **Formato**: Mesmo padrão, usar `displayName`
+- **Exemplos**:
+  ```typescript
+  export const Button = forwardRef<HTMLButtonElement, ButtonProps>(...);
+  Button.displayName = 'Button';
+  ```
+
+## Hooks
+
+### Nomes de Hooks
+
+- **Formato**: camelCase com prefixo `use`
+- **Retorno**: Objeto com propriedades nomeadas
+- **Exemplos**:
+  - ✅ `useContactForm()`
+  - ✅ `useTheme()`
+  - ✅ `useGSAPAnimation()`
+  - ❌ `useContactFormHook()`
+  - ❌ `UseContactForm()`
+
+### Retorno de Hooks
+
+- **Formato**: Objeto com propriedades descritivas
+- **Exemplos**:
+  ```typescript
+  // ✅ Bom
+  const { formData, submitForm, isLoading } = useContactForm();
+  
+  // ❌ Ruim
+  const [data, submit, loading] = useContactForm();
+  ```
+
+## Variáveis e Funções
+
+### Variáveis
+
+- **Formato**: camelCase
+- **Constantes**: UPPER_SNAKE_CASE
+- **Exemplos**:
+  - ✅ `const userName = 'John';`
+  - ✅ `const MAX_RETRIES = 3;`
+  - ✅ `const apiUrl = 'https://api.example.com';`
+  - ❌ `const user_name = 'John';`
+  - ❌ `const maxRetries = 3;` (se for constante)
+
+### Funções
+
+- **Formato**: camelCase com verbo
+- **Exemplos**:
+  - ✅ `function submitForm() {}`
+  - ✅ `function formatDate() {}`
+  - ✅ `function validateEmail() {}`
+  - ❌ `function SubmitForm() {}`
+  - ❌ `function submit_form() {}`
+
+### Funções Assíncronas
+
+- **Formato**: camelCase, pode ter sufixo `Async`
+- **Exemplos**:
+  - ✅ `async function fetchData() {}`
+  - ✅ `async function submitFormAsync() {}`
+
+## Classes
+
+### Nomes de Classes
+
+- **Formato**: PascalCase
+- **Exemplos**:
+  - ✅ `class ContactService {}`
+  - ✅ `class ApiClient {}`
+  - ❌ `class contactService {}`
+
+## Types e Interfaces
+
+### Interfaces
+
+- **Formato**: PascalCase, sem prefixo `I`
+- **Exemplos**:
+  - ✅ `interface ContactData {}`
+  - ✅ `interface Project {}`
+  - ❌ `interface IContactData {}`
+  - ❌ `interface contactData {}`
+
+### Types
+
+- **Formato**: PascalCase
+- **Exemplos**:
+  - ✅ `type ContactStatus = 'pending' | 'sent' | 'error';`
+  - ✅ `type FormData = { name: string; email: string; };`
+  - ❌ `type contactStatus = ...`
+
+### Enums
+
+- **Formato**: PascalCase
+- **Valores**: PascalCase ou UPPER_SNAKE_CASE (consistente)
+- **Exemplos**:
+  ```typescript
+  // ✅ Opção 1
+  enum ContactStatus {
+    Pending = 'pending',
+    Sent = 'sent',
+    Error = 'error',
+  }
+  
+  // ✅ Opção 2
+  enum ContactStatus {
+    Pending,
+    Sent,
+    Error,
+  }
+  ```
+
+## CSS e Estilos
+
+### Classes CSS
+
+- **Formato**: kebab-case ou seguir Tailwind (utilities)
+- **Exemplos**:
+  - ✅ `contact-form`
+  - ✅ `btn-primary`
+  - ✅ `bg-primary` (Tailwind)
+
+### CSS Modules
+
+- **Formato**: camelCase para importação
+- **Exemplos**:
+  - ✅ `import styles from './ContactForm.module.css';`
+  - ✅ `styles.contactForm`
+
+## Imports e Exports
+
+### Named Exports
+
+- **Formato**: Mesmo nome do componente/função
+- **Exemplos**:
+  - ✅ `export { Button };`
+  - ✅ `export { useContactForm };`
+
+### Default Exports
+
+- **Formato**: Usar apenas quando necessário
+- **Exemplos**:
+  - ✅ `export default ContactForm;`
+  - ⚠️ Evitar em favor de named exports quando possível
+
+### Barrel Exports (index.ts)
+
+- **Formato**: Re-exportar com mesmo nome
+- **Exemplos**:
+  ```typescript
+  // index.ts
+  export { Button } from './Button';
+  export { Input } from './Input';
+  ```
+
+## Testes
+
+### Describe Blocks
+
+- **Formato**: Nome do componente/função sendo testado
+- **Exemplos**:
+  - ✅ `describe('Button', () => {});`
+  - ✅ `describe('useContactForm', () => {});`
+
+### Test Cases
+
+- **Formato**: Descrição em português ou inglês (consistente)
+- **Formato**: "should [ação esperada]"
+- **Exemplos**:
+  - ✅ `it('should render correctly', () => {});`
+  - ✅ `it('should handle click event', () => {});`
+  - ✅ `it('deve validar email corretamente', () => {});`
+
+### Test IDs
+
+- **Formato**: kebab-case com prefixo descritivo
+- **Exemplos**:
+  - ✅ `data-testid="contact-form"`
+  - ✅ `data-testid="submit-button"`
+  - ✅ `data-testid="email-input"`
+
+## E2E Tests (Playwright)
+
+### Spec Files
+
+- **Formato**: camelCase com sufixo `.spec.ts`
+- **Exemplos**:
+  - ✅ `contact.spec.ts`
+  - ✅ `portfolio.spec.ts`
+  - ✅ `navigation.spec.ts`
+
+### Test Descriptions
+
+- **Formato**: Descrição clara do que está sendo testado
+- **Exemplos**:
+  - ✅ `test('should submit contact form successfully', ...)`
+  - ✅ `test('should filter projects by category', ...)`
+
+## Configurações e Constantes
+
+### Environment Variables
+
+- **Formato**: UPPER_SNAKE_CASE com prefixo `VITE_`
+- **Exemplos**:
+  - ✅ `VITE_API_URL`
+  - ✅ `VITE_ANALYTICS_ID`
+  - ❌ `vite_api_url`
+  - ❌ `API_URL` (sem prefixo VITE_)
+
+## Checklist de Nomenclatura
+
+Antes de criar novo arquivo/componente:
+
+- [ ] Nome segue convenção do tipo (PascalCase para componentes, camelCase para hooks)
+- [ ] Nome é descritivo e claro
+- [ ] Nome corresponde ao propósito
+- [ ] Não há conflito com nomes existentes
+- [ ] Nome segue padrão do projeto
+
+## Referências
+
+- [React Naming Conventions](https://react.dev/learn/your-first-component#naming-components)
+- [TypeScript Naming Conventions](https://www.typescriptlang.org/docs/handbook/declaration-files/do-s-and-don-ts.html)

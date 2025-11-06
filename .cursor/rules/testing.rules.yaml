@@ -1,1 +1,352 @@
 # Objetivo: garantir presença de testes unitários/integração para componentes críticos e services.
+
+## Princípios de Testes
+
+1. **Cobertura mínima**: 80% de cobertura de código
+2. **Testes críticos**: Todos caminhos críticos devem ser testados
+3. **Testes rápidos**: Testes unitários devem ser rápidos (< 1s cada)
+4. **Testes isolados**: Testes não devem depender uns dos outros
+5. **Testes determinísticos**: Mesmos inputs = mesmos outputs
+
+## Ferramentas
+
+### Unit Tests
+
+- **Framework**: Vitest 1.0.0+
+- **Assertions**: Vitest assertions + @testing-library/jest-dom
+- **Mocking**: Vitest mocks + MSW (Mock Service Worker)
+
+### E2E Tests
+
+- **Framework**: Playwright 1.40.0+
+- **Browsers**: Chromium, Firefox, WebKit
+- **CI**: Rodar em GitHub Actions
+
+## Estrutura de Testes
+
+### Localização
+
+```
+src/
+├── components/
+│   └── Button/
+│       ├── Button.tsx
+│       └── Button.test.tsx
+├── hooks/
+│   ├── useContactForm.ts
+│   └── useContactForm.test.ts
+├── services/
+│   ├── contactService.ts
+│   └── contactService.test.ts
+└── __tests__/              # Testes de integração
+    └── integration/
+
+e2e/                        # Testes E2E
+├── contact.spec.ts
+├── navigation.spec.ts
+└── portfolio.spec.ts
+```
+
+## Componentes Críticos
+
+### O Que Testar
+
+- ✅ **Renderização**: Componente renderiza corretamente
+- ✅ **Props**: Props são aplicadas corretamente
+- ✅ **Interações**: Eventos (click, input, etc.)
+- ✅ **Estados**: Loading, error, success states
+- ✅ **Acessibilidade**: ARIA labels, keyboard navigation
+
+### Exemplo
+
+```typescript
+import { render, screen, fireEvent } from '@testing-library/react';
+import { Button } from './Button';
+
+describe('Button', () => {
+  it('should render correctly', () => {
+    render(<Button>Click me</Button>);
+    expect(screen.getByRole('button', { name: /click me/i })).toBeInTheDocument();
+  });
+
+  it('should handle click events', () => {
+    const handleClick = vi.fn();
+    render(<Button onClick={handleClick}>Click</Button>);
+    
+    fireEvent.click(screen.getByRole('button'));
+    expect(handleClick).toHaveBeenCalledTimes(1);
+  });
+
+  it('should be disabled when isLoading', () => {
+    render(<Button isLoading>Submit</Button>);
+    expect(screen.getByRole('button')).toBeDisabled();
+  });
+});
+```
+
+## Hooks Críticos
+
+### O Que Testar
+
+- ✅ **Retorno**: Hook retorna valores esperados
+- ✅ **Estado**: Estado muda corretamente
+- ✅ **Efeitos**: Side effects executam corretamente
+- ✅ **Cleanup**: Cleanup funciona corretamente
+
+### Exemplo
+
+```typescript
+import { renderHook, act } from '@testing-library/react';
+import { useContactForm } from './useContactForm';
+
+describe('useContactForm', () => {
+  it('should initialize with empty form data', () => {
+    const { result } = renderHook(() => useContactForm());
+    expect(result.current.formData.name).toBe('');
+    expect(result.current.formData.email).toBe('');
+  });
+
+  it('should update form data', () => {
+    const { result } = renderHook(() => useContactForm());
+    
+    act(() => {
+      result.current.updateFormData('name', 'John Doe');
+    });
+    
+    expect(result.current.formData.name).toBe('John Doe');
+  });
+});
+```
+
+## Services Críticos
+
+### O Que Testar
+
+- ✅ **Validação**: Validação de entrada funciona
+- ✅ **API Calls**: Chamadas de API são feitas corretamente
+- ✅ **Error Handling**: Erros são tratados adequadamente
+- ✅ **Transformação**: Dados são transformados corretamente
+
+### Exemplo
+
+```typescript
+import { describe, it, expect, vi } from 'vitest';
+import { ContactService } from './contactService';
+import { contactRepository } from './contactRepository';
+
+vi.mock('./contactRepository');
+
+describe('ContactService', () => {
+  it('should submit form with valid data', async () => {
+    const mockData = {
+      name: 'John Doe',
+      email: 'john@example.com',
+      subject: 'Test',
+      message: 'Test message with enough characters.',
+    };
+    
+    vi.mocked(contactRepository.submit).mockResolvedValue({ success: true });
+    
+    const result = await ContactService.submitForm(mockData);
+    
+    expect(result.success).toBe(true);
+    expect(contactRepository.submit).toHaveBeenCalledWith(mockData);
+  });
+
+  it('should reject invalid email', async () => {
+    const invalidData = {
+      name: 'John',
+      email: 'invalid-email',
+      subject: 'Test',
+      message: 'Test message.',
+    };
+    
+    const result = await ContactService.submitForm(invalidData);
+    
+    expect(result.success).toBe(false);
+    expect(result.message).toContain('Email inválido');
+  });
+});
+```
+
+## Caminhos Críticos
+
+### Lista de Caminhos Críticos
+
+1. **Formulário de contato**
+   - Envio com dados válidos
+   - Validação de campos
+   - Tratamento de erros
+   - Feedback visual
+
+2. **Navegação entre seções**
+   - Scroll suave
+   - Atualização de URL
+   - Navegação por teclado
+   - Mobile navigation
+
+3. **Filtros de portfólio**
+   - Filtro por categoria
+   - Múltiplos filtros
+   - Reset de filtros
+   - Contador de projetos
+
+4. **Tema escuro/claro**
+   - Toggle de tema
+   - Persistência de preferência
+   - Aplicação de estilos
+
+5. **Lazy loading**
+   - Carregamento de imagens
+   - Carregamento de componentes
+   - Fallbacks
+
+## Cobertura de Testes
+
+### Mínimos
+
+- **Cobertura geral**: 80%
+- **Componentes críticos**: 100%
+- **Services**: 90%
+- **Hooks**: 85%
+- **Utils**: 80%
+
+### Verificação
+
+```bash
+# Rodar testes com cobertura
+npm run test:coverage
+
+# Verificar cobertura mínima
+# CI deve bloquear se < 80%
+```
+
+## Testes E2E
+
+### O Que Testar
+
+- ✅ **Fluxos completos**: Fluxos de usuário end-to-end
+- ✅ **Navegação**: Navegação entre páginas/seções
+- ✅ **Formulários**: Envio completo de formulários
+- ✅ **Interações**: Click, input, scroll, etc.
+- ✅ **Responsividade**: Testar em diferentes tamanhos de tela
+
+### Exemplo
+
+```typescript
+import { test, expect } from '@playwright/test';
+
+test.describe('Contact Form', () => {
+  test('should submit form successfully', async ({ page }) => {
+    await page.goto('/');
+    await page.click('a[href="#contact"]');
+    
+    await page.fill('[name="name"]', 'John Doe');
+    await page.fill('[name="email"]', 'john@example.com');
+    await page.fill('[name="subject"]', 'Test Subject');
+    await page.fill('[name="message"]', 'Test message with enough characters.');
+    
+    await page.click('button[type="submit"]');
+    
+    await expect(page.locator('[data-testid="success-message"]')).toBeVisible();
+  });
+});
+```
+
+## Mocking
+
+### Quando Mockar
+
+- ✅ **APIs externas**: Sempre mockar chamadas de API
+- ✅ **Timers**: Mockar setTimeout, setInterval
+- ✅ **Date**: Mockar Date quando necessário
+- ✅ **LocalStorage**: Mockar localStorage
+- ✅ **Window**: Mockar window quando necessário
+
+### Exemplo
+
+```typescript
+import { vi } from 'vitest';
+
+// Mock de API
+vi.mock('./contactRepository', () => ({
+  contactRepository: {
+    submit: vi.fn(),
+  },
+}));
+
+// Mock de timer
+vi.useFakeTimers();
+
+// Mock de Date
+vi.setSystemTime(new Date('2024-01-01'));
+```
+
+## Testes de Acessibilidade
+
+### O Que Testar
+
+- ✅ **ARIA labels**: Componentes têm labels adequados
+- ✅ **Keyboard navigation**: Navegação por teclado funciona
+- ✅ **Screen readers**: Compatível com screen readers
+- ✅ **Contraste**: Contraste de cores adequado
+
+### Ferramentas
+
+- **@testing-library/jest-dom**: Assertions de acessibilidade
+- **axe-core**: Auditoria de acessibilidade
+- **Playwright**: Testes E2E de acessibilidade
+
+## Performance de Testes
+
+### Regras
+
+- ✅ **Unit tests**: < 1s cada
+- ✅ **Suite completa**: < 30s
+- ✅ **E2E tests**: < 2min cada
+- ✅ **CI**: < 5min total
+
+### Otimização
+
+- ✅ Rodar testes em paralelo
+- ✅ Usar watch mode em desenvolvimento
+- ✅ Rodar apenas testes afetados quando possível
+
+## CI/CD Integration
+
+### GitHub Actions
+
+```yaml
+- name: Run Unit Tests
+  run: npm run test:coverage
+
+- name: Run E2E Tests
+  run: npm run test:e2e
+
+- name: Check Coverage
+  run: |
+    coverage=$(npm run test:coverage -- --reporter=json | jq '.coverage')
+    if [ "$coverage" -lt 80 ]; then
+      echo "Coverage is below 80%"
+      exit 1
+    fi
+```
+
+## Checklist de Testes
+
+Antes de commit:
+
+- [ ] Componente tem testes unitários
+- [ ] Hook tem testes unitários
+- [ ] Service tem testes unitários
+- [ ] Caminhos críticos testados
+- [ ] Testes E2E para fluxos principais
+- [ ] Cobertura > 80%
+- [ ] Todos testes passando
+- [ ] Mocks configurados corretamente
+
+## Referências
+
+- [Vitest Documentation](https://vitest.dev/)
+- [Testing Library](https://testing-library.com/)
+- [Playwright Documentation](https://playwright.dev/)

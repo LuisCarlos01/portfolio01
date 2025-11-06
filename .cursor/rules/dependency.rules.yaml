@@ -1,1 +1,224 @@
 # Objetivo: definir políticas de dependências (evitar versões major instáveis, proibir libs descontinuadas).
+
+## Princípios Gerais
+
+1. **Estabilidade**: Preferir versões estáveis e LTS quando disponível
+2. **Segurança**: Manter dependências atualizadas para corrigir vulnerabilidades
+3. **Compatibilidade**: Verificar compatibilidade antes de atualizar
+4. **Tamanho**: Considerar impacto no bundle size
+5. **Manutenção**: Preferir bibliotecas ativamente mantidas
+
+## Políticas de Versões
+
+### Versões Major (Breaking Changes)
+
+- ❌ **PROIBIDO**: Atualizar versões major sem análise completa
+- ✅ **PERMITIDO**: Atualizar após:
+  - Ler changelog completo
+  - Verificar breaking changes
+  - Testar em ambiente de desenvolvimento
+  - Atualizar código conforme necessário
+  - Rodar todos os testes
+
+### Versões Minor (Novas Features)
+
+- ✅ **PERMITIDO**: Atualizar versões minor automaticamente
+- ⚠️ **ATENÇÃO**: Verificar changelog para mudanças significativas
+- ✅ **RECOMENDADO**: Atualizar regularmente (mensalmente)
+
+### Versões Patch (Bug Fixes)
+
+- ✅ **OBRIGATÓRIO**: Atualizar versões patch imediatamente
+- ✅ **AUTOMÁTICO**: Usar Dependabot para atualizações de segurança
+- ✅ **PRIORIDADE**: Correções de segurança têm prioridade máxima
+
+## Bibliotecas Proibidas
+
+### Descontinuadas
+
+- ❌ Qualquer biblioteca marcada como deprecated
+- ❌ Bibliotecas sem commits há mais de 1 ano
+- ❌ Bibliotecas com issues críticas não resolvidas
+
+### Instáveis
+
+- ❌ Versões alpha, beta, rc sem justificativa técnica
+- ❌ Bibliotecas experimentais em produção
+- ❌ Versões major recém-lançadas (< 1 mês)
+
+## Bibliotecas Permitidas e Versões
+
+### Core Dependencies
+
+```json
+{
+  "react": "^19.1.0",           // Versão estável atual
+  "react-dom": "^19.1.0",       // Mesma versão do React
+  "typescript": "^5.2.0",       // LTS ou estável
+  "vite": "^5.4.0"              // Versão estável
+}
+```
+
+### State Management
+
+```json
+{
+  "zustand": "^4.5.0",          // Versão estável
+  "@tanstack/react-query": "^5.0.0"  // Versão estável
+}
+```
+
+### Forms & Validation
+
+```json
+{
+  "react-hook-form": "^7.51.0", // Versão estável
+  "zod": "^3.23.0"              // Versão estável
+}
+```
+
+### Testing
+
+```json
+{
+  "vitest": "^1.0.0",           // Versão estável
+  "@playwright/test": "^1.40.0" // Versão estável
+}
+```
+
+## Regras de Atualização
+
+### Processo de Atualização
+
+1. **Verificar Changelog**: Ler changelog da nova versão
+2. **Verificar Breaking Changes**: Identificar mudanças incompatíveis
+3. **Testar Localmente**: Atualizar em branch separada
+4. **Rodar Testes**: Todos os testes devem passar
+5. **Verificar Build**: Build deve funcionar corretamente
+6. **Atualizar Código**: Ajustar código se necessário
+7. **Commit**: Seguir padrão de commits
+8. **PR**: Criar PR com descrição das mudanças
+
+### Atualizações Automáticas
+
+- ✅ **Dependabot**: Configurado para atualizações de segurança
+- ✅ **Renovate**: Alternativa ao Dependabot (opcional)
+- ⚠️ **Review Obrigatório**: Todas atualizações automáticas devem ser revisadas
+
+## Auditoria de Segurança
+
+### Ferramentas
+
+- **npm audit**: Rodar regularmente
+- **Dependabot**: Alertas automáticos de segurança
+- **Snyk**: Alternativa para auditoria (opcional)
+
+### Processo
+
+1. **Audit Semanal**: Rodar `npm audit` semanalmente
+2. **Correções Imediatas**: Vulnerabilidades críticas corrigidas em 24h
+3. **Correções Altas**: Vulnerabilidades altas corrigidas em 1 semana
+4. **Correções Médias**: Vulnerabilidades médias corrigidas em 1 mês
+
+## Bundle Size
+
+### Limites
+
+- **Bundle Inicial**: Máximo 200KB (gzipped)
+- **Chunks Individuais**: Máximo 200KB cada
+- **Análise**: Usar `vite-bundle-visualizer` para análise
+
+### Regras
+
+- ⚠️ Verificar tamanho antes de adicionar nova dependência
+- ✅ Preferir bibliotecas menores quando possível
+- ✅ Usar tree-shaking quando disponível
+- ✅ Considerar code splitting para libs grandes
+
+## Dependências de Desenvolvimento
+
+### Regras Especiais
+
+- ✅ Podem ser atualizadas com mais frequência
+- ✅ Não afetam bundle size de produção
+- ✅ Devem seguir mesmas regras de segurança
+
+### Exemplos
+
+```json
+{
+  "devDependencies": {
+    "@types/react": "^19.1.8",
+    "@typescript-eslint/eslint-plugin": "^7.0.0",
+    "eslint": "^8.57.0",
+    "prettier": "^3.6.0",
+    "vitest": "^1.0.0"
+  }
+}
+```
+
+## Peer Dependencies
+
+### Regras
+
+- ✅ Verificar compatibilidade com versões instaladas
+- ⚠️ Resolver conflitos antes de instalar
+- ✅ Documentar versões suportadas
+
+## Resolução de Conflitos
+
+### Processo
+
+1. **Identificar Conflito**: Verificar mensagem de erro
+2. **Analisar Dependências**: Usar `npm ls` para ver árvore
+3. **Verificar Compatibilidade**: Verificar se versões são compatíveis
+4. **Resolver**: Atualizar ou usar `overrides` se necessário
+5. **Testar**: Rodar testes após resolução
+
+## Documentação
+
+### Requisitos
+
+- ✅ Todas dependências devem ter justificativa
+- ✅ Versões devem estar documentadas no README
+- ✅ Breaking changes devem ser documentados
+
+### Exemplo de Documentação
+
+```markdown
+## Dependências Principais
+
+- **React 19.1.0**: Framework principal
+- **Zustand 4.5.0**: State management leve
+- **React Hook Form 7.51.0**: Gerenciamento de formulários
+- **Zod 3.23.0**: Validação de schemas
+```
+
+## Exceções
+
+### Quando Permitir Versões Instáveis
+
+- ✅ Testes em ambiente de desenvolvimento
+- ✅ Bibliotecas críticas com correções importantes
+- ✅ Features experimentais em branch separada
+- ⚠️ Sempre documentar motivo da exceção
+
+## Checklist de Nova Dependência
+
+Antes de adicionar nova dependência:
+
+- [ ] Verificar se já existe alternativa no projeto
+- [ ] Verificar tamanho do bundle
+- [ ] Verificar última atualização (deve ser < 6 meses)
+- [ ] Verificar número de downloads semanais
+- [ ] Verificar issues abertas críticas
+- [ ] Verificar compatibilidade com versões atuais
+- [ ] Verificar licença compatível
+- [ ] Documentar motivo da adição
+- [ ] Adicionar aos testes
+
+## Referências
+
+- [npm Semantic Versioning](https://docs.npmjs.com/about-semantic-versioning)
+- [Dependabot Documentation](https://docs.github.com/en/code-security/dependabot)
+- [npm audit](https://docs.npmjs.com/cli/v8/commands/npm-audit)
