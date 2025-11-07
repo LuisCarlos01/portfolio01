@@ -49,9 +49,13 @@ export const AppProviders: React.FC<AppProvidersProps> = ({ children }) => {
 
   return (
     <Sentry.ErrorBoundary
-      fallback={({ error, resetError }) => (
-        <ErrorFallback error={error} resetErrorBoundary={resetError} />
-      )}
+      fallback={({ error, resetError }) => {
+        const errorObj =
+          error instanceof Error ? error : new Error(String(error));
+        return (
+          <ErrorFallback error={errorObj} resetErrorBoundary={resetError} />
+        );
+      }}
       showDialog
     >
       <ErrorBoundary FallbackComponent={ErrorFallback}>
