@@ -12,7 +12,6 @@ import {
   FaDocker,
   FaWordpress,
   FaGithub,
-  FaPython,
 } from 'react-icons/fa';
 import {
   SiTypescript,
@@ -21,8 +20,6 @@ import {
   SiNextdotjs,
   SiVite,
   SiFigma,
-  SiCplusplus,
-  SiSharp,
   SiGreensock,
   SiReactrouter,
 } from 'react-icons/si';
@@ -232,33 +229,6 @@ export const skillsData: Skill[] = [
       'Plataforma de hospedagem de código com controle de versão e colaboração para projetos de software.',
   },
   {
-    name: 'C++',
-    level: 25,
-    icon: createIcon(SiCplusplus, 32),
-    category: 'backend',
-    color: '#00599C',
-    description:
-      'Linguagem de programação de propósito geral com recursos para programação de baixo nível e orientação a objetos.',
-  },
-  {
-    name: 'C#',
-    level: 35,
-    icon: createIcon(SiSharp, 32),
-    category: 'backend',
-    color: '#239120',
-    description:
-      'Linguagem de programação moderna, orientada a objetos e tipada desenvolvida pela Microsoft.',
-  },
-  {
-    name: 'Python',
-    level: 45,
-    icon: createIcon(FaPython, 32),
-    category: 'backend',
-    color: '#3776AB',
-    description:
-      'Linguagem de programação interpretada de alto nível, com filosofia de design que enfatiza legibilidade e simplicidade.',
-  },
-  {
     name: 'GSAP',
     level: 70,
     icon: createIcon(SiGreensock, 32),
@@ -277,4 +247,3 @@ export const skillsData: Skill[] = [
       'Biblioteca de roteamento para React, permitindo navegação e gerenciamento de URL em aplicações de página única.',
   },
 ];
-
