@@ -5,6 +5,7 @@ export const AboutHeader: React.FC<AboutHeaderProps> = memo(({ titleRef }) => {
   return (
     <h2
       ref={titleRef}
+      id="about-title"
       className="text-heading-3xl font-bold text-center mb-16 text-foreground relative"
     >
       Sobre <span className="text-primary">Mim</span>
@@ -14,4 +15,3 @@ export const AboutHeader: React.FC<AboutHeaderProps> = memo(({ titleRef }) => {
 });
 
 AboutHeader.displayName = 'AboutHeader';
-

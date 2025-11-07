@@ -14,10 +14,10 @@ export const PortfolioHeader = memo(
         title="Portfólio"
         subtitle="Alguns dos meus projetos e trabalhos recentes"
         align="center"
+        titleId="portfolio-title"
       />
     );
   })
 );
 
 PortfolioHeader.displayName = 'PortfolioHeader';
-

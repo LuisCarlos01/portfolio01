@@ -112,8 +112,20 @@ export function useGsapEntrance(
         ...opts.to,
       };
 
-      // Animar elementos
-      gsap.fromTo(elements, fromState, toState);
+      // Aplicar will-change para otimizar GPU antes de animar
+      elements.forEach((el) => {
+        (el as HTMLElement).style.willChange = 'transform, opacity';
+      });
+
+      // Animar elementos com callback para remover will-change após animação
+      gsap.fromTo(elements, fromState, {
+        ...toState,
+        onComplete: () => {
+          elements.forEach((el) => {
+            (el as HTMLElement).style.willChange = 'auto';
+          });
+        },
+      });
     }, ref.current);
 
     // Cleanup: reverter animações quando componente desmontar
@@ -132,4 +144,3 @@ export function useGsapEntrance(
     opts.to,
   ]);
 }
-

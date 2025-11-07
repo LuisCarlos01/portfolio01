@@ -29,7 +29,8 @@ export const PortfolioSection: React.FC = memo(() => {
   const projectsRef = useRef<HTMLDivElement>(null);
 
   // Estados
-  const [activeCategory, setActiveCategory] = useState<PortfolioCategory>('all');
+  const [activeCategory, setActiveCategory] =
+    useState<PortfolioCategory>('all');
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
   // Hook para verificar prefers-reduced-motion
@@ -52,7 +53,8 @@ export const PortfolioSection: React.FC = memo(() => {
 
     // Graceful fallback ou prefers-reduced-motion
     if (!gsap || prefersReducedMotion) {
-      const projectCards = projectsRef.current.querySelectorAll('.project-card');
+      const projectCards =
+        projectsRef.current.querySelectorAll('.project-card');
       projectCards.forEach((el) => {
         (el as HTMLElement).style.opacity = '1';
         (el as HTMLElement).style.transform = 'none';
@@ -212,6 +214,7 @@ export const PortfolioSection: React.FC = memo(() => {
       ref={sectionRef}
       id="portfolio"
       className="section-container bg-background relative overflow-hidden py-20"
+      aria-labelledby="portfolio-title"
     >
       <div className="container mx-auto px-4 relative z-10">
         {/* Cabeçalho da seção */}
@@ -241,4 +244,3 @@ export const PortfolioSection: React.FC = memo(() => {
 });
 
 PortfolioSection.displayName = 'PortfolioSection';
-

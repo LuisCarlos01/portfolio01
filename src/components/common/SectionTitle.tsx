@@ -7,6 +7,7 @@ interface SectionTitleProps {
   className?: string;
   titleClassName?: string;
   subtitleClassName?: string;
+  titleId?: string;
 }
 
 /**
@@ -21,6 +22,7 @@ export const SectionTitle = forwardRef<HTMLHeadingElement, SectionTitleProps>(
       className = '',
       titleClassName = '',
       subtitleClassName = '',
+      titleId,
     },
     ref
   ) => {
@@ -33,6 +35,7 @@ export const SectionTitle = forwardRef<HTMLHeadingElement, SectionTitleProps>(
     return (
       <div ref={ref} className={`mb-12 ${alignClasses[align]} ${className}`}>
         <h2
+          id={titleId}
           className={`text-heading-3xl font-bold mb-4 text-foreground relative inline-block pb-3 
             after:content-[''] after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 
             after:w-20 after:h-1 after:bg-primary after:rounded-full ${titleClassName}`}
@@ -55,4 +58,3 @@ export const SectionTitle = forwardRef<HTMLHeadingElement, SectionTitleProps>(
 SectionTitle.displayName = 'SectionTitle';
 
 export default memo(SectionTitle);
-

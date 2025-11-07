@@ -29,7 +29,7 @@ const ImageWithFallback = ({
   width,
   height,
   loading = 'lazy',
-  quality = 'medium',
+  quality: _quality = 'medium',
   objectFit = 'cover',
   onClick,
 }: ImageWithFallbackProps) => {
@@ -40,43 +40,56 @@ const ImageWithFallback = ({
   const imgRef = useRef<HTMLImageElement>(null);
   const observerRef = useRef<IntersectionObserver | null>(null);
 
-  // Gera URL otimizada com WebP quando suportado
-  const getOptimizedSrc = useCallback(
-    (originalSrc: string): string => {
+  // Verifica suporte a WebP (memoizado)
+  const [supportsWebP, setSupportsWebP] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    if (typeof document === 'undefined') return;
+
+    // Verificar suporte a WebP uma vez
+    const checkWebPSupport = () => {
+      const canvas = document.createElement('canvas');
+      canvas.width = 1;
+      canvas.height = 1;
+      return canvas.toDataURL('image/webp').indexOf('data:image/webp') === 0;
+    };
+
+    setSupportsWebP(checkWebPSupport());
+  }, []);
+
+  // Gera URLs otimizadas (WebP e fallback)
+  const getImageSources = useCallback(
+    (originalSrc: string): { webp?: string; fallback: string } => {
       if (
         !originalSrc ||
         originalSrc === 'undefined' ||
         originalSrc === 'null'
       ) {
-        return fallbackSrc;
+        return { fallback: fallbackSrc };
       }
 
       // Se já é uma URL externa ou SVG, não otimizar
       if (
         originalSrc.startsWith('http') ||
         originalSrc.startsWith('//') ||
-        originalSrc.endsWith('.svg')
+        originalSrc.endsWith('.svg') ||
+        originalSrc.endsWith('.gif')
       ) {
-        return originalSrc;
+        return { fallback: originalSrc };
       }
 
-      // Verifica suporte a WebP
-      const supportsWebP =
-        typeof document !== 'undefined' &&
-        document
-          .createElement('canvas')
-          .toDataURL('image/webp')
-          .indexOf('data:image/webp') === 0;
+      // Gerar URL WebP se suportado e não for já WebP
+      const webpSrc =
+        supportsWebP && !originalSrc.includes('.webp')
+          ? originalSrc.replace(/\.(jpg|jpeg|png)$/i, '.webp')
+          : undefined;
 
-      if (supportsWebP && !originalSrc.includes('.webp')) {
-        // Tenta usar WebP se disponível
-        const webpSrc = originalSrc.replace(/\.(jpg|jpeg|png)$/i, '.webp');
-        return webpSrc;
-      }
-
-      return originalSrc;
+      return {
+        webp: webpSrc,
+        fallback: originalSrc,
+      };
     },
-    [fallbackSrc]
+    [fallbackSrc, supportsWebP]
   );
 
   // Intersection Observer para lazy loading
@@ -117,7 +130,7 @@ const ImageWithFallback = ({
 
   // Carrega imagem quando entrar na viewport
   useEffect(() => {
-    if (!isInView) {
+    if (!isInView || supportsWebP === null) {
       return;
     }
 
@@ -130,27 +143,26 @@ const ImageWithFallback = ({
     setIsLoaded(false);
     setError(false);
 
-    const optimizedSrc = getOptimizedSrc(src);
-    setImgSrc(optimizedSrc);
+    const { webp, fallback } = getImageSources(src);
 
+    // Preload WebP se disponível, senão usa fallback
     const img = new Image();
-    img.src = optimizedSrc;
+    const imageToLoad = webp || fallback;
 
     img.onload = () => {
-      logger.info(`Image loaded: ${optimizedSrc}`);
-      setImgSrc(optimizedSrc);
+      logger.info(`Image loaded: ${imageToLoad}`);
+      setImgSrc(imageToLoad);
       setIsLoaded(true);
     };
 
     img.onerror = () => {
-      logger.error(`Failed to load image: ${optimizedSrc}`);
-      // Tenta fallback
-      if (optimizedSrc !== src && optimizedSrc !== fallbackSrc) {
-        setImgSrc(src);
+      logger.error(`Failed to load image: ${imageToLoad}`);
+      // Se tentou WebP e falhou, tenta fallback original
+      if (webp && imageToLoad === webp) {
         const fallbackImg = new Image();
-        fallbackImg.src = src;
+        fallbackImg.src = fallback;
         fallbackImg.onload = () => {
-          setImgSrc(src);
+          setImgSrc(fallback);
           setIsLoaded(true);
         };
         fallbackImg.onerror = () => {
@@ -163,11 +175,13 @@ const ImageWithFallback = ({
       }
     };
 
+    img.src = imageToLoad;
+
     return () => {
       img.onload = null;
       img.onerror = null;
     };
-  }, [src, fallbackSrc, isInView, quality, getOptimizedSrc]);
+  }, [src, fallbackSrc, isInView, supportsWebP, getImageSources]);
 
   const blurStyle: React.CSSProperties = {
     filter: !isLoaded && !error ? 'blur(8px)' : 'none',
@@ -195,26 +209,40 @@ const ImageWithFallback = ({
         />
       )}
 
-      <img
-        ref={imgRef}
-        src={
-          isInView
-            ? imgSrc
-            : 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg"%3E%3C/svg%3E'
-        }
-        alt={alt}
-        className={cn(
-          'w-full h-full transition-all',
-          isLoaded ? 'opacity-100' : 'opacity-90'
-        )}
-        style={blurStyle}
-        width={width}
-        height={height}
-        loading={loading}
-        onClick={onClick}
-        decoding="async"
-        fetchPriority={loading === 'eager' ? 'high' : 'auto'}
-      />
+      {isInView && supportsWebP !== null ? (
+        <picture>
+          {supportsWebP && getImageSources(src).webp && (
+            <source srcSet={getImageSources(src).webp} type="image/webp" />
+          )}
+          <img
+            ref={imgRef}
+            src={imgSrc || getImageSources(src).fallback}
+            alt={alt}
+            className={cn(
+              'w-full h-full transition-all',
+              isLoaded ? 'opacity-100' : 'opacity-90'
+            )}
+            style={blurStyle}
+            width={width}
+            height={height}
+            loading={loading}
+            onClick={onClick}
+            decoding="async"
+            fetchPriority={loading === 'eager' ? 'high' : 'auto'}
+          />
+        </picture>
+      ) : (
+        <img
+          ref={imgRef}
+          src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3C/svg%3E"
+          alt=""
+          className="w-full h-full"
+          width={width}
+          height={height}
+          loading={loading}
+          aria-hidden="true"
+        />
+      )}
 
       {error && (
         <div

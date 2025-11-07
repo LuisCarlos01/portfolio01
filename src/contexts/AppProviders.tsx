@@ -1,5 +1,6 @@
 import React, { ReactNode } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
+import * as Sentry from '@sentry/react';
 import { useThemeStore } from '@/stores/useThemeStore';
 
 interface ErrorFallbackProps {
@@ -47,6 +48,15 @@ export const AppProviders: React.FC<AppProvidersProps> = ({ children }) => {
   }, [initializeTheme]);
 
   return (
-    <ErrorBoundary FallbackComponent={ErrorFallback}>{children}</ErrorBoundary>
+    <Sentry.ErrorBoundary
+      fallback={({ error, resetError }) => (
+        <ErrorFallback error={error} resetErrorBoundary={resetError} />
+      )}
+      showDialog
+    >
+      <ErrorBoundary FallbackComponent={ErrorFallback}>
+        {children}
+      </ErrorBoundary>
+    </Sentry.ErrorBoundary>
   );
 };

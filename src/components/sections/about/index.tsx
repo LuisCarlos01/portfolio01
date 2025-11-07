@@ -125,7 +125,8 @@ export const AboutSection: React.FC = memo(() => {
 
     // Graceful fallback ou prefers-reduced-motion
     if (!gsap || prefersReducedMotion) {
-      const serviceCards = servicesRef.current.querySelectorAll('.service-card');
+      const serviceCards =
+        servicesRef.current.querySelectorAll('.service-card');
       serviceCards.forEach((el) => {
         (el as HTMLElement).style.opacity = '1';
         (el as HTMLElement).style.transform = 'none';
@@ -196,6 +197,14 @@ export const AboutSection: React.FC = memo(() => {
       return;
     }
 
+    // Aplicar will-change para otimizar GPU
+    if (titleRef.current) {
+      titleRef.current.style.willChange = 'transform, opacity';
+    }
+    if (imageRef.current) {
+      imageRef.current.style.willChange = 'transform, opacity';
+    }
+
     // Animar título (usando transform e opacity - GPU-friendly)
     gsap.fromTo(
       titleRef.current,
@@ -208,6 +217,11 @@ export const AboutSection: React.FC = memo(() => {
         y: 0,
         duration: 0.7,
         ease: 'power3.out',
+        onComplete: () => {
+          if (titleRef.current) {
+            titleRef.current.style.willChange = 'auto';
+          }
+        },
       }
     );
 
@@ -225,6 +239,11 @@ export const AboutSection: React.FC = memo(() => {
         rotate: 0,
         duration: 0.8,
         ease: 'back.out(1.7)',
+        onComplete: () => {
+          if (imageRef.current) {
+            imageRef.current.style.willChange = 'auto';
+          }
+        },
       }
     );
 
@@ -232,6 +251,11 @@ export const AboutSection: React.FC = memo(() => {
     if (contentRef.current) {
       const elements = contentRef.current.querySelectorAll('p, h3, a');
       if (elements.length > 0) {
+        // Aplicar will-change nos elementos
+        elements.forEach((el) => {
+          (el as HTMLElement).style.willChange = 'transform, opacity';
+        });
+
         gsap.fromTo(
           elements,
           {
@@ -244,6 +268,11 @@ export const AboutSection: React.FC = memo(() => {
             stagger: 0.15,
             duration: 0.6,
             ease: 'power2.out',
+            onComplete: () => {
+              elements.forEach((el) => {
+                (el as HTMLElement).style.willChange = 'auto';
+              });
+            },
           }
         );
       }
@@ -267,6 +296,7 @@ export const AboutSection: React.FC = memo(() => {
       ref={sectionRef}
       id="about"
       className="py-20 bg-background section-container overflow-hidden"
+      aria-labelledby="about-title"
     >
       <div className="container mx-auto px-4">
         <AboutHeader titleRef={titleRef} />
@@ -297,4 +327,3 @@ export const AboutSection: React.FC = memo(() => {
 });
 
 AboutSection.displayName = 'AboutSection';
-

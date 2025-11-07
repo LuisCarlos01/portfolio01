@@ -271,6 +271,7 @@ export const SkillsSection: React.FC = memo(() => {
       id="skills"
       ref={sectionRef}
       className="section-container bg-background relative overflow-hidden py-20"
+      aria-labelledby="skills-title"
     >
       <div className="container mx-auto px-4 relative z-10">
         {/* Cabeçalho da seção */}
@@ -304,4 +305,3 @@ export const SkillsSection: React.FC = memo(() => {
 });
 
 SkillsSection.displayName = 'SkillsSection';
-

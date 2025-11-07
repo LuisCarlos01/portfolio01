@@ -1,46 +1,77 @@
-# Monitoramento e Alertas
+# Guia de Monitoramento
+
+## Configuração do Sentry
+
+O Sentry está configurado para error tracking e performance monitoring.
+
+### Variáveis de Ambiente
+
+Configure as seguintes variáveis de ambiente:
+
+```env
+VITE_SENTRY_DSN=your_sentry_dsn_here
+```
+
+### Alertas Configurados
+
+O Sentry está configurado com os seguintes alertas:
+
+1. **Erros Críticos**: Alertas automáticos para erros não tratados
+2. **Performance**: Monitoramento de transações lentas (> 3s)
+3. **Replay**: Gravação de sessões com erros (100% das sessões com erro)
+
+### Dashboard
+
+Acesse o dashboard do Sentry em: https://sentry.io
+
+### Configuração de Alertas
+
+Para configurar alertas adicionais:
+
+1. Acesse o Sentry Dashboard
+2. Vá em Settings > Alerts
+3. Configure alertas para:
+   - Erros críticos (severity: error)
+   - Performance degradada
+   - Taxa de erro alta
+
+### Filtros de Erros
+
+O Sentry está configurado para ignorar:
+
+- Erros de rede conhecidos (NetworkError, Failed to fetch)
+- Erros não críticos
+
+Para adicionar mais filtros, edite `src/utils/sentry.ts`.
 
 ## Vercel Analytics
 
-O projeto está configurado com Vercel Analytics para tracking de:
-- Page views
-- Performance metrics
-- Web Vitals (LCP, FID, CLS)
+O Vercel Analytics está configurado automaticamente e coleta:
 
-## Error Tracking
+- Métricas de performance (FCP, LCP, CLS, TTFB)
+- Métricas de Web Vitals
+- Dados de navegação
 
-### ErrorBoundary
-- Captura erros React em runtime
-- Exibe mensagem amigável ao usuário
-- Loga erros no console (em produção, integrar com Sentry)
+Acesse o dashboard em: https://vercel.com/analytics
 
-### API Error Handling
-- Rate limiting implementado (5 requisições/minuto)
-- Validação de dados no backend
-- Logs estruturados para debugging
+## Uptime Monitoring
 
-## Próximos Passos
+Para configurar uptime monitoring:
 
-### Sentry Integration (Opcional)
-Para tracking avançado de erros, adicionar Sentry:
+1. Use serviços como:
+   - UptimeRobot (gratuito)
+   - Pingdom
+   - StatusCake
 
-```bash
-npm install @sentry/react @sentry/tracing
-```
+2. Configure checks para:
+   - Homepage (https://luiscarlos.dev)
+   - API endpoint (https://luiscarlos.dev/api/contact)
 
-```typescript
-import * as Sentry from "@sentry/react";
+## Métricas Recomendadas
 
-Sentry.init({
-  dsn: process.env.VITE_SENTRY_DSN,
-  environment: import.meta.env.MODE,
-  tracesSampleRate: 1.0,
-});
-```
+Monitore as seguintes métricas:
 
-### Alertas
-- Configurar alertas no Vercel Dashboard para:
-  - Erros críticos (> 5% error rate)
-  - Performance degradada (LCP > 2.5s)
-  - Uptime monitoring
-
+- **Performance**: LCP < 2.5s, FID < 100ms, CLS < 0.1
+- **Erros**: Taxa de erro < 0.1%
+- **Uptime**: > 99.9%
+- **Cobertura de Testes**: > 80%

@@ -43,20 +43,31 @@ export const Home = memo(() => {
     <div className="min-h-screen bg-background">
       <header className="border-b border-border bg-card text-card-foreground sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4">
-          <nav className="flex items-center justify-between">
+          <nav
+            className="flex items-center justify-between"
+            aria-label="Navegação principal"
+          >
             <h1 className="text-heading-2xl font-bold text-card-foreground">
               Portfólio
             </h1>
-            <div className="flex items-center gap-4">
-              <Badge variant="primary">React</Badge>
-              <Badge variant="secondary">TypeScript</Badge>
+            <div
+              className="flex items-center gap-4"
+              role="group"
+              aria-label="Ações"
+            >
+              <Badge variant="primary" aria-label="Tecnologia React">
+                React
+              </Badge>
+              <Badge variant="secondary" aria-label="Tecnologia TypeScript">
+                TypeScript
+              </Badge>
               <ThemeToggle />
             </div>
           </nav>
         </div>
       </header>
 
-      <main>
+      <main id="main-content" tabIndex={-1}>
         {/* Hero Section */}
         <HeroSection />
 
@@ -174,7 +185,11 @@ export const Home = memo(() => {
         </section>
       </main>
 
-      <footer className="border-t border-border bg-card text-card-foreground mt-16">
+      <footer
+        className="border-t border-border bg-card text-card-foreground mt-16"
+        role="contentinfo"
+        aria-label="Rodapé"
+      >
         <div className="container mx-auto px-4 py-8 text-center">
           <p className="text-body-base text-card-foreground">
             © 2024 Luis Carlos - Portfólio Modernizado
